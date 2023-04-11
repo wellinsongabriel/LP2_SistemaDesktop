@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import java.awt.Color;
 
 public class FormLogin extends JFrame {
 
@@ -48,11 +49,13 @@ public class FormLogin extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Entrar");
+		btnNewButton.setBackground(new Color(0, 255, 0));
 		btnNewButton.setBounds(114, 176, 89, 23);
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Sair");
+		btnNewButton_1.setBackground(Color.RED);
 		btnNewButton_1.setBounds(277, 176, 89, 23);
 		panel.add(btnNewButton_1);
 		
