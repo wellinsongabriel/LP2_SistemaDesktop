@@ -57,12 +57,12 @@ public class FormLogin extends JFrame {
 		panel.add(btnNewButton_1);
 		
 		textField = new JTextField();
-		textField.setBounds(101, 55, 86, 20);
+		textField.setBounds(117, 54, 86, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(101, 97, 86, 20);
+		textField_1.setBounds(117, 96, 86, 20);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 	}
