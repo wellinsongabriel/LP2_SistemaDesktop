@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Color;
+import javax.swing.JLabel;
 
 public class FormLogin extends JFrame {
 
@@ -60,13 +61,17 @@ public class FormLogin extends JFrame {
 		panel.add(btnNewButton_1);
 		
 		textField = new JTextField();
-		textField.setBounds(117, 54, 86, 20);
+		textField.setBounds(114, 109, 86, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(117, 96, 86, 20);
+		textField_1.setBounds(242, 109, 86, 20);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Login");
+		lblNewLabel.setBounds(181, 23, 45, 13);
+		panel.add(lblNewLabel);
 	}
 }
