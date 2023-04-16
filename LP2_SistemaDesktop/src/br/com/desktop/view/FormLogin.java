@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.Dimension;
 import java.awt.Component;
 import javax.swing.SwingConstants;
@@ -22,10 +23,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import javax.swing.border.LineBorder;
 
 public class FormLogin extends JFrame {
 
 	private JPanel contentPane;
+	private static int xx;
+	private static int xy;
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
 
@@ -55,11 +59,26 @@ public class FormLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
 		contentPane = new JPanel();
+		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				setLocation(x - xx, y - xy);
+			}
+		});
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				xx = e.getX();
+				xy = e.getY();
+			}
+		});
 		contentPane.setPreferredSize(new Dimension(10, 378));
 		contentPane.setMinimumSize(new Dimension(10, 378));
 		contentPane.setMaximumSize(new Dimension(32767, 378));
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -69,7 +88,7 @@ public class FormLogin extends JFrame {
 		panel.setMinimumSize(new Dimension(10, 378));
 		panel.setMaximumSize(new Dimension(32767, 378));
 		panel.setBackground(new Color(0, 128, 128));
-		panel.setBounds(0, 0, 316, 378);
+		panel.setBounds(1, 1, 316, 376);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -89,7 +108,7 @@ public class FormLogin extends JFrame {
 		lblBotaoFecharX.setOpaque(true);
 		lblBotaoFecharX.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBotaoFecharX.setToolTipText("Fechar");
-		lblBotaoFecharX.setBounds(687, 0, 32, 29);
+		lblBotaoFecharX.setBounds(686, 1, 32, 29);
 		contentPane.add(lblBotaoFecharX);
 		lblBotaoFecharX.addMouseListener(new MouseAdapter() {
 			@Override
@@ -187,7 +206,7 @@ public class FormLogin extends JFrame {
 		lblBotaoMinimizar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBotaoMinimizar.setFont(new Font("Arial", Font.PLAIN, 18));
 		lblBotaoMinimizar.setBackground(Color.WHITE);
-		lblBotaoMinimizar.setBounds(654, 0, 32, 29);
+		lblBotaoMinimizar.setBounds(654, 1, 32, 29);
 		contentPane.add(lblBotaoMinimizar);
 	}
 }

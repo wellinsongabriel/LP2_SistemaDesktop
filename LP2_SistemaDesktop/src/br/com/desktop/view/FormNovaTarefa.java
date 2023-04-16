@@ -42,6 +42,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class FormNovaTarefa extends JFrame {
 
@@ -85,10 +89,10 @@ public class FormNovaTarefa extends JFrame {
         String dataAtualString = dateFormat.format(dataAtual);
         
 		setBackground(new Color(255, 255, 255));
-		setMaximumSize(new Dimension(500, 500));
-		setMinimumSize(new Dimension(500, 500));
+		setMaximumSize(new Dimension(500, 470));
+		setMinimumSize(new Dimension(500, 470));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 470);
 		contentPane = new JPanel();
 		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -113,99 +117,152 @@ public class FormNovaTarefa extends JFrame {
 		contentPane.setMaximumSize(new Dimension(500, 500));
 		contentPane.setOpaque(false);
 		contentPane.setMinimumSize(new Dimension(500, 500));
-		contentPane.setBorder(new LineBorder(Color.ORANGE, 1, true));
+		contentPane.setBorder(new LineBorder(Color.BLACK, 1, true));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Descrição");
-		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		lblNewLabel.setBounds(49, 282, 70, 24);
-		contentPane.add(lblNewLabel);
-		
 		JLabel lblDataAtual = new JLabel(dataAtualString);
 		lblDataAtual.setForeground(Color.GRAY);
-		lblDataAtual.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		lblDataAtual.setBounds(373, 79, 80, 14);
+		lblDataAtual.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDataAtual.setBounds(362, 67, 80, 14);
 		contentPane.add(lblDataAtual);
 		
 		JTextArea textAreaDescricaoTarefa = new JTextArea();
-		textAreaDescricaoTarefa.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		textAreaDescricaoTarefa.setBorder(new LineBorder(new Color(0, 0, 0)));
+		textAreaDescricaoTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textAreaDescricaoTarefa.setBorder(new LineBorder(new Color(171, 173, 179)));
 		textAreaDescricaoTarefa.setToolTipText("Informe a descrição da tarefa");
 		textAreaDescricaoTarefa.setLineWrap(true);
 		textAreaDescricaoTarefa.setColumns(10);
-		textAreaDescricaoTarefa.setBounds(49, 301, 393, 111);
+		textAreaDescricaoTarefa.setBounds(49, 265, 393, 84);
 		contentPane.add(textAreaDescricaoTarefa);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nova Tarefa");
-		lblNewLabel_1.setForeground(new Color(222, 140, 18));
-		lblNewLabel_1.setFont(new Font("Segoe UI Black", Font.BOLD, 17));
+		lblNewLabel_1.setForeground(new Color(255, 128, 0));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel_1.setBounds(10, 11, 139, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblBotaoFechar = new JLabel("X");
-		lblBotaoFechar.addMouseListener(new MouseAdapter() {
+		JLabel lblNewLabel_2 = new JLabel("Etiqueta");
+		lblNewLabel_2.setForeground(Color.GRAY);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2.setBounds(49, 180, 46, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		textTituloTarefa = new JTextField();
+		textTituloTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textTituloTarefa.setBorder(new LineBorder(new Color(171, 173, 179)));
+		textTituloTarefa.setBounds(49, 129, 393, 28);
+		contentPane.add(textTituloTarefa);
+		textTituloTarefa.setColumns(10);
+		
+		textNomeEtiquetaTarefa = new JTextField();
+		textNomeEtiquetaTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		textNomeEtiquetaTarefa.setBounds(49, 195, 305, 28);
+		contentPane.add(textNomeEtiquetaTarefa);
+		textNomeEtiquetaTarefa.setColumns(10);
+		
+		JLabel lblNewLabel_2_2 = new JLabel("Descrição");
+		lblNewLabel_2_2.setForeground(Color.GRAY);
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2_2.setBounds(49, 250, 70, 14);
+		contentPane.add(lblNewLabel_2_2);
+		
+		JButton buttonAdicionarTarefa = new JButton("Salvar");
+		buttonAdicionarTarefa.setToolTipText("Salvar");
+		buttonAdicionarTarefa.setForeground(Color.WHITE);
+		buttonAdicionarTarefa.setFont(new Font("Tahoma", Font.BOLD, 16));
+		buttonAdicionarTarefa.setBorder(null);
+		buttonAdicionarTarefa.setBackground(new Color(255, 128, 0));
+		buttonAdicionarTarefa.setBounds(345, 403, 98, 28);
+		contentPane.add(buttonAdicionarTarefa);
+		
+		JLabel lblBotaoFecharX = new JLabel("X");
+		lblBotaoFecharX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				  setCursor(Cursor.HAND_CURSOR);
+				lblBotaoFecharX.setBackground(new Color(255, 0, 0));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setCursor(Cursor.DEFAULT_CURSOR);
+				lblBotaoFecharX.setBackground(new Color(255, 255, 255));
 			}
 		});
-		lblBotaoFechar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBotaoFechar.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblBotaoFechar.setBounds(467, 10, 17, 14);
-		contentPane.add(lblBotaoFechar);
+		lblBotaoFecharX.setToolTipText("Fechar");
+		lblBotaoFecharX.setOpaque(true);
+		lblBotaoFecharX.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBotaoFecharX.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblBotaoFecharX.setBackground(Color.WHITE);
+		lblBotaoFecharX.setBounds(467, 1, 32, 29);
+		contentPane.add(lblBotaoFecharX);
 		
-		Button buttonAdicionarTarefa = new Button("Adiconar");
-		buttonAdicionarTarefa.addActionListener(new ActionListener() {
+		JLabel lblBotaoMinimizar = new JLabel("-");
+		lblBotaoMinimizar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblBotaoMinimizar.setBackground(new Color(210, 210, 210));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblBotaoMinimizar.setBackground(new Color(255, 255, 255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setExtendedState(JFrame.ICONIFIED);
+			}
+		});
+		lblBotaoMinimizar.setToolTipText("Minimizar");
+		lblBotaoMinimizar.setOpaque(true);
+		lblBotaoMinimizar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBotaoMinimizar.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblBotaoMinimizar.setBackground(Color.WHITE);
+		lblBotaoMinimizar.setBounds(437, 1, 32, 29);
+		contentPane.add(lblBotaoMinimizar);
+		
+		JComboBox comboBoxStatus = new JComboBox();
+		comboBoxStatus.setFocusTraversalKeysEnabled(false);
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"A fazer", "Em andamento", "Concluida"}));
+		comboBoxStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		comboBoxStatus.setBounds(49, 67, 139, 28);
+		contentPane.add(comboBoxStatus);
+		
+		JLabel lblNewLabel_2_1_1 = new JLabel("Título");
+		lblNewLabel_2_1_1.setForeground(Color.GRAY);
+		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2_1_1.setBounds(49, 115, 46, 14);
+		contentPane.add(lblNewLabel_2_1_1);
+		
+		JButton buttonCorEtiqueta = new JButton("");
+		buttonCorEtiqueta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(), 
-						textNomeEtiquetaTarefa.getText(),
-						"", new Date(),
-						null, "A fazer");
-				DAO dao = new DAO();
-				try {
-					dao.cadastrar(tarefa);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				Color color = new Color(128, 255, 128);
+				color = JColorChooser.showDialog(buttonCorEtiqueta, "Selecione uma cor", color);
+				if (color != null) {
+					buttonCorEtiqueta.setBackground(color);
 				}
 			}
 		});
-		buttonAdicionarTarefa.setFont(new Font("Dialog", Font.BOLD, 12));
-		buttonAdicionarTarefa.setBackground(Color.ORANGE);
-		buttonAdicionarTarefa.setBounds(213, 429, 70, 22);
-		contentPane.add(buttonAdicionarTarefa);
+		buttonCorEtiqueta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		buttonCorEtiqueta.setToolTipText("Selecione a cor da etiqueta");
+		buttonCorEtiqueta.setForeground(Color.WHITE);
+		buttonCorEtiqueta.setFont(new Font("Tahoma", Font.BOLD, 16));
+		buttonCorEtiqueta.setBorder(null);
+		buttonCorEtiqueta.setBackground(new Color(128, 255, 128));
+		buttonCorEtiqueta.setBounds(386, 194, 56, 28);
+		contentPane.add(buttonCorEtiqueta);
 		
-		JLabel lblNewLabel_2 = new JLabel("Título");
-		lblNewLabel_2.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		lblNewLabel_2.setBounds(49, 95, 46, 14);
-		contentPane.add(lblNewLabel_2);
-		
-		textTituloTarefa = new JTextField();
-		textTituloTarefa.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		textTituloTarefa.setBorder(new LineBorder(new Color(171, 173, 179)));
-		textTituloTarefa.setBounds(49, 111, 393, 20);
-		contentPane.add(textTituloTarefa);
-		textTituloTarefa.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("Etiqueta");
-		lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		lblNewLabel_3.setBounds(49, 144, 46, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		textNomeEtiquetaTarefa = new JTextField();
-		textNomeEtiquetaTarefa.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		textNomeEtiquetaTarefa.setBounds(49, 158, 393, 20);
-		contentPane.add(textNomeEtiquetaTarefa);
-		textNomeEtiquetaTarefa.setColumns(10);
+		JLabel lblNewLabel_2_1 = new JLabel("Cor");
+		lblNewLabel_2_1.setForeground(Color.GRAY);
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2_1.setBounds(387, 180, 46, 14);
+		contentPane.add(lblNewLabel_2_1);
 	}
 }
