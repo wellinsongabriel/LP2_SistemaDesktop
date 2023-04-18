@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
+import java.awt.Toolkit;
 
 public class FormLogin extends JFrame {
 
@@ -41,7 +42,7 @@ public class FormLogin extends JFrame {
 			public void run() {
 				try {
 					FormLogin frame = new FormLogin();
-					frame.setUndecorated(true); //retira a barra da janela
+					//frame.setUndecorated(true); //retira a barra da janela
 					frame.setLocationRelativeTo(null);// alinhar ao centro
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -55,6 +56,8 @@ public class FormLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public FormLogin() {
+		setTitle("TaskMaster - Login");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
@@ -62,23 +65,22 @@ public class FormLogin extends JFrame {
 		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				int x = e.getXOnScreen();
-				int y = e.getYOnScreen();
-				setLocation(x - xx, y - xy);
+//				int x = e.getXOnScreen();
+//				int y = e.getYOnScreen();
+//				setLocation(x - xx, y - xy);
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				xx = e.getX();
-				xy = e.getY();
+//				xx = e.getX();
+//				xy = e.getY();
 			}
 		});
 		contentPane.setPreferredSize(new Dimension(10, 378));
 		contentPane.setMinimumSize(new Dimension(10, 378));
 		contentPane.setMaximumSize(new Dimension(32767, 378));
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -88,7 +90,7 @@ public class FormLogin extends JFrame {
 		panel.setMinimumSize(new Dimension(10, 378));
 		panel.setMaximumSize(new Dimension(32767, 378));
 		panel.setBackground(new Color(0, 128, 128));
-		panel.setBounds(1, 1, 316, 376);
+		panel.setBounds(0, 0, 316, 376);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -104,6 +106,7 @@ public class FormLogin extends JFrame {
 		lblNewLabel_1_2.setFont(new Font("DejaVu Sans", Font.BOLD, 30));
 		
 		JLabel lblBotaoFecharX = new JLabel("X");
+		lblBotaoFecharX.setVisible(false);
 		lblBotaoFecharX.setBackground(Color.WHITE);
 		lblBotaoFecharX.setOpaque(true);
 		lblBotaoFecharX.setHorizontalAlignment(SwingConstants.CENTER);
@@ -187,6 +190,7 @@ public class FormLogin extends JFrame {
 		contentPane.add(lblNewLabel_1_1_1_1);
 		
 		JLabel lblBotaoMinimizar = new JLabel("-");
+		lblBotaoMinimizar.setVisible(false);
 		lblBotaoMinimizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
