@@ -1,51 +1,35 @@
 package br.com.desktop.view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Canvas;
-import java.awt.Label;
-import java.awt.Button;
-import java.awt.Panel;
-import java.io.IOException;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.TitledBorder;
-
-import br.com.desktop.dao.DAO;
-import br.com.desktop.model.Tarefa;
-
-import java.awt.Color;
-import java.awt.Cursor;
-
-import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
-import javax.swing.JTextArea;
-import javax.swing.border.CompoundBorder;
-import java.awt.Rectangle;
-import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+
+import br.com.desktop.dao.DAO;
+import br.com.desktop.model.Tarefa;
+import java.awt.Toolkit;
 
 public class FormNovaTarefa extends JFrame {
 
@@ -54,7 +38,8 @@ public class FormNovaTarefa extends JFrame {
 	private static int xy;
 	private JTextField textTituloTarefa;
 	private JTextField textNomeEtiquetaTarefa;
-
+	private int corEtiqueta;
+	private int status;  
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +52,7 @@ public class FormNovaTarefa extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNovaTarefa frame = new FormNovaTarefa();
+					FormNovaTarefa frame = new FormNovaTarefa(null);
 					frame.setUndecorated(true); //retira a barra da janela
 					frame.setResizable(false); //desabilitar maximar
 					frame.setLocationRelativeTo(null);// alinhar ao centro
@@ -83,7 +68,9 @@ public class FormNovaTarefa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormNovaTarefa() {
+	public FormNovaTarefa(JFrame jframe) {
+		setTitle("TaksManager");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
 		Date dataAtual  = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		
         String dataAtualString = dateFormat.format(dataAtual);
@@ -169,6 +156,30 @@ public class FormNovaTarefa extends JFrame {
 		contentPane.add(lblNewLabel_2_2);
 		
 		JButton buttonAdicionarTarefa = new JButton("Salvar");
+		buttonAdicionarTarefa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DAO dao = new DAO();
+				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(), textNomeEtiquetaTarefa.getText(), 
+						corEtiqueta,  new Date(), null, status);
+				try {
+					dao.cadastrar(tarefa);
+					if(jframe!=null) {
+						jframe.dispose();
+						FormListaTarefas formListaTarefas = new FormListaTarefas();
+						//formListaTarefas.setUndecorated(true); // retira a barra da janela
+						formListaTarefas.setResizable(false); // desabilitar maximar
+						formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro
+						formListaTarefas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						formListaTarefas.setVisible(true);
+					}
+					dispose();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		buttonAdicionarTarefa.setToolTipText("Salvar");
 		buttonAdicionarTarefa.setForeground(Color.WHITE);
 		buttonAdicionarTarefa.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -224,8 +235,15 @@ public class FormNovaTarefa extends JFrame {
 		contentPane.add(lblBotaoMinimizar);
 		
 		JComboBox comboBoxStatus = new JComboBox();
+		comboBoxStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(comboBoxStatus.getSelectedIndex());
+				status = comboBoxStatus.getSelectedIndex();
+			}
+		});
 		comboBoxStatus.setFocusTraversalKeysEnabled(false);
 		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"A fazer", "Em andamento", "Concluida"}));
+		comboBoxStatus.setSelectedIndex(0);
 		comboBoxStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		comboBoxStatus.setBounds(49, 67, 139, 28);
 		contentPane.add(comboBoxStatus);
@@ -240,9 +258,12 @@ public class FormNovaTarefa extends JFrame {
 		buttonCorEtiqueta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color color = new Color(128, 255, 128);
+				corEtiqueta = color.getRGB();
+				buttonCorEtiqueta.setBackground(color);
 				color = JColorChooser.showDialog(buttonCorEtiqueta, "Selecione uma cor", color);
 				if (color != null) {
 					buttonCorEtiqueta.setBackground(color);
+					corEtiqueta = color.getRGB();
 				}
 			}
 		});
@@ -256,6 +277,7 @@ public class FormNovaTarefa extends JFrame {
 		buttonCorEtiqueta.setFont(new Font("Tahoma", Font.BOLD, 16));
 		buttonCorEtiqueta.setBorder(null);
 		buttonCorEtiqueta.setBackground(new Color(128, 255, 128));
+		corEtiqueta = (new Color(128, 255, 128)).getRGB();
 		buttonCorEtiqueta.setBounds(386, 194, 56, 28);
 		contentPane.add(buttonCorEtiqueta);
 		
