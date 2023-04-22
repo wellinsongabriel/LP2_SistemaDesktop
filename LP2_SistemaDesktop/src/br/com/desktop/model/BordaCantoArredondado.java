@@ -10,6 +10,9 @@ import java.awt.RenderingHints;
 import javax.swing.border.AbstractBorder;
 
 public class BordaCantoArredondado extends AbstractBorder {
+	/**
+	 * 
+	 */
 	private static final BasicStroke CONTORNO = new BasicStroke(  );
     
     @Override
@@ -22,7 +25,7 @@ public class BordaCantoArredondado extends AbstractBorder {
         g2d.setStroke( CONTORNO );
         
         g2d.setColor( Color.BLACK );
-        g2d.drawRoundRect( x, y, width-1, height-1, 20, 20 );
+        g2d.drawRoundRect( x, y, width-1, height-1, 30, 30 );
         
         g2d.dispose();
         
