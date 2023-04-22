@@ -7,13 +7,13 @@ public class Tarefa {
 	protected String titulo;
 	protected String descricao;
 	protected String nomeEtiqueta;
-	protected String corEtiqueta;
+	protected int corEtiqueta;
 	protected Date dataCriacao;
 	protected Date dataConclusao;
-	protected String status;
+	protected int status;
 	
-	public Tarefa(int id, String titulo, String descricao, String nomeEtiqueta, String corEtiqueta, Date dataCriacao,
-			Date dataConclusao, String status) {
+	public Tarefa(int id, String titulo, String descricao, String nomeEtiqueta, int corEtiqueta, Date dataCriacao,
+			Date dataConclusao, int status) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -25,8 +25,8 @@ public class Tarefa {
 		this.status = status;
 	}
 
-	public Tarefa(String titulo, String descricao, String nomeEtiqueta, String corEtiqueta, Date dataCriacao,
-			Date dataConclusao, String status) {
+	public Tarefa(String titulo, String descricao, String nomeEtiqueta, int corEtiqueta, Date dataCriacao,
+			Date dataConclusao, int status) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -73,11 +73,11 @@ public class Tarefa {
 		this.nomeEtiqueta = nomeEtiqueta;
 	}
 
-	public String getCorEtiqueta() {
+	public int getCorEtiqueta() {
 		return corEtiqueta;
 	}
 
-	public void setCorEtiqueta(String corEtiqueta) {
+	public void setCorEtiqueta(int corEtiqueta) {
 		this.corEtiqueta = corEtiqueta;
 	}
 
@@ -97,11 +97,11 @@ public class Tarefa {
 		this.dataConclusao = dataConclusao;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
