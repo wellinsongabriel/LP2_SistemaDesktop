@@ -139,7 +139,7 @@ public class JPanelItemTarefa extends JPanel {
 				if (resposta ==  JOptionPane.YES_OPTION) {
 					
 					try {
-						dao.excluir(id);
+						dao.excluirTarefa(id);
 						jFramePrincipal.dispose();
 						FormListaTarefas formListaTarefas = new FormListaTarefas();
 						//formListaTarefas.setUndecorated(true); // retira a barra da janela

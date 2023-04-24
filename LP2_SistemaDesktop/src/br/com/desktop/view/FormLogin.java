@@ -13,6 +13,9 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.awt.Dimension;
 import java.awt.Component;
 import javax.swing.SwingConstants;
@@ -24,6 +27,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
+
+import br.com.desktop.controller.Criptografia;
+import br.com.desktop.dao.DAO;
+import br.com.desktop.model.Usuario;
+
 import java.awt.Toolkit;
 
 public class FormLogin extends JFrame {
@@ -155,6 +163,23 @@ public class FormLogin extends JFrame {
 		});
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				DAO dao = new DAO();
+				try {
+					
+					Criptografia criptografia = new Criptografia(passwordField.getText(),Criptografia.SHA256);
+					Usuario  usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
+					System.out.println(usuario.toString());
+					if(usuario!=null) {
+						FormListaTarefas formListaTarefas = new FormListaTarefas();
+						formListaTarefas.setVisible(true);
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
+				
 			}
 		});
 		btnLogin.setForeground(Color.WHITE);
@@ -213,4 +238,6 @@ public class FormLogin extends JFrame {
 		lblBotaoMinimizar.setBounds(654, 1, 32, 29);
 		contentPane.add(lblBotaoMinimizar);
 	}
+			
+	
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import br.com.desktop.model.Tarefa;
+import br.com.desktop.model.Usuario;
 
 public class DAO {
 	private static Connection connection = null;
@@ -36,8 +37,13 @@ public class DAO {
 	private static String AND_STATUS_EM_ANDAMENTO = " AND STATUS = 1 ";
 
 	private static String AND_STATUS_CONCLUIDO = " AND STATUS = 2 ";
+	
+	private static String CONSULTAR_USUARIO = " SELECT USUARIO, SENHA, TIPO_USUARIO "
+			+ " FROM USUARIO "
+			+ " WHERE USUARIO = ? "
+			+ " AND SENHA = ? ";
 
-	public void cadastrar(Tarefa tarefa) throws SQLException {
+	public void cadastrarTarefa(Tarefa tarefa) throws SQLException {
 		
 		if (validarDadosTarefa(tarefa)) {
 			try {
@@ -63,13 +69,13 @@ public class DAO {
 						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			} finally {
-				fecharConeaxao(preparedStatement, connection);
+				fecharConexao(preparedStatement, connection);
 			}
 			JOptionPane.showMessageDialog(null, "Tarefa incluída com sucesso");
 		}
 	}
 
-	public Tarefa consultar(int id) throws Exception {
+	public Tarefa consultarTarefa(int id) throws Exception {
 		Tarefa tarefa = null;
 		try {
 			Class.forName(DRIVER);
@@ -90,7 +96,7 @@ public class DAO {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			fecharConeaxao(preparedStatement, connection);
+			fecharConexao(preparedStatement, connection);
 		}
 		if (tarefa == null) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
@@ -101,10 +107,10 @@ public class DAO {
 		return tarefa;
 	}
 
-	public void alterar(int id, Tarefa tarefa) throws Exception {
+	public void alterarTarefa(int id, Tarefa tarefa) throws Exception {
 		
 		
-		if (consultar(id) != null) {
+		if (consultarTarefa(id) != null) {
 			try {
 				Class.forName(DRIVER);
 				connection = DriverManager.getConnection(BD);
@@ -129,7 +135,7 @@ public class DAO {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} finally {
-				fecharConeaxao(preparedStatement, connection);
+				fecharConexao(preparedStatement, connection);
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar esse item", "", JOptionPane.ERROR_MESSAGE);
@@ -137,7 +143,7 @@ public class DAO {
 		}
 	}
 
-	public void excluir(int id) throws Exception {
+	public void excluirTarefa(int id) throws Exception {
 		try {
 			Class.forName(DRIVER);
 			connection = DriverManager.getConnection(BD);
@@ -154,11 +160,11 @@ public class DAO {
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
-			fecharConeaxao(preparedStatement, connection);
+			fecharConexao(preparedStatement, connection);
 		}
 	}
 
-	public ArrayList<Tarefa> listar(int status) throws Exception {
+	public ArrayList<Tarefa> listarTarefa(int status) throws Exception {
 		ArrayList<Tarefa> tarefas = new ArrayList<>();
 		try {
 			Class.forName(DRIVER);
@@ -188,7 +194,7 @@ public class DAO {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			fecharConeaxao(preparedStatement, connection);
+			fecharConexao(preparedStatement, connection);
 		}
 		if (tarefas.size() < 0) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
@@ -216,7 +222,45 @@ public class DAO {
 
 	}
 	
-	private void fecharConeaxao(PreparedStatement preparedStatement, Connection connection) {
+	public Usuario consultarUsuario(String nomeUsuario, String senhaCriptografada) throws Exception {
+
+		Usuario usuario = null;
+		try {
+			Class.forName(DRIVER);
+			connection = DriverManager.getConnection(BD);
+			connection.setAutoCommit(false);
+
+			String sql = CONSULTAR_USUARIO;
+			preparedStatement = connection.prepareStatement(sql);
+
+			int i = 1;
+			
+			preparedStatement.setString(i++, nomeUsuario);
+			preparedStatement.setString(i++, senhaCriptografada);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				// int id = rs.getInt("id");
+				usuario = new Usuario(rs.getString("USUARIO"), rs.getString("SENHA"), rs.getString("TIPO_USUARIO"));
+			}
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			fecharConexao(preparedStatement, connection);
+		}
+		if (usuario == null) {
+			JOptionPane.showMessageDialog(null, "Não foi possível localizar o usario informado, verifique seus dados!", "",
+					JOptionPane.ERROR_MESSAGE);
+			throw new Exception("Não foi possível localizar o usario informado");
+
+		}
+		return usuario;
+	
+	}
+	
+	private void fecharConexao(PreparedStatement preparedStatement, Connection connection) {
 		try {
 			preparedStatement.close();
 			connection.close();
@@ -226,4 +270,5 @@ public class DAO {
 		
 		
 	}
+	
 }

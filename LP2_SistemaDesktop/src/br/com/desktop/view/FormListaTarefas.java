@@ -170,7 +170,7 @@ public class FormListaTarefas extends JFrame {
 		DAO dao = new DAO();
 		ArrayList<Tarefa> tarefas = null;
 		try {
-			tarefas = dao.listar(status);
+			tarefas = dao.listarTarefa(status);
 			// System.out.println(tarefas.size());
 			panel.setLayout(new GridLayout(tarefas.size() < 5 ? 5 : tarefas.size(), 1, 10, 10));
 			panel.setBackground(new Color(255, 255, 255));

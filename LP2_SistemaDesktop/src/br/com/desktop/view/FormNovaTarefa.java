@@ -162,7 +162,7 @@ public class FormNovaTarefa extends JFrame {
 				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(), textNomeEtiquetaTarefa.getText(), 
 						corEtiqueta,  new Date(), null, status);
 				try {
-					dao.cadastrar(tarefa);
+					dao.cadastrarTarefa(tarefa);
 					if(jframe!=null) {
 						jframe.dispose();
 						FormListaTarefas formListaTarefas = new FormListaTarefas();
