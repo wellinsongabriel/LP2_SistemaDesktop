@@ -10,7 +10,7 @@
 	<field name="TITULO" class="java.lang.String"/>
 	<field name="NOME_ETIQUETA" class="java.lang.String"/>
 	<field name="DESCRICAO" class="java.lang.String"/>
-	<field name="STATUS" class="java.lang.String"/>
+	<field name="STATUS_TEXTO" class="java.lang.String"/>
 	<field name="ID" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -98,7 +98,7 @@
 				<reportElement x="280" y="0" width="100" height="30" uuid="f69596bd-cb32-43fb-b843-e4f0c6652e18">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c59250e6-b7d9-4875-9941-76ca99e0c0ff"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{STATUS}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{STATUS_TEXTO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="-20" y="0" width="29" height="30" uuid="ff8e91dd-22aa-4fc3-ba27-29c8a163ec28">

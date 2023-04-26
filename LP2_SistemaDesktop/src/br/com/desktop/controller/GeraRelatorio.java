@@ -16,8 +16,16 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class GeraRelatorio {
 	Connection connection = null;
+	private static SistemaOperacional so = SistemaOperacional.getIstancia();
 	private static String JDBC = "jdbc:sqlite:";
-	private static String LISTAR_TAREFAS = " SELECT * FROM TAREFA WHERE 1=1 ";
+	private static String LISTAR_TAREFAS = " SELECT *, "
+			+ " CASE "
+			+ " WHEN STATUS = 0 THEN 'A fazer' "
+			+ " WHEN STATUS = 1 THEN 'Em andamento' "
+			+ " ELSE 'Concluída'"
+			+ " END AS STATUS_TEXTO"
+			+ " FROM TAREFA WHERE 1=1 ";
+	
 	private static String AND_ID = " AND ID = $P{ID} ";
 	
 	 public GeraRelatorio() {
@@ -28,7 +36,7 @@ public class GeraRelatorio {
 			String pathAbsolutoParcial = null;
 			
 			//verifica se está no Windows para definir o sentido das barras que o path atual tem
-			if(System.getProperty("os.name").contains("Windows")) {
+			if(so.sistemaWindows()) {
 				pathAbsolutoParcial = pathAbsolutoAtual.substring(0,pathAbsolutoAtual.lastIndexOf('\\')).replace("\\","/");
 			}else {
 				pathAbsolutoParcial = pathAbsolutoAtual.substring(0,pathAbsolutoAtual.lastIndexOf('/'));
@@ -37,8 +45,8 @@ public class GeraRelatorio {
 			connection =  DriverManager.getConnection(JDBC+pathAbsolutoParcial+"/resources/bdtarefas.db");
 	        
 			Map<String, Object> parametros = new HashMap<String, Object>();	   
-			parametros.put("QUERY", LISTAR_TAREFAS+AND_ID);
-	        parametros.put("ID", "5");
+			parametros.put("QUERY", LISTAR_TAREFAS);//+AND_ID);
+	        //parametros.put("ID", "5");
 			
 	        JasperReport jasperReport = JasperCompileManager.compileReport(pathAbsolutoParcial+"/relatorios/RelatorioTarefa.jrxml");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, connection);

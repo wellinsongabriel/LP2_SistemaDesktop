@@ -2,8 +2,7 @@ package br.com.desktop.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.border.EmptyBorder;
 
 import br.com.desktop.dao.DAO;
 import br.com.desktop.model.BordaCantoArredondado;
@@ -86,22 +86,27 @@ public class JPanelItemTarefa extends JPanel {
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setText(tarefa.getNomeEtiqueta());
+		JButton btnNomeEtiqueta = new JButton("New button");
+		btnNomeEtiqueta.setText(tarefa.getNomeEtiqueta());
 		this.nomeEtiquetaTarefa = tarefa.getNomeEtiqueta();
-		btnNewButton.setBackground(new Color(tarefa.getCorEtiqueta()));
-		btnNewButton.setBounds(28, 11, 89, 23);
-		this.add(btnNewButton);
+		btnNomeEtiqueta.setBackground(new Color(tarefa.getCorEtiqueta()));
+		btnNomeEtiqueta.setBounds(28, 11, 126, 23);
+		btnNomeEtiqueta.setBorder(new EmptyBorder(getInsets()));
+		this.add(btnNomeEtiqueta);
 
 		JLabel lblTituloTarefa = new JLabel("Titulo");
+		Font font = lblTituloTarefa.getFont();
 		lblTituloTarefa.setText(tarefa.getTitulo());
 		lblTituloTarefa.setBounds(28, 44, 383, 14);
+		lblTituloTarefa.setFont(font.deriveFont(font.getStyle() | Font.BOLD));//negrito
 		this.add(lblTituloTarefa);
 
 		JLabel lblDescicaoTarefa = new JLabel("Descricao");
+		font = lblDescicaoTarefa.getFont();
 		lblDescicaoTarefa.setText(tarefa.getDescricao());
 		lblDescicaoTarefa.setBounds(28, 69, 383, 14);
 		this.add(lblDescicaoTarefa);
+		lblDescicaoTarefa.setFont(font.deriveFont(font.getStyle() & ~Font.BOLD));//normal
 		this.setVisible(true);
 
 		this.addMouseListener(new MouseAdapter() {

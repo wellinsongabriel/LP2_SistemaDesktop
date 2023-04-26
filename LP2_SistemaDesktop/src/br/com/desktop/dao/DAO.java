@@ -9,47 +9,51 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import br.com.desktop.controller.Conexao;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
 
 public class DAO {
 	private static Connection connection = null;
 	private static PreparedStatement preparedStatement = null;
-	private static String DRIVER = "org.sqlite.JDBC";
-	private static String BD = "jdbc:sqlite:resources/bdtarefas.db";
+	private static ResultSet rs = null;
+	
+	private static final  String DRIVER = "org.sqlite.JDBC";
+	private static final String BD = "jdbc:sqlite:resources/bdtarefas.db";
 
-	private static String CADASTRAR_TAREFA = "INSERT INTO TAREFA "
+	private static final String CADASTRAR_TAREFA = "INSERT INTO TAREFA "
 			+ " (ID, TITULO, DESCRICAO, NOME_ETIQUETA, COR_ETIQUETA, DATA_CRIACAO, DATA_CONCLUSAO, STATUS) "
 			+ " VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
-
-	private static String CONSULTAR_TAREFA = "SELECT * FROM TAREFA WHERE ID = ? ";
-
-	private static String ALTERAR_TAREFA = " UPDATE TAREFA SET " + " TITULO = ?, " + " DESCRICAO = ?, "
+	
+	private static final String CONSULTAR_TAREFA = "SELECT * FROM TAREFA WHERE ID = ? ";
+	
+	private static final String ALTERAR_TAREFA = " UPDATE TAREFA SET " + " TITULO = ?, " + " DESCRICAO = ?, "
 			+ " NOME_ETIQUETA = ?, " + " COR_ETIQUETA = ?, " + " DATA_CRIACAO = ?, " + " DATA_CONCLUSAO = ?, "
 			+ " STATUS = ? " + " WHERE ID = ? ";
-
-	private static String EXCLUIR_TAREFA = "DELETE FROM TAREFA WHERE ID = ? ";
-
-	private static String LISTAR_TAREFAS = "SELECT * FROM TAREFA WHERE 1=1";
-
-	private static String AND_STATUS_A_FAZER = " AND STATUS = 0 ";
-
-	private static String AND_STATUS_EM_ANDAMENTO = " AND STATUS = 1 ";
-
-	private static String AND_STATUS_CONCLUIDO = " AND STATUS = 2 ";
 	
-	private static String CONSULTAR_USUARIO = " SELECT USUARIO, SENHA, TIPO_USUARIO "
+	private static final String EXCLUIR_TAREFA = "DELETE FROM TAREFA WHERE ID = ? ";
+
+	private static final String LISTAR_TAREFAS = "SELECT * FROM TAREFA WHERE 1=1";
+
+	private static final String AND_STATUS_A_FAZER = " AND STATUS = 0 ";
+
+	private static final String AND_STATUS_EM_ANDAMENTO = " AND STATUS = 1 ";
+
+	private static final String AND_STATUS_CONCLUIDO = " AND STATUS = 2 ";
+	
+	private static final String CONSULTAR_USUARIO = " SELECT USUARIO, SENHA, TIPO_USUARIO "
 			+ " FROM USUARIO "
 			+ " WHERE USUARIO = ? "
 			+ " AND SENHA = ? ";
+	
+	public DAO() {
+		connection = Conexao.getInstancia().abriConexao();
+	}
 
 	public void cadastrarTarefa(Tarefa tarefa) throws SQLException {
 		
 		if (validarDadosTarefa(tarefa)) {
 			try {
-				Class.forName(DRIVER);
-				connection = DriverManager.getConnection(BD);
-				connection.setAutoCommit(false);
 				String sql = CADASTRAR_TAREFA;
 				preparedStatement = connection.prepareStatement(sql);
 				int i = 1;
@@ -64,23 +68,17 @@ public class DAO {
 				preparedStatement.execute();
 				connection.commit();
 
-			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
-						JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 			} finally {
-				fecharConexao(preparedStatement, connection);
+				fecharConexao();
 			}
 			JOptionPane.showMessageDialog(null, "Tarefa incluída com sucesso");
 		}
 	}
 
+	
 	public Tarefa consultarTarefa(int id) throws Exception {
 		Tarefa tarefa = null;
 		try {
-			Class.forName(DRIVER);
-			connection = DriverManager.getConnection(BD);
-			connection.setAutoCommit(false);
 
 			String sql = CONSULTAR_TAREFA;
 			preparedStatement = connection.prepareStatement(sql);
@@ -93,10 +91,8 @@ public class DAO {
 			}
 			connection.close();
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			fecharConexao(preparedStatement, connection);
+			fecharConexao();
 		}
 		if (tarefa == null) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
@@ -107,14 +103,12 @@ public class DAO {
 		return tarefa;
 	}
 
+	
 	public void alterarTarefa(int id, Tarefa tarefa) throws Exception {
 		
 		
 		if (consultarTarefa(id) != null) {
 			try {
-				Class.forName(DRIVER);
-				connection = DriverManager.getConnection(BD);
-				connection.setAutoCommit(false);
 
 				String sql = ALTERAR_TAREFA;
 				preparedStatement = connection.prepareStatement(sql);
@@ -132,10 +126,8 @@ public class DAO {
 				preparedStatement.execute();
 				connection.commit();
 
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			} finally {
-				fecharConexao(preparedStatement, connection);
+				fecharConexao();
 			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar esse item", "", JOptionPane.ERROR_MESSAGE);
@@ -143,11 +135,9 @@ public class DAO {
 		}
 	}
 
+	
 	public void excluirTarefa(int id) throws Exception {
 		try {
-			Class.forName(DRIVER);
-			connection = DriverManager.getConnection(BD);
-			connection.setAutoCommit(false);
 
 			String sql = EXCLUIR_TAREFA;
 			preparedStatement = connection.prepareStatement(sql);
@@ -155,21 +145,16 @@ public class DAO {
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
 			connection.commit();
-		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
-					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		} finally {
-			fecharConexao(preparedStatement, connection);
+			fecharConexao();
 		}
 	}
 
 	public ArrayList<Tarefa> listarTarefa(int status) throws Exception {
 		ArrayList<Tarefa> tarefas = new ArrayList<>();
+		
 		try {
-			Class.forName(DRIVER);
-			connection = DriverManager.getConnection(BD);
-			connection.setAutoCommit(false);
+			 
 
 			StringBuilder sql = new StringBuilder(LISTAR_TAREFAS);
 
@@ -185,16 +170,15 @@ public class DAO {
 
 			preparedStatement = connection.prepareStatement(sql.toString());
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				tarefas.add(montarTarefa(rs));
 			}
 			
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
-			fecharConexao(preparedStatement, connection);
+			fecharConexao();			
+			
 		}
 		if (tarefas.size() < 0) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
@@ -212,7 +196,7 @@ public class DAO {
 	}
 
 	private boolean validarDadosTarefa(Tarefa tarefa) {
-		if (tarefa.getNomeEtiqueta().isEmpty() || tarefa.getNomeEtiqueta() == null) {
+		if (tarefa.getTitulo().isEmpty() || tarefa.getTitulo() == null) {
 			JOptionPane.showMessageDialog(null, "Confira se os campos titulo e nome da etiqueta estão preenchidos",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			return false;
@@ -248,7 +232,7 @@ public class DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			fecharConexao(preparedStatement, connection);
+			fecharConexao();
 		}
 		if (usuario == null) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar o usario informado, verifique seus dados!", "",
@@ -260,15 +244,14 @@ public class DAO {
 	
 	}
 	
-	private void fecharConexao(PreparedStatement preparedStatement, Connection connection) {
+	private void fecharConexao() {
 		try {
+			rs.close();
 			preparedStatement.close();
-			connection.close();
+			Conexao.getInstancia().fecharConexao();			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
-		
+		}		
 	}
 	
 }
