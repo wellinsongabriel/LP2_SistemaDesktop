@@ -39,25 +39,29 @@ public class FormNovaTarefa extends JFrame {
 	private JTextField textTituloTarefa;
 	private JTextField textNomeEtiquetaTarefa;
 	private int corEtiqueta;
-	private int status;  
+	private int status;
+	private JComboBox comboBoxStatus;
+	private JButton buttonCorEtiqueta;
+	JTextArea textAreaDescricaoTarefa;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch(Exception e) {
-	        System.out.println("Error setting native LAF: " + e);
-	    }
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			System.out.println("Error setting native LAF: " + e);
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNovaTarefa frame = new FormNovaTarefa(null);
-					frame.setUndecorated(true); //retira a barra da janela
-					frame.setResizable(false); //desabilitar maximar
+					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1);
+					frame.setUndecorated(true); // retira a barra da janela
+					frame.setResizable(false); // desabilitar maximar
 					frame.setLocationRelativeTo(null);// alinhar ao centro
 					frame.setVisible(true);
-					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);					
+					// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,13 +72,14 @@ public class FormNovaTarefa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormNovaTarefa(JFrame jframe) {
+	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam) {
 		setTitle("TaksManager");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
-		Date dataAtual  = new Date();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");		
-        String dataAtualString = dateFormat.format(dataAtual);
-        
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
+		Date dataAtual = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String dataAtualString = dateFormat.format(dataAtual);
+
 		setBackground(new Color(255, 255, 255));
 		setMaximumSize(new Dimension(500, 470));
 		setMinimumSize(new Dimension(500, 470));
@@ -94,8 +99,9 @@ public class FormNovaTarefa extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				xx = e.getX();
 				xy = e.getY();
-				setOpacity((float)0.8);
+				setOpacity((float) 0.8);
 			}
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				setOpacity(1);
@@ -108,14 +114,14 @@ public class FormNovaTarefa extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblDataAtual = new JLabel(dataAtualString);
 		lblDataAtual.setForeground(Color.GRAY);
 		lblDataAtual.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblDataAtual.setBounds(362, 67, 80, 14);
 		contentPane.add(lblDataAtual);
-		
-		JTextArea textAreaDescricaoTarefa = new JTextArea();
+
+		textAreaDescricaoTarefa = new JTextArea();
 		textAreaDescricaoTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textAreaDescricaoTarefa.setBorder(new LineBorder(new Color(171, 173, 179)));
 		textAreaDescricaoTarefa.setToolTipText("Informe a descrição da tarefa");
@@ -123,50 +129,51 @@ public class FormNovaTarefa extends JFrame {
 		textAreaDescricaoTarefa.setColumns(10);
 		textAreaDescricaoTarefa.setBounds(49, 265, 393, 84);
 		contentPane.add(textAreaDescricaoTarefa);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Nova Tarefa");
 		lblNewLabel_1.setForeground(new Color(255, 128, 0));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel_1.setBounds(10, 11, 139, 14);
 		contentPane.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Etiqueta");
 		lblNewLabel_2.setForeground(Color.GRAY);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2.setBounds(49, 180, 46, 14);
 		contentPane.add(lblNewLabel_2);
-		
+
 		textTituloTarefa = new JTextField();
 		textTituloTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textTituloTarefa.setBorder(new LineBorder(new Color(171, 173, 179)));
 		textTituloTarefa.setBounds(49, 129, 393, 28);
 		contentPane.add(textTituloTarefa);
 		textTituloTarefa.setColumns(10);
-		
+
 		textNomeEtiquetaTarefa = new JTextField();
 		textNomeEtiquetaTarefa.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textNomeEtiquetaTarefa.setBounds(49, 195, 305, 28);
 		contentPane.add(textNomeEtiquetaTarefa);
 		textNomeEtiquetaTarefa.setColumns(10);
-		
+
 		JLabel lblNewLabel_2_2 = new JLabel("Descrição");
 		lblNewLabel_2_2.setForeground(Color.GRAY);
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2_2.setBounds(49, 250, 70, 14);
 		contentPane.add(lblNewLabel_2_2);
-		
+
 		JButton buttonAdicionarTarefa = new JButton("Salvar");
 		buttonAdicionarTarefa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DAO dao = new DAO();
-				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(), textNomeEtiquetaTarefa.getText(), 
-						corEtiqueta,  new Date(), null, status);
+				if(tarefaAlteracao==null) {
+				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(),
+						textNomeEtiquetaTarefa.getText(), corEtiqueta, new Date(), null, status);
 				try {
 					dao.cadastrarTarefa(tarefa);
-					if(jframe!=null) {
+					if (jframe != null) {
 						jframe.dispose();
-						FormListaTarefas formListaTarefas = new FormListaTarefas();
-						//formListaTarefas.setUndecorated(true); // retira a barra da janela
+						JFrameDashboard formListaTarefas = new JFrameDashboard();
+//						formListaTarefas.setUndecorated(true); // retira a barra da janela
 						formListaTarefas.setResizable(false); // desabilitar maximar
 						formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro
 						formListaTarefas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -177,7 +184,32 @@ public class FormNovaTarefa extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+				}else {
+					tarefaAlteracao.setTitulo(textTituloTarefa.getText());
+					tarefaAlteracao.setDescricao(textAreaDescricaoTarefa.getText());
+					tarefaAlteracao.setNomeEtiqueta(textNomeEtiquetaTarefa.getText());
+					tarefaAlteracao.setCorEtiqueta(corEtiqueta);
+					tarefaAlteracao.setDataAlteracao(new Date());
+					tarefaAlteracao.setStatus(status);
+					
+					try {
+						dao.alterarTarefa(tarefaAlteracao.getId(), tarefaAlteracao);
+						if (jframe != null) {
+							jframe.dispose();
+							JFrameDashboard formListaTarefas = new JFrameDashboard();
+							// formListaTarefas.setUndecorated(true); // retira a barra da janela
+							formListaTarefas.setResizable(false); // desabilitar maximar
+							formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro
+							formListaTarefas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+							formListaTarefas.setVisible(true);
+						}
+						dispose();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
 			}
 		});
 		buttonAdicionarTarefa.setToolTipText("Salvar");
@@ -187,17 +219,19 @@ public class FormNovaTarefa extends JFrame {
 		buttonAdicionarTarefa.setBackground(new Color(255, 128, 0));
 		buttonAdicionarTarefa.setBounds(345, 403, 98, 28);
 		contentPane.add(buttonAdicionarTarefa);
-		
+
 		JLabel lblBotaoFecharX = new JLabel("X");
 		lblBotaoFecharX.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblBotaoFecharX.setBackground(new Color(255, 0, 0));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblBotaoFecharX.setBackground(new Color(255, 255, 255));
@@ -210,17 +244,19 @@ public class FormNovaTarefa extends JFrame {
 		lblBotaoFecharX.setBackground(Color.WHITE);
 		lblBotaoFecharX.setBounds(467, 1, 32, 29);
 		contentPane.add(lblBotaoFecharX);
-		
+
 		JLabel lblBotaoMinimizar = new JLabel("-");
 		lblBotaoMinimizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblBotaoMinimizar.setBackground(new Color(210, 210, 210));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblBotaoMinimizar.setBackground(new Color(255, 255, 255));
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setExtendedState(JFrame.ICONIFIED);
@@ -233,8 +269,8 @@ public class FormNovaTarefa extends JFrame {
 		lblBotaoMinimizar.setBackground(Color.WHITE);
 		lblBotaoMinimizar.setBounds(437, 1, 32, 29);
 		contentPane.add(lblBotaoMinimizar);
-		
-		JComboBox comboBoxStatus = new JComboBox();
+
+		comboBoxStatus = new JComboBox();
 		comboBoxStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(comboBoxStatus.getSelectedIndex());
@@ -242,19 +278,19 @@ public class FormNovaTarefa extends JFrame {
 			}
 		});
 		comboBoxStatus.setFocusTraversalKeysEnabled(false);
-		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"A fazer", "Em andamento", "Concluida"}));
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] { "A fazer", "Em andamento", "Concluida" }));
 		comboBoxStatus.setSelectedIndex(0);
 		comboBoxStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		comboBoxStatus.setBounds(49, 67, 139, 28);
 		contentPane.add(comboBoxStatus);
-		
+
 		JLabel lblNewLabel_2_1_1 = new JLabel("Título");
 		lblNewLabel_2_1_1.setForeground(Color.GRAY);
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2_1_1.setBounds(49, 115, 46, 14);
 		contentPane.add(lblNewLabel_2_1_1);
-		
-		JButton buttonCorEtiqueta = new JButton("");
+
+		buttonCorEtiqueta = new JButton("");
 		buttonCorEtiqueta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color color = new Color(128, 255, 128);
@@ -280,11 +316,29 @@ public class FormNovaTarefa extends JFrame {
 		corEtiqueta = (new Color(128, 255, 128)).getRGB();
 		buttonCorEtiqueta.setBounds(386, 194, 56, 28);
 		contentPane.add(buttonCorEtiqueta);
-		
+
 		JLabel lblNewLabel_2_1 = new JLabel("Cor");
 		lblNewLabel_2_1.setForeground(Color.GRAY);
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_2_1.setBounds(387, 180, 46, 14);
 		contentPane.add(lblNewLabel_2_1);
+
+		if (tarefaAlteracao != null) {
+			tarefaExistente(tarefaAlteracao);
+		}
+		
+		if(statusParam>-1) {
+			comboBoxStatus.setSelectedIndex(statusParam);
+		}
+
+	}
+
+	private void tarefaExistente(Tarefa tarefa) {
+		comboBoxStatus.setSelectedIndex(tarefa.getStatus());
+		textTituloTarefa.setText(tarefa.getTitulo());
+		textNomeEtiquetaTarefa.setText(tarefa.getNomeEtiqueta());
+		buttonCorEtiqueta.setBackground(new Color(tarefa.getCorEtiqueta()));
+		corEtiqueta = tarefa.getCorEtiqueta();
+		textAreaDescricaoTarefa.setText(tarefa.getDescricao());
 	}
 }

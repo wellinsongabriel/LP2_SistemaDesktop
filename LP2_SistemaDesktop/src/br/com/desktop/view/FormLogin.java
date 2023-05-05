@@ -41,6 +41,7 @@ public class FormLogin extends JFrame {
 	private static int xy;
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
+	private FormLogin formLogin;
 
 	/**
 	 * Launch the application.
@@ -50,7 +51,7 @@ public class FormLogin extends JFrame {
 			public void run() {
 				try {
 					FormLogin frame = new FormLogin();
-					//frame.setUndecorated(true); //retira a barra da janela
+					// frame.setUndecorated(true); //retira a barra da janela
 					frame.setLocationRelativeTo(null);// alinhar ao centro
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -64,8 +65,10 @@ public class FormLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public FormLogin() {
+		formLogin = this;
 		setTitle("TaskMaster - Login");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
@@ -92,7 +95,7 @@ public class FormLogin extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(10, 378));
 		panel.setMinimumSize(new Dimension(10, 378));
@@ -101,18 +104,18 @@ public class FormLogin extends JFrame {
 		panel.setBounds(0, 0, 316, 376);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 		lblNewLabel.setBounds(93, 100, 114, 93);
 		panel.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1_2 = new JLabel("TaskMaster");
 		lblNewLabel_1_2.setBounds(58, 184, 207, 71);
 		panel.add(lblNewLabel_1_2);
 		lblNewLabel_1_2.setForeground(new Color(255, 128, 0));
 		lblNewLabel_1_2.setFont(new Font("DejaVu Sans", Font.BOLD, 30));
-		
+
 		JLabel lblBotaoFecharX = new JLabel("X");
 		lblBotaoFecharX.setVisible(false);
 		lblBotaoFecharX.setBackground(Color.WHITE);
@@ -126,29 +129,31 @@ public class FormLogin extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblBotaoFecharX.setBackground(new Color(255, 0, 0));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblBotaoFecharX.setBackground(new Color(255, 255, 255));
 			}
 		});
 		lblBotaoFecharX.setFont(new Font("Arial", Font.PLAIN, 18));
-		
+
 		JLabel lblNewLabel_1 = new JLabel("BEM VINDO");
 		lblNewLabel_1.setForeground(new Color(255, 128, 0));
 		lblNewLabel_1.setBounds(375, 62, 239, 29);
 		contentPane.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		
+
 		textFieldUsuario = new JTextField();
 		textFieldUsuario.setBounds(375, 147, 275, 28);
 		contentPane.add(textFieldUsuario);
 		textFieldUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldUsuario.setColumns(10);
-		
+
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.setToolTipText("Login");
 		btnLogin.addMouseListener(new MouseAdapter() {
@@ -156,6 +161,7 @@ public class FormLogin extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				btnLogin.setBackground(new Color(255, 98, 0));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				btnLogin.setBackground(new Color(255, 128, 0));
@@ -163,23 +169,24 @@ public class FormLogin extends JFrame {
 		});
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				DAO dao = new DAO();
 				try {
-					
-					Criptografia criptografia = new Criptografia(passwordField.getText(),Criptografia.SHA256);
-					Usuario  usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
+
+					Criptografia criptografia = new Criptografia(passwordField.getText(), Criptografia.SHA256);
+					Usuario usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
 					System.out.println(usuario.toString());
-					if(usuario!=null) {
-						FormListaTarefas formListaTarefas = new FormListaTarefas();
+
+					if (usuario != null) {
+						JFrameDashboard formListaTarefas = new JFrameDashboard();
+						formLogin.dispose();
 						formListaTarefas.setVisible(true);
+						
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
-				
-				
+
 			}
 		});
 		btnLogin.setForeground(Color.WHITE);
@@ -188,32 +195,32 @@ public class FormLogin extends JFrame {
 		btnLogin.setBounds(375, 271, 275, 28);
 		contentPane.add(btnLogin);
 		btnLogin.setBackground(new Color(255, 128, 0));
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setMinimumSize(new Dimension(7, 28));
 		passwordField.setPreferredSize(new Dimension(7, 28));
 		passwordField.setBounds(375, 205, 275, 28);
 		contentPane.add(passwordField);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("faça login para continuar");
 		lblNewLabel_1_1.setForeground(SystemColor.textInactiveText);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1.setBounds(375, 82, 239, 29);
 		contentPane.add(lblNewLabel_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1 = new JLabel("Usuário");
 		lblNewLabel_1_1_1.setForeground(Color.GRAY);
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1_1_1.setBounds(375, 132, 239, 17);
 		contentPane.add(lblNewLabel_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Senha");
 		lblNewLabel_1_1_1_1.setForeground(Color.GRAY);
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1_1_1_1.setBounds(375, 190, 239, 17);
 		contentPane.add(lblNewLabel_1_1_1_1);
-		
+
 		JLabel lblBotaoMinimizar = new JLabel("-");
 		lblBotaoMinimizar.setVisible(false);
 		lblBotaoMinimizar.addMouseListener(new MouseAdapter() {
@@ -221,10 +228,12 @@ public class FormLogin extends JFrame {
 			public void mouseEntered(MouseEvent e) {
 				lblBotaoMinimizar.setBackground(new Color(210, 210, 210));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblBotaoMinimizar.setBackground(new Color(255, 255, 255));
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setExtendedState(JFrame.ICONIFIED);
@@ -238,6 +247,5 @@ public class FormLogin extends JFrame {
 		lblBotaoMinimizar.setBounds(654, 1, 32, 29);
 		contentPane.add(lblBotaoMinimizar);
 	}
-			
-	
+
 }

@@ -9,6 +9,7 @@ public class Tarefa {
 	protected String nomeEtiqueta;
 	protected int corEtiqueta;
 	protected Date dataCriacao;
+	protected Date dataAlteracao;
 	protected Date dataConclusao;
 	protected int status;
 	
@@ -37,6 +38,20 @@ public class Tarefa {
 		this.status = status;
 	}
 	
+	public Tarefa(int id, String titulo, String descricao, String nomeEtiqueta, int corEtiqueta, Date dataCriacao,
+			Date dataAlteracao, Date dataConclusao, int status) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.nomeEtiqueta = nomeEtiqueta;
+		this.corEtiqueta = corEtiqueta;
+		this.dataCriacao = dataCriacao;
+		this.dataAlteracao = dataAlteracao;
+		this.dataConclusao = dataConclusao;
+		this.status = status;
+	}
+
 	public Tarefa() {
 		
 	}
@@ -89,6 +104,14 @@ public class Tarefa {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public Date getDataAlteracao() {
+		return dataCriacao;
+	}
+
+	public void setDataAlteracao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	
 	public Date getDataConclusao() {
 		return dataConclusao;
 	}

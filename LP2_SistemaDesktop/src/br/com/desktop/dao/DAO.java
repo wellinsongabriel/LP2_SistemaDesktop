@@ -47,13 +47,13 @@ public class DAO {
 			+ " AND SENHA = ? ";
 	
 	public DAO() {
-		connection = Conexao.getInstancia().abriConexao();
+		
 	}
 
 	public void cadastrarTarefa(Tarefa tarefa) throws SQLException {
-		
 		if (validarDadosTarefa(tarefa)) {
 			try {
+				abrirConexao();
 				String sql = CADASTRAR_TAREFA;
 				preparedStatement = connection.prepareStatement(sql);
 				int i = 1;
@@ -79,6 +79,7 @@ public class DAO {
 	public Tarefa consultarTarefa(int id) throws Exception {
 		Tarefa tarefa = null;
 		try {
+			abrirConexao();
 
 			String sql = CONSULTAR_TAREFA;
 			preparedStatement = connection.prepareStatement(sql);
@@ -89,7 +90,6 @@ public class DAO {
 				// int id = rs.getInt("id");
 				tarefa = montarTarefa(rs);
 			}
-			connection.close();
 
 		} finally {
 			fecharConexao();
@@ -106,9 +106,9 @@ public class DAO {
 	
 	public void alterarTarefa(int id, Tarefa tarefa) throws Exception {
 		
-		
 		if (consultarTarefa(id) != null) {
 			try {
+				abrirConexao();
 
 				String sql = ALTERAR_TAREFA;
 				preparedStatement = connection.prepareStatement(sql);
@@ -138,7 +138,7 @@ public class DAO {
 	
 	public void excluirTarefa(int id) throws Exception {
 		try {
-
+			abrirConexao();
 			String sql = EXCLUIR_TAREFA;
 			preparedStatement = connection.prepareStatement(sql);
 
@@ -154,7 +154,7 @@ public class DAO {
 		ArrayList<Tarefa> tarefas = new ArrayList<>();
 		
 		try {
-			 
+			abrirConexao();
 
 			StringBuilder sql = new StringBuilder(LISTAR_TAREFAS);
 
@@ -210,6 +210,7 @@ public class DAO {
 
 		Usuario usuario = null;
 		try {
+			abrirConexao();
 			Class.forName(DRIVER);
 			connection = DriverManager.getConnection(BD);
 			connection.setAutoCommit(false);
@@ -221,7 +222,7 @@ public class DAO {
 			
 			preparedStatement.setString(i++, nomeUsuario);
 			preparedStatement.setString(i++, senhaCriptografada);
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// int id = rs.getInt("id");
 				usuario = new Usuario(rs.getString("USUARIO"), rs.getString("SENHA"), rs.getString("TIPO_USUARIO"));
@@ -242,6 +243,10 @@ public class DAO {
 		}
 		return usuario;
 	
+	}
+	
+	private void abrirConexao(){
+		connection = Conexao.getInstancia().abriConexao();
 	}
 	
 	private void fecharConexao() {

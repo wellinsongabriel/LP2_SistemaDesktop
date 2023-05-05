@@ -148,19 +148,33 @@ public class FormListaTarefas extends JFrame {
 		lblIniciado.setBounds(330, 16, 89, 14);
 		panelPrincipal.add(lblIniciado);
 
-		JLabel lblConcludo = new JLabel("Concluído");
+		JLabel lblConcludo = new JLabel("Concluida");
 		lblConcludo.setBounds(632, 16, 89, 14);
 		panelPrincipal.add(lblConcludo);
 
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Gerar relatório");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				new GeraRelatorio();
 			}
 		});
-		btnNewButton.setBounds(821, 7, 89, 23);
+		btnNewButton.setBounds(785, 7, 125, 23);
 		panelPrincipal.add(btnNewButton);
+		JFrame jFrame = this;
+		JButton btnNewButton_1 = new JButton("Incluir tarefa");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FormNovaTarefa novaTarefa = new FormNovaTarefa(null, jFrame,0);
+				novaTarefa.setUndecorated(true); // retira a barra da janela
+				novaTarefa.setResizable(false); // desabilitar maximar
+				novaTarefa.setLocationRelativeTo(null);// alinhar ao centro
+				novaTarefa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				novaTarefa.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(797, 509, 113, 23);
+		panelPrincipal.add(btnNewButton_1);
 
 	}
 
@@ -181,7 +195,7 @@ public class FormListaTarefas extends JFrame {
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
 					jPanelItemTarefa.setId(tarefas.get(i).getId());
 					jPanelItemTarefa.setPreferredSize(new Dimension(250, 125));
-
+					jPanelItemTarefa.setRoundTopRight(100);
 					JPopupMenu menuContextoItemTarefa = new JPopupMenu();
 					JMenuItem opcaoExcluir = new JMenuItem("Excluir");
 					menuContextoItemTarefa.add(opcaoExcluir);
@@ -197,5 +211,4 @@ public class FormListaTarefas extends JFrame {
 
 		return panel;
 	}
-
 }

@@ -1,97 +1,232 @@
 package br.com.desktop.view;
 
+
 import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 
-public class JFrameDashboard extends JFrame {
+import br.com.desktop.dao.DAO;
+import br.com.desktop.model.Header;
+import br.com.desktop.model.Menu;
+import br.com.desktop.model.PanelRound;
+import br.com.desktop.model.ScrollBarPersonalizado;
+import br.com.desktop.model.Tarefa;
 
-	private JPanel contentPane;
-	private static int xx;
-	private static int xy;
+public class JFrameDashboard extends javax.swing.JFrame {
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFrameDashboard frame = new JFrameDashboard();
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setLocationRelativeTo(null);// alinhar ao centro
-					frame.setBackground(new Color(0, 0, 0, 0));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+    /**
+     * Creates new form Main
+     */
+//    private Form_Home home;
+//    private Form_1 form1;
+//    private Form_2 form2;
+//    private Form_3 form3;
 	
-	public JFrameDashboard() {
-		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 624, 319);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				int x = e.getXOnScreen();
-				int y = e.getYOnScreen();
-				setLocation(x - xx, y - xy);
-			}
-		});
-		contentPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				xx = e.getX();
-				xy = e.getY();
-			}
-		});
-		setContentPane(contentPane);
-		
-		PanelBorder panel = new PanelBorder();
-		panel.setBackground(Color.white);
-		PanelMenu menu = new PanelMenu();
-		menu.initMoving(JFrameDashboard.this);
-		
-		javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panel);
-		panelBorder1Layout.setHorizontalGroup(
-			panelBorder1Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(panelBorder1Layout.createSequentialGroup()
-					.addComponent(menu, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		panelBorder1Layout.setVerticalGroup(
-			panelBorder1Layout.createParallelGroup(Alignment.LEADING)
-				.addComponent(menu, GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
-		);
-		panel.setLayout(panelBorder1Layout);
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+    private Header header2;
+    private javax.swing.JPanel mainPanel;
+    private Menu menu;
+    private PanelBorder panelBorder1;
+    private JPanel panel;
+    
+    private JPanel contentPane;
+	private JScrollPane scroll;
+	private ScrollBarPersonalizado sp;
+	private JPanel panelAFazer;
+	private JPanel panelEmAndamento;
+	private JPanel panelConcluido;
+	private JLabel lblNewLabel;
+
+    public JFrameDashboard() {
+        initComponents();
+        setBackground(new Color(0, 0, 0, 0));
+        setExtendedState(MAXIMIZED_VERT);
+//        home = new Form_Home();
+//        form1 = new Form_1();
+//        form2 = new Form_2();
+//        form3 = new Form_3();
+        menu.initMoving(JFrameDashboard.this);
+//        menu.addEventMenuSelected(new EventMenuSelected() {
+//            @Override
+//            public void selected(int index) {
+//                if (index == 0) {
+//                    setForm(home);
+//                } else if (index == 1) {
+//                    setForm(form1);
+//                } else if (index == 2) {
+//                    setForm(form2);
+//                } else if (index == 3) {
+//                    setForm(form3);
+//                }
+//            }
+//        });
+        //  set when system open start with home form
+//        setForm(new Form_Home());
+       
+    }
+
+//    private void setForm(JPanel com) {
+//        mainPanel.removeAll();
+//        mainPanel.add(com);
+//        
+//        mainPanel.repaint();
+//        mainPanel.revalidate();
+//    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panelBorder1 = new PanelBorder();
+        menu = new Menu();
+        header2 = new Header();
+        mainPanel = new javax.swing.JPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+
+        panelBorder1.setBackground(new java.awt.Color(242, 242, 242));
+
+        header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+
+        mainPanel.setOpaque(false);
+
+        javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
+        panelBorder1.setLayout(panelBorder1Layout);
+        panelBorder1Layout.setHorizontalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(header2, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+                    .addGroup(panelBorder1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+        );
+        panelBorder1Layout.setVerticalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(header2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(new Color(238, 238, 238));
+        mainPanel.setBounds(0, 0, 937, 543);
+        mainPanel.setSize(800, 600);
+        PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, this);
+
+        
+        
+        
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 246, Short.MAX_VALUE)
-        			.addContainerGap())
+        			.addComponent(panelBorder1, GroupLayout.PREFERRED_SIZE, 1620, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
-        		.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        		.addGroup(layout.createSequentialGroup()
+        			.addComponent(panelBorder1, GroupLayout.PREFERRED_SIZE, 980, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         getContentPane().setLayout(layout);
 
         pack();
         setLocationRelativeTo(null);
-	}
+    }// </editor-fold>//GEN-END:initComponents
 
-	private static JPanel menu;
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(JFrameDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(JFrameDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(JFrameDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(JFrameDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new JFrameDashboard().setVisible(true);
+            }
+        });
+    }
+    
+    
+    public PanelRound preencherTarefas(int status, JFrame jframe) {
+		PanelRound panel = new PanelRound();
+		panel.setMaximumSize(new Dimension(250, 125));
+//		panel.setAllRound(50);
+		DAO dao = new DAO();
+		ArrayList<Tarefa> tarefas = null;
+		try {
+			tarefas = dao.listarTarefa(status);
+			// System.out.println(tarefas.size());
+			panel.setLayout(new GridLayout(tarefas.size() < 7 ? 7 : tarefas.size(), 1, 10, 10));
+			panel.setBackground(new Color(255, 255, 255));
+			for (int i = 0; i < tarefas.size(); i++) {
+				for (int j = 0; j < 1; j++) {
+					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe);
+					jPanelItemTarefa.setAllRound(100);
+					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
+					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
+					jPanelItemTarefa.setId(tarefas.get(i).getId());
+					jPanelItemTarefa.setMaximumSize(new Dimension(250, 150));
+//					jPanelItemTarefa.setRoundTopRight(100);
+					jPanelItemTarefa.setAllRound(100);
+					JPopupMenu menuContextoItemTarefa = new JPopupMenu();
+					JMenuItem opcaoExcluir = new JMenuItem("Excluir");
+					menuContextoItemTarefa.add(opcaoExcluir);
+
+					panel.add(jPanelItemTarefa);
+
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return panel;
+	}
 }
