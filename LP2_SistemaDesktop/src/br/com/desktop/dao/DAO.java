@@ -21,19 +21,19 @@ public class DAO {
 	private static final  String DRIVER = "org.sqlite.JDBC";
 	private static final String BD = "jdbc:sqlite:resources/bdtarefas.db";
 
-	private static final String CADASTRAR_TAREFA = "INSERT INTO TAREFA "
+	private static final String CADASTRAR_TAREFA = " INSERT INTO TAREFA "
 			+ " (ID, TITULO, DESCRICAO, NOME_ETIQUETA, COR_ETIQUETA, DATA_CRIACAO, DATA_CONCLUSAO, STATUS) "
 			+ " VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
-	
-	private static final String CONSULTAR_TAREFA = "SELECT * FROM TAREFA WHERE ID = ? ";
-	
+
+	private static final String CONSULTAR_TAREFA = " SELECT * FROM TAREFA WHERE ID = ? ";
+
 	private static final String ALTERAR_TAREFA = " UPDATE TAREFA SET " + " TITULO = ?, " + " DESCRICAO = ?, "
 			+ " NOME_ETIQUETA = ?, " + " COR_ETIQUETA = ?, " + " DATA_CRIACAO = ?, " + " DATA_CONCLUSAO = ?, "
 			+ " STATUS = ? " + " WHERE ID = ? ";
-	
-	private static final String EXCLUIR_TAREFA = "DELETE FROM TAREFA WHERE ID = ? ";
 
-	private static final String LISTAR_TAREFAS = "SELECT * FROM TAREFA WHERE 1=1";
+	private static final String EXCLUIR_TAREFA = " DELETE FROM TAREFA WHERE ID = ? ";
+
+	private static final String LISTAR_TAREFAS = " SELECT * FROM TAREFA WHERE 1=1";
 
 	private static final String AND_STATUS_A_FAZER = " AND STATUS = 0 ";
 
@@ -41,13 +41,13 @@ public class DAO {
 
 	private static final String AND_STATUS_CONCLUIDO = " AND STATUS = 2 ";
 	
-	private static final String CONSULTAR_USUARIO = " SELECT USUARIO, SENHA, TIPO_USUARIO "
+	private static final String CONSULTAR_USUARIO = " SELECT ID, USUARIO, SENHA, TIPO_USUARIO "
 			+ " FROM USUARIO "
 			+ " WHERE USUARIO = ? "
 			+ " AND SENHA = ? ";
 	
 	public DAO() {
-		
+
 	}
 
 	public void cadastrarTarefa(Tarefa tarefa) throws SQLException {
@@ -75,7 +75,6 @@ public class DAO {
 		}
 	}
 
-	
 	public Tarefa consultarTarefa(int id) throws Exception {
 		Tarefa tarefa = null;
 		try {
@@ -103,9 +102,8 @@ public class DAO {
 		return tarefa;
 	}
 
-	
 	public void alterarTarefa(int id, Tarefa tarefa) throws Exception {
-		
+
 		if (consultarTarefa(id) != null) {
 			try {
 				abrirConexao();
@@ -135,7 +133,6 @@ public class DAO {
 		}
 	}
 
-	
 	public void excluirTarefa(int id) throws Exception {
 		try {
 			abrirConexao();
@@ -152,7 +149,7 @@ public class DAO {
 
 	public ArrayList<Tarefa> listarTarefa(int status) throws Exception {
 		ArrayList<Tarefa> tarefas = new ArrayList<>();
-		
+
 		try {
 			abrirConexao();
 
@@ -174,11 +171,10 @@ public class DAO {
 			while (rs.next()) {
 				tarefas.add(montarTarefa(rs));
 			}
-			
 
 		} finally {
-			fecharConexao();			
-			
+			fecharConexao();
+
 		}
 		if (tarefas.size() < 0) {
 			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
@@ -197,7 +193,7 @@ public class DAO {
 
 	private boolean validarDadosTarefa(Tarefa tarefa) {
 		if (tarefa.getTitulo().isEmpty() || tarefa.getTitulo() == null) {
-			JOptionPane.showMessageDialog(null, "Confira se os campos titulo e nome da etiqueta estão preenchidos",
+			JOptionPane.showMessageDialog(null, "Confira se o campo titulo esá preenchido",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			return false;
 		} else {
@@ -205,7 +201,7 @@ public class DAO {
 		}
 
 	}
-	
+
 	public Usuario consultarUsuario(String nomeUsuario, String senhaCriptografada) throws Exception {
 
 		Usuario usuario = null;
@@ -219,13 +215,13 @@ public class DAO {
 			preparedStatement = connection.prepareStatement(sql);
 
 			int i = 1;
-			
+
 			preparedStatement.setString(i++, nomeUsuario);
 			preparedStatement.setString(i++, senhaCriptografada);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// int id = rs.getInt("id");
-				usuario = new Usuario(rs.getString("USUARIO"), rs.getString("SENHA"), rs.getString("TIPO_USUARIO"));
+				usuario = new Usuario(rs.getInt("ID"), rs.getString("USUARIO"), rs.getString("SENHA"), rs.getString("TIPO_USUARIO"));
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -236,8 +232,8 @@ public class DAO {
 			fecharConexao();
 		}
 		if (usuario == null) {
-			JOptionPane.showMessageDialog(null, "Não foi possível localizar o usario informado, verifique seus dados!", "",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Não foi possível localizar o usario informado, verifique seus dados!",
+					"", JOptionPane.ERROR_MESSAGE);
 			throw new Exception("Não foi possível localizar o usario informado");
 
 		}
@@ -245,18 +241,18 @@ public class DAO {
 	
 	}
 	
-	private void abrirConexao(){
+	private synchronized void abrirConexao(){
 		connection = Conexao.getInstancia().abriConexao();
 	}
-	
-	private void fecharConexao() {
+
+	private synchronized void fecharConexao() {
 		try {
 			rs.close();
 			preparedStatement.close();
-			Conexao.getInstancia().fecharConexao();			
+			Conexao.getInstancia().fecharConexao();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 }
