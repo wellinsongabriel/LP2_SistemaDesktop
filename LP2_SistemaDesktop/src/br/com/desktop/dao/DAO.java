@@ -46,6 +46,8 @@ public class DAO {
 			+ " WHERE USUARIO = ? "
 			+ " AND SENHA = ? ";
 	
+	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO ";
+	
 	public DAO() {
 
 	}
@@ -190,6 +192,10 @@ public class DAO {
 				rs.getString("NOME_ETIQUETA"), rs.getInt("COR_ETIQUETA"), rs.getDate("DATA_CRIACAO"),
 				rs.getDate("DATA_CONCLUSAO"), rs.getInt("STATUS"));
 	}
+	
+	private Usuario montarUsuario(ResultSet rs) throws SQLException {
+		return new Usuario(rs.getInt("ID"), rs.getString("USUARIO"), rs.getString("TIPO_USUARIO"));
+	}
 
 	private boolean validarDadosTarefa(Tarefa tarefa) {
 		if (tarefa.getTitulo().isEmpty() || tarefa.getTitulo() == null) {
@@ -239,6 +245,35 @@ public class DAO {
 		}
 		return usuario;
 	
+	}
+	
+	public ArrayList<Usuario> listarUsuarios() throws Exception {
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+
+		try {
+			abrirConexao();
+
+			StringBuilder sql = new StringBuilder(LISTAR_USUARIOS);
+
+
+			preparedStatement = connection.prepareStatement(sql.toString());
+
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				usuarios.add(montarUsuario(rs));
+			}
+
+		} finally {
+			fecharConexao();
+
+		}
+		if (usuarios.size() < 0) {
+			JOptionPane.showMessageDialog(null, "Não foi possível localizar a tarefa selecionada", "",
+					JOptionPane.ERROR_MESSAGE);
+			throw new Exception("Não foi possível localizar a tarefa selecionada");
+
+		}
+		return usuarios;
 	}
 	
 	private synchronized void abrirConexao(){

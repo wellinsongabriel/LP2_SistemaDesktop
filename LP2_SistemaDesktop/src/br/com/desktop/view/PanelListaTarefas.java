@@ -21,6 +21,7 @@ import br.com.desktop.dao.DAO;
 import br.com.desktop.model.PanelRound;
 import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Tarefa;
+import br.com.desktop.model.Usuario;
 
 public class PanelListaTarefas extends JPanel {
 
@@ -32,6 +33,7 @@ public class PanelListaTarefas extends JPanel {
 	private ScrollBarPersonalizado sp;
 	private PanelRound panelAFazer;
 	private PanelRound panelEmAndamento;
+	private Usuario usuarioLogado;
 //	private PanelRound panelConcluido;
 
 	/**
@@ -61,7 +63,8 @@ public class PanelListaTarefas extends JPanel {
 	/**
 	 * Create the frame.
 	 */
-	public PanelListaTarefas(JPanel mainPanel, JFrame jframe) {
+	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario) {
+		usuarioLogado = usuario;
 		setOpaque(false);
 
 //		setVisible(true);
@@ -135,7 +138,7 @@ public class PanelListaTarefas extends JPanel {
 
 		
 		JLabel lblNewLabel = new JLabel("A fazer");
-		lblNewLabel.setBounds(30, 80, 129, 14);
+		lblNewLabel.setBounds(50, 80, 129, 14);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		mainPanel.add(lblNewLabel);
 
@@ -147,7 +150,7 @@ public class PanelListaTarefas extends JPanel {
 		novoAfazer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,0);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,0,usuarioLogado);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -165,7 +168,7 @@ public class PanelListaTarefas extends JPanel {
 		});
 
 		JLabel lblIniciado = new JLabel("Em Andamento");
-		lblIniciado.setBounds(340, 80, 140, 14);
+		lblIniciado.setBounds(360, 80, 140, 14);
 		lblIniciado.setFont(new Font("Tahoma", Font.BOLD, 18));
 		mainPanel.add(lblIniciado);
 
@@ -178,7 +181,7 @@ public class PanelListaTarefas extends JPanel {
 		novoIniciado.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1,usuarioLogado);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -196,7 +199,7 @@ public class PanelListaTarefas extends JPanel {
 		});
 
 		JLabel lblConcludo = new JLabel("Concluida");
-		lblConcludo.setBounds(660, 80, 89, 14);
+		lblConcludo.setBounds(680, 80, 89, 14);
 		lblConcludo.setFont(new Font("Tahoma", Font.BOLD, 18));
 		mainPanel.add(lblConcludo);
 
@@ -208,7 +211,7 @@ public class PanelListaTarefas extends JPanel {
 		novoConcluido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,2);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,2,usuarioLogado);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -240,7 +243,7 @@ public class PanelListaTarefas extends JPanel {
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {
 				for (int j = 0; j < 1; j++) {
-					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe);
+					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado);
 					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
 					jPanelItemTarefa.setId(tarefas.get(i).getId());

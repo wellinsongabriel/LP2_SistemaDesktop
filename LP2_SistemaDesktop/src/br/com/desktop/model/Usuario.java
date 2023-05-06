@@ -21,6 +21,16 @@ public class Usuario {
 		this.senha = senha;
 		this.tipoUsuario = tipoUsuario;
 	}
+	
+	
+	public Usuario(int id, String usuario, String tipoUsuario) {
+		super();
+		this.id = id;
+		this.usuario = usuario;
+		this.tipoUsuario = tipoUsuario;
+	}
+	
+	
 
 	public int getId() {
 		return id;

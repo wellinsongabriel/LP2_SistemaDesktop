@@ -29,6 +29,8 @@ import javax.swing.border.LineBorder;
 
 import br.com.desktop.dao.DAO;
 import br.com.desktop.model.Tarefa;
+import br.com.desktop.model.Usuario;
+
 import java.awt.Toolkit;
 
 public class FormNovaTarefa extends JFrame {
@@ -56,7 +58,7 @@ public class FormNovaTarefa extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1);
+					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1,null);
 					frame.setUndecorated(true); // retira a barra da janela
 					frame.setResizable(false); // desabilitar maximar
 					frame.setLocationRelativeTo(null);// alinhar ao centro
@@ -72,7 +74,7 @@ public class FormNovaTarefa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam) {
+	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado) {
 		setTitle("TaksManager");
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
@@ -172,7 +174,7 @@ public class FormNovaTarefa extends JFrame {
 					dao.cadastrarTarefa(tarefa);
 					if (jframe != null) {
 						jframe.dispose();
-						JFrameDashboard formListaTarefas = new JFrameDashboard();
+						JFrameDashboard formListaTarefas = new JFrameDashboard(usuarioLogado);
 //						formListaTarefas.setUndecorated(true); // retira a barra da janela
 						formListaTarefas.setResizable(false); // desabilitar maximar
 						formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro
@@ -196,7 +198,7 @@ public class FormNovaTarefa extends JFrame {
 						dao.alterarTarefa(tarefaAlteracao.getId(), tarefaAlteracao);
 						if (jframe != null) {
 							jframe.dispose();
-							JFrameDashboard formListaTarefas = new JFrameDashboard();
+							JFrameDashboard formListaTarefas = new JFrameDashboard(usuarioLogado);
 							// formListaTarefas.setUndecorated(true); // retira a barra da janela
 							formListaTarefas.setResizable(false); // desabilitar maximar
 							formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro

@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import br.com.desktop.dao.DAO;
 import br.com.desktop.model.BordaCantoArredondado;
 import br.com.desktop.model.Tarefa;
+import br.com.desktop.model.Usuario;
 
 public class JPanelItemTarefa extends JPanel {
 
@@ -37,6 +38,7 @@ public class JPanelItemTarefa extends JPanel {
 	protected String nomeEtiquetaTarefa;
 	protected int corEtiquetaTarefa;
 	protected int status;
+	private Usuario usuarioLogado;
 
 	public int getStatus() {
 		return status;
@@ -86,8 +88,8 @@ public class JPanelItemTarefa extends JPanel {
 		this.id = id;
 	}
 
-	public JPanelItemTarefa(Tarefa tarefa, JFrame jFramePrincipal) {
-		
+	public JPanelItemTarefa(Tarefa tarefa, JFrame jFramePrincipal, Usuario usuario) {
+		usuarioLogado = usuario;
 		
 		// MouseListener m = new MouseListener();
 		// JFrame janela = new JFrame();
@@ -132,7 +134,7 @@ public class JPanelItemTarefa extends JPanel {
 				 JPanelItemTarefa panel = (JPanelItemTarefa) e.getSource();
 				
 				if (e.getButton() == 1) {//clique esquerdo
-					FormNovaTarefa novaTarefa = new FormNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus());
+					FormNovaTarefa novaTarefa = new FormNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus(), usuarioLogado);
 					novaTarefa.setUndecorated(true); // retira a barra da janela
 					novaTarefa.setResizable(false); // desabilitar maximar
 					novaTarefa.setLocationRelativeTo(null);// alinhar ao centro
@@ -162,8 +164,8 @@ public class JPanelItemTarefa extends JPanel {
 					
 					try {
 						dao.excluirTarefa(id);
-//						jFramePrincipal.dispose();
-						JFrameDashboard formListaTarefas = new JFrameDashboard();
+						jFramePrincipal.dispose();
+						JFrameDashboard formListaTarefas = new JFrameDashboard(usuarioLogado);
 						//formListaTarefas.setUndecorated(true); // retira a barra da janela
 						formListaTarefas.setResizable(false); // desabilitar maximar
 						formListaTarefas.setLocationRelativeTo(null);// alinhar ao centro

@@ -10,10 +10,13 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
 import br.com.desktop.view.JFrameDashboard;
+import br.com.desktop.view.JPanelNovoProjeto;
+import br.com.desktop.view.PanelListaTarefas;
 
 public class ListMenu<E extends Object> extends JList<E> {
 
@@ -21,12 +24,14 @@ public class ListMenu<E extends Object> extends JList<E> {
     private int selectedIndex = -1;
     private int overIndex = -1;
     private EventMenuSelected event;
+    private JPanel mainPanel;
 
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
     }
 
-    public ListMenu() {
+    public ListMenu(JPanel mainPanel) {
+    	this.mainPanel = mainPanel;
         model = new DefaultListModel();
         setModel(model);
         addMouseListener(new MouseAdapter() {
@@ -37,11 +42,21 @@ public class ListMenu<E extends Object> extends JList<E> {
                     Object o = model.getElementAt(index);
                     if (o instanceof Model_Menu) {
                         Model_Menu menu = (Model_Menu) o;
+                        
                         if(menu.getNome().equalsIgnoreCase("Sair")) {
                         	if(JOptionPane.showConfirmDialog(getComponentPopupMenu(),"Deseja sair do sistema ?","Sair",0)==0) {
                         		System.exit(1);
                         	}
                         }
+                        
+                        if(menu.getNome().equalsIgnoreCase("Novo projeto")) {
+                        	exibirProjeto();
+                        }
+                        
+                        if(menu.getNome().equalsIgnoreCase("Projeto 2")) {
+                        	exibirTarefas();
+                        }
+                        
                         if (menu.getTipo() == Model_Menu.TipoMenu.MENU) {                        	
                             selectedIndex = index;
                             if (event != null) {
@@ -104,4 +119,21 @@ public class ListMenu<E extends Object> extends JList<E> {
     public void addItem(Model_Menu data) {
         model.addElement(data);
     }
+    
+    public void exibirProjeto() {
+    	mainPanel.removeAll();
+    	System.out.println("Entrou no exibir proejto");
+    	JPanelNovoProjeto jPanelProjetos = new JPanelNovoProjeto(mainPanel);
+    	mainPanel.revalidate();
+    	mainPanel.repaint();
+   }
+    
+    
+    private void exibirTarefas() {
+		mainPanel.removeAll();
+		PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel,
+				new JFrameDashboard(new Usuario(1, "Admin", "", "")), new Usuario(1, "Admin", "", ""));
+		mainPanel.revalidate();
+		mainPanel.repaint();
+   }
 }

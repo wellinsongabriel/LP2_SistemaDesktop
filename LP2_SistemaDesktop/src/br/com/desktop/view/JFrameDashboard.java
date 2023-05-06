@@ -21,6 +21,7 @@ import br.com.desktop.model.Menu;
 import br.com.desktop.model.PanelRound;
 import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Tarefa;
+import br.com.desktop.model.Usuario;
 
 public class JFrameDashboard extends javax.swing.JFrame {
 
@@ -46,8 +47,10 @@ public class JFrameDashboard extends javax.swing.JFrame {
 	private JPanel panelEmAndamento;
 	private JPanel panelConcluido;
 	private JLabel lblNewLabel;
+	private Usuario usuarioLogado;
 
-    public JFrameDashboard() {
+    public JFrameDashboard(Usuario usuario) {
+		usuarioLogado = usuario;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         setExtendedState(MAXIMIZED_VERT);
@@ -93,9 +96,10 @@ public class JFrameDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         panelBorder1 = new PanelBorder();
-        menu = new Menu();
-        header2 = new Header();
         mainPanel = new javax.swing.JPanel();
+        menu = new Menu(usuarioLogado,mainPanel);
+        header2 = new Header();
+//        mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -132,8 +136,9 @@ public class JFrameDashboard extends javax.swing.JFrame {
         mainPanel.setBackground(new Color(238, 238, 238));
         mainPanel.setBounds(0, 0, 937, 543);
         mainPanel.setSize(800, 600);
-        PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, this);
-
+        System.out.println(usuarioLogado.toString());
+       
+        exibirTarefas();
         
         
         
@@ -187,13 +192,13 @@ public class JFrameDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFrameDashboard().setVisible(true);
+                new JFrameDashboard(null).setVisible(true);
             }
         });
     }
     
     
-    public PanelRound preencherTarefas(int status, JFrame jframe) {
+    private PanelRound preencherTarefas(int status, JFrame jframe) {
 		PanelRound panel = new PanelRound();
 		panel.setMaximumSize(new Dimension(250, 125));
 //		panel.setAllRound(50);
@@ -206,7 +211,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {
 				for (int j = 0; j < 1; j++) {
-					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe);
+					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado);
 					jPanelItemTarefa.setAllRound(100);
 					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
@@ -229,4 +234,10 @@ public class JFrameDashboard extends javax.swing.JFrame {
 
 		return panel;
 	}
+    
+    private void exibirTarefas() {
+    	 PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, this, usuarioLogado);
+    }
+    
+    
 }

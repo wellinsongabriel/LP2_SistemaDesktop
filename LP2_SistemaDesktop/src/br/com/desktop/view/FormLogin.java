@@ -178,7 +178,7 @@ public class FormLogin extends JFrame {
 					System.out.println(usuario.toString());
 
 					if (usuario != null) {
-						JFrameDashboard formListaTarefas = new JFrameDashboard();
+						JFrameDashboard formListaTarefas = new JFrameDashboard(usuario);
 						formLogin.dispose();
 						formListaTarefas.setVisible(true);
 						
@@ -246,6 +246,9 @@ public class FormLogin extends JFrame {
 		lblBotaoMinimizar.setBackground(Color.WHITE);
 		lblBotaoMinimizar.setBounds(654, 1, 32, 29);
 		contentPane.add(lblBotaoMinimizar);
+		
+		textFieldUsuario.setText("Admin");
+		passwordField.setText("123456");
 	}
 
 }
