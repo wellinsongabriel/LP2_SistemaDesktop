@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
+import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelNovoProjeto;
 import br.com.desktop.view.PanelListaTarefas;
@@ -25,12 +28,13 @@ public class ListMenu<E extends Object> extends JList<E> {
     private int overIndex = -1;
     private EventMenuSelected event;
     private JPanel mainPanel;
+    private Projeto projeto;
 
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
     }
 
-    public ListMenu(JPanel mainPanel) {
+    public ListMenu(JPanel mainPanel, JFrameDashboard jFrame, Usuario usuarioLogado) {
     	this.mainPanel = mainPanel;
         model = new DefaultListModel();
         setModel(model);
@@ -50,12 +54,29 @@ public class ListMenu<E extends Object> extends JList<E> {
                         }
                         
                         if(menu.getNome().equalsIgnoreCase("Novo projeto")) {
-                        	exibirProjeto();
+                        	exibirProjeto(jFrame, usuarioLogado);
                         }
                         
-                        if(menu.getNome().equalsIgnoreCase("Projeto 2")) {
-                        	exibirTarefas();
+                        ProjetoDAO projetoDAO = new ProjetoDAO();
+                        
+                        ArrayList<Projeto> projetos = new ArrayList<>();
+                        try {
+							projetos = projetoDAO.listarProjetos();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                        
+                        
+                        for (Projeto projeto : projetos) {
+                            if (projeto.getId() == menu.getIdentificador()) {
+
+                            	System.out.println(projeto.toString());
+                            	exibirTarefas(jFrame, usuarioLogado);
+                                break;
+                            }
                         }
+                        
                         
                         if (menu.getTipo() == Model_Menu.TipoMenu.MENU) {                        	
                             selectedIndex = index;
@@ -120,19 +141,23 @@ public class ListMenu<E extends Object> extends JList<E> {
         model.addElement(data);
     }
     
-    public void exibirProjeto() {
+    public void addItem(Model_Menu data, Projeto projeto) {
+        model.addElement(data);
+        this.projeto = projeto;
+    }
+    
+    public void exibirProjeto(JFrameDashboard jFrame, Usuario usuarioLogado) {
     	mainPanel.removeAll();
-    	System.out.println("Entrou no exibir proejto");
-    	JPanelNovoProjeto jPanelProjetos = new JPanelNovoProjeto(mainPanel);
+//    	System.out.println("Entrou no exibir proejto");
+    	JPanelNovoProjeto jPanelProjetos = new JPanelNovoProjeto(mainPanel, jFrame, usuarioLogado);
     	mainPanel.revalidate();
     	mainPanel.repaint();
    }
     
     
-    private void exibirTarefas() {
+    private void exibirTarefas(JFrameDashboard jFrame, Usuario usuarioLogado) {
 		mainPanel.removeAll();
-		PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel,
-				new JFrameDashboard(new Usuario(1, "Admin", "", "")), new Usuario(1, "Admin", "", ""));
+		PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, jFrame, usuarioLogado);
 		mainPanel.revalidate();
 		mainPanel.repaint();
    }

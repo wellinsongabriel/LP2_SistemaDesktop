@@ -13,7 +13,8 @@ public class TableCellRenderer extends DefaultTableCellRenderer {
 			int row, int column) {
 		Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		if (column == 0) {
-			c.setFont(new Font("DejaVu Sans", Font.BOLD, 13));
+			
+			c.setFont(new Font("Lato", Font.BOLD, 13));
 		}
 		
 		

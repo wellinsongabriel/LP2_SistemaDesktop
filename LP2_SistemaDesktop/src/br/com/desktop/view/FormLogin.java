@@ -175,12 +175,12 @@ public class FormLogin extends JFrame {
 
 					Criptografia criptografia = new Criptografia(passwordField.getText(), Criptografia.SHA256);
 					Usuario usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
-					System.out.println(usuario.toString());
+//					System.out.println(usuario.toString());
 
 					if (usuario != null) {
-						JFrameDashboard formListaTarefas = new JFrameDashboard(usuario);
+						JFrameDashboard jFrameDashboard = new JFrameDashboard(usuario);
 						formLogin.dispose();
-						formListaTarefas.setVisible(true);
+						jFrameDashboard.setVisible(true);
 						
 					}
 				} catch (Exception e1) {

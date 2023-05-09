@@ -8,11 +8,14 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import br.com.desktop.dao.ProjetoDAO;
+import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelNovoProjeto;
 
 public class Menu extends javax.swing.JPanel {
@@ -26,10 +29,10 @@ public class Menu extends javax.swing.JPanel {
 		listMenu1.addEventMenuSelected(event);
 	}
 
-	public Menu(Usuario usuario, JPanel mainPanel) {
+	public Menu(Usuario usuario, JPanel mainPanel, JFrameDashboard jFrame) {
 		this.mainPanel = mainPanel;
-		usuarioLogado = usuario;
-		initComponents();
+		this.usuarioLogado = usuario;
+		initComponents(jFrame);
 		setOpaque(false);
 		listMenu1.setOpaque(false);
 		init();
@@ -37,34 +40,41 @@ public class Menu extends javax.swing.JPanel {
 
 	private void init() {
 
-		listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Dashboard", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu1.addItem(new Model_Menu("5", "Relatórios", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("2", "Todos projetos", Model_Menu.TipoMenu.TITULO));
-		for(int i=0;i<3;i++) {//fazer for em projetos
-			listMenu1.addItem(new Model_Menu(String.valueOf(i+1), "Projeto "+(i+1), Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Relatórios", Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Todos projetos", Model_Menu.TipoMenu.TITULO));
+		
+		ProjetoDAO projetoDAO = new ProjetoDAO();
+		ArrayList<Projeto> projetos = new ArrayList<>();
+		try {
+			 projetos = projetoDAO.listarProjetos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		listMenu1.addItem(new Model_Menu("5", "Novo projeto", Model_Menu.TipoMenu.MENU));
+		for(int i=0;i<projetos.size();i++) {//fazer for em projetos
+			listMenu1.addItem(new Model_Menu(String.valueOf(i+1), projetos.get(i).getTitulo(), Model_Menu.TipoMenu.MENU, projetos.get(i).getId()));
+		}
+		listMenu1.addItem(new Model_Menu("add_project", "Novo projeto", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
 
 		listMenu1.addItem(new Model_Menu("", "Gerenciar", Model_Menu.TipoMenu.TITULO));
 		if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("administrador")) {
-			listMenu1.addItem(new Model_Menu("6", "Usuários", Model_Menu.TipoMenu.MENU));
+			listMenu1.addItem(new Model_Menu("", "Usuários", Model_Menu.TipoMenu.MENU));
 		}
-		listMenu1.addItem(new Model_Menu("7", "Backup", Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Backup", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu1.addItem(new Model_Menu("8", "Sair", Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Sair", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
 	}
 
 	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed" desc="Generated
-	// Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+	private void initComponents(JFrameDashboard jFrame) {
 
 		panelMoving = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
-		listMenu1 = new ListMenu<>(mainPanel);
+		listMenu1 = new ListMenu<>(mainPanel, jFrame, usuarioLogado);
 
 		panelMoving.setOpaque(false);
 
@@ -99,8 +109,7 @@ public class Menu extends javax.swing.JPanel {
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(15, 15, 15)
 						.addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)));
-	}// </editor-fold>//GEN-END:initComponents
-
+	}
 	@Override
 	protected void paintChildren(Graphics grphcs) {
 		Graphics2D g2 = (Graphics2D) grphcs;
@@ -135,9 +144,7 @@ public class Menu extends javax.swing.JPanel {
 	
 	
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;
 	private ListMenu<String> listMenu1;
 	private javax.swing.JPanel panelMoving;
-	// End of variables declaration//GEN-END:variables
 }

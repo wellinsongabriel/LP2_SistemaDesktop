@@ -17,8 +17,10 @@ public class MenuItem extends javax.swing.JPanel {
     public MenuItem(Model_Menu data) {
         initComponents();
         setOpaque(false);
-        if (data.getTipo() == Model_Menu.TipoMenu.MENU) {
-//            lbIcon.setIcon(data.toIcone());
+        if (data.getTipo() == Model_Menu.TipoMenu.MENU ) {//&& !"".equalsIgnoreCase(data.getIcone())) {
+          if(!"".equalsIgnoreCase(data.getIcone()) && data.getNome().equalsIgnoreCase("Novo projeto")) {  
+        	lbIcon.setIcon(data.toIcone());
+          }
             lbName.setText(data.getNome());
         } else if (data.getTipo() == Model_Menu.TipoMenu.TITULO) {
             lbIcon.setText(data.getNome());

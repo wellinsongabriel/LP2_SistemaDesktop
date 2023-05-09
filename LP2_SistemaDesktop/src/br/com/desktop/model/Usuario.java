@@ -5,6 +5,7 @@ public class Usuario {
 	private String usuario;
 	private String senha;
 	private String tipoUsuario;
+	private boolean selecionado; 
 	
 	
 	public Usuario(int id, String usuario, String senha, String tipoUsuario) {
@@ -62,6 +63,14 @@ public class Usuario {
 
 	public void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
+	}
+
+	public boolean isSelecionado() {
+		return selecionado;
+	}
+
+	public void setSelecionado(boolean selecionado) {
+		this.selecionado = selecionado;
 	}
 
 	@Override

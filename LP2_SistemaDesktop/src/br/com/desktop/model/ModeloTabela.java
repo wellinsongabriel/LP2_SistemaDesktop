@@ -39,7 +39,7 @@ public class ModeloTabela extends AbstractTableModel{
 			return usuario.getUsuario();
 		}else
 			if(columnIndex==1) {
-			return false;
+			return true;
 			
 		}else {	
 			return null;
@@ -48,9 +48,33 @@ public class ModeloTabela extends AbstractTableModel{
 	}
 	
 	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		 if (columnIndex == 1) {
+			 	System.out.println(aValue);
+	            Usuario usuario = usuarios.get(rowIndex);
+	            Object obj = aValue.toString().equalsIgnoreCase("false")?true:false;
+	            usuario.setSelecionado((Boolean) obj);
+	            fireTableCellUpdated(rowIndex, columnIndex);
+	            
+	        }
+	}
+	
+	@Override
 	public String getColumnName(int column) {
 		return colunas[column];
 	}
 	
+	@Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 1;
+    }
 	
+	  @Override
+	    public Class<?> getColumnClass(int columnIndex) {
+	        if (columnIndex == 1) {
+	            return Boolean.class;
+	        } else {
+	            return super.getColumnClass(columnIndex);
+	        }
+	    }
 }

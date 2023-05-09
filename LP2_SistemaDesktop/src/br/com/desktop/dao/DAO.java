@@ -69,11 +69,15 @@ public class DAO {
 				preparedStatement.setInt(i++, tarefa.getStatus());
 				preparedStatement.execute();
 				connection.commit();
-
-			} finally {
+				JOptionPane.showMessageDialog(null, "Tarefa incluída com sucesso");
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
+				e.printStackTrace();
+			}finally {
+			
 				fecharConexao();
 			}
-			JOptionPane.showMessageDialog(null, "Tarefa incluída com sucesso");
+			
 		}
 	}
 
@@ -92,6 +96,9 @@ public class DAO {
 				tarefa = montarTarefa(rs);
 			}
 
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
+			e.printStackTrace();
 		} finally {
 			fecharConexao();
 		}
@@ -126,6 +133,9 @@ public class DAO {
 				preparedStatement.execute();
 				connection.commit();
 
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
+				e.printStackTrace();
 			} finally {
 				fecharConexao();
 			}
@@ -174,7 +184,10 @@ public class DAO {
 				tarefas.add(montarTarefa(rs));
 			}
 
-		} finally {
+		}  catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
+			e.printStackTrace();
+		}finally {
 			fecharConexao();
 
 		}
@@ -227,12 +240,13 @@ public class DAO {
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// int id = rs.getInt("id");
-				usuario = new Usuario(rs.getInt("ID"), rs.getString("USUARIO"), rs.getString("SENHA"), rs.getString("TIPO_USUARIO"));
+				usuario = new Usuario(rs.getInt("ID"), rs.getString("USUARIO"), rs.getString("TIPO_USUARIO"));
 			}
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
 			e.printStackTrace();
 		} finally {
 			fecharConexao();
@@ -263,6 +277,9 @@ public class DAO {
 				usuarios.add(montarUsuario(rs));
 			}
 
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação");
+			e.printStackTrace();
 		} finally {
 			fecharConexao();
 

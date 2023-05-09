@@ -50,8 +50,8 @@ public class JFrameDashboard extends javax.swing.JFrame {
 	private Usuario usuarioLogado;
 
     public JFrameDashboard(Usuario usuario) {
-		usuarioLogado = usuario;
-        initComponents();
+		this.usuarioLogado = usuario;
+        initComponents(this);
         setBackground(new Color(0, 0, 0, 0));
         setExtendedState(MAXIMIZED_VERT);
 //        home = new Form_Home();
@@ -93,11 +93,11 @@ public class JFrameDashboard extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(JFrameDashboard jFrame) {
 
         panelBorder1 = new PanelBorder();
         mainPanel = new javax.swing.JPanel();
-        menu = new Menu(usuarioLogado,mainPanel);
+        menu = new Menu(usuarioLogado,mainPanel, jFrame);
         header2 = new Header();
 //        mainPanel = new javax.swing.JPanel();
 
@@ -136,7 +136,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         mainPanel.setBackground(new Color(238, 238, 238));
         mainPanel.setBounds(0, 0, 937, 543);
         mainPanel.setSize(800, 600);
-        System.out.println(usuarioLogado.toString());
+        System.out.println("JFrameDashBoard 139 "+usuarioLogado.toString());
        
         exibirTarefas();
         
@@ -198,44 +198,8 @@ public class JFrameDashboard extends javax.swing.JFrame {
     }
     
     
-    private PanelRound preencherTarefas(int status, JFrame jframe) {
-		PanelRound panel = new PanelRound();
-		panel.setMaximumSize(new Dimension(250, 125));
-//		panel.setAllRound(50);
-		DAO dao = new DAO();
-		ArrayList<Tarefa> tarefas = null;
-		try {
-			tarefas = dao.listarTarefa(status);
-			// System.out.println(tarefas.size());
-			panel.setLayout(new GridLayout(tarefas.size() < 7 ? 7 : tarefas.size(), 1, 10, 10));
-			panel.setBackground(new Color(255, 255, 255));
-			for (int i = 0; i < tarefas.size(); i++) {
-				for (int j = 0; j < 1; j++) {
-					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado);
-					jPanelItemTarefa.setAllRound(100);
-					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
-					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
-					jPanelItemTarefa.setId(tarefas.get(i).getId());
-					jPanelItemTarefa.setMaximumSize(new Dimension(250, 150));
-//					jPanelItemTarefa.setRoundTopRight(100);
-					jPanelItemTarefa.setAllRound(100);
-					JPopupMenu menuContextoItemTarefa = new JPopupMenu();
-					JMenuItem opcaoExcluir = new JMenuItem("Excluir");
-					menuContextoItemTarefa.add(opcaoExcluir);
-
-					panel.add(jPanelItemTarefa);
-
-				}
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return panel;
-	}
     
-    private void exibirTarefas() {
+    public void exibirTarefas() {
     	 PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, this, usuarioLogado);
     }
     

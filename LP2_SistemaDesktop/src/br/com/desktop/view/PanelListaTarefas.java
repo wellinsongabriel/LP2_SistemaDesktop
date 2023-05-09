@@ -18,6 +18,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
 import br.com.desktop.dao.DAO;
+import br.com.desktop.model.BordaCantoArredondado;
 import br.com.desktop.model.PanelRound;
 import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Tarefa;
@@ -65,87 +66,114 @@ public class PanelListaTarefas extends JPanel {
 	 */
 	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario) {
 		usuarioLogado = usuario;
+		
+	
 		setOpaque(false);
-
-//		setVisible(true);
-//		setBounds(100, 100, 1080, 582);
-
+		setBounds(10, 10, 1000, 800);
+		setLayout(null);
+		
+		
 		PanelRound panelAFazer = new PanelRound();
-		panelAFazer.setAllRound(50);
-		panelAFazer.setLayout(new BorderLayout());
-		panelAFazer.setBounds(30, 100, 300, 800);
+		panelAFazer.setBorder(new BordaCantoArredondado());
+		panelAFazer.setLayout(null);
+		panelAFazer.setBounds(30, 100, 310, 650);
 		panelAFazer.setBackground(new Color(255, 255, 255));
-		PanelRound o = new PanelRound();
-		o.setAllRound(50);
-		PanelRound panel = criarPainel(0, jframe);
-		panel.setAllRound(100);
-		panel.setBackground(new Color(255, 255, 255));
-		o.add(panel);
-		panelAFazer.add(o);
+		panelAFazer.setOpaque(true);
+		JLabel jLabelAFazer = new JLabel("A Fazer");
+		jLabelAFazer.setFont(new Font("Tahoma", Font.BOLD, 18));
+		jLabelAFazer.setBounds(10, 10, 100, 14);
+		JLabel novoAfazer = new JLabel("+");
+		novoAfazer.setBounds(280, 10, 20, 14);
+		novoAfazer.setFont(new Font("Tahoma", Font.BOLD, 20));
+		panelAFazer.add(novoAfazer);
+		panelAFazer.add(jLabelAFazer);		
+		PanelRound baseScrollPanelAFazer = new PanelRound();
+		baseScrollPanelAFazer.setOpaque(true);
+		baseScrollPanelAFazer.setBackground(Color.white);
+		baseScrollPanelAFazer.setAllRound(50);		
+		PanelRound panelItenAFazer = criarPainel(0, jframe);
+		panelItenAFazer.setAllRound(100);
+		panelItenAFazer.setBackground(new Color(255, 255, 255));
+		baseScrollPanelAFazer.add(panelItenAFazer);
 		scroll = new JScrollPane();
-		scroll.setViewportView(o);
+		scroll.setViewportView(baseScrollPanelAFazer);
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
-		panelAFazer.add(scroll, BorderLayout.CENTER);
-		panelAFazer.setOpaque(true);
+		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
+		scroll.setBounds(10, 30, 290, 600);		
+		panelAFazer.add(scroll);
 		panelAFazer.setVisible(true);
-		mainPanel.add(panelAFazer);
+		add(panelAFazer);
 		
 		
 		
 		PanelRound panelEmAndamento = new PanelRound();
-		panelEmAndamento.setAllRound(50);
-		panelEmAndamento.setLayout(new BorderLayout());
-		panelEmAndamento.setBounds(340, 100, 300, 800);
+		panelEmAndamento.setBorder(new BordaCantoArredondado());
+		panelEmAndamento.setLayout(null);
+		panelEmAndamento.setBounds(370, 100, 310, 650);
 		panelEmAndamento.setBackground(new Color(255, 255, 255));
-		PanelRound o1 = new PanelRound();
-		o1.setAllRound(50);
-		PanelRound panel1 = criarPainel(1, jframe);
-		panel1.setAllRound(100);
-		panel1.setBackground(new Color(255, 255, 255));
-		o1.add(panel1);
-		panelEmAndamento.add(o1);
+		panelEmAndamento.setOpaque(true);
+		JLabel jLabelEmAndamento = new JLabel("Em andamento");
+		jLabelEmAndamento.setFont(new Font("Tahoma", Font.BOLD, 18));
+		jLabelEmAndamento.setBounds(10, 10, 150, 14);
+		JLabel novoEmAndamento = new JLabel("+");
+		novoEmAndamento.setBounds(280, 10, 20, 14);
+		novoEmAndamento.setFont(new Font("Tahoma", Font.BOLD, 20));
+		panelEmAndamento.add(novoEmAndamento);
+		panelEmAndamento.add(jLabelEmAndamento);		
+		PanelRound baseScrollpanelEmAndamento = new PanelRound();
+		baseScrollpanelEmAndamento.setOpaque(true);
+		baseScrollpanelEmAndamento.setBackground(Color.white);
+		baseScrollpanelEmAndamento.setAllRound(50);		
+		PanelRound panelItenEmAndamento = criarPainel(1, jframe);
+		panelItenEmAndamento.setAllRound(100);
+		panelItenEmAndamento.setBackground(new Color(255, 255, 255));
+		baseScrollpanelEmAndamento.add(panelItenEmAndamento);
 		scroll = new JScrollPane();
-		scroll.setViewportView(o1);
+		scroll.setViewportView(baseScrollpanelEmAndamento);
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
-		panelEmAndamento.add(scroll, BorderLayout.CENTER);
-		panelEmAndamento.setOpaque(true);
+		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
+		scroll.setBounds(10, 30, 290, 600);		
+		panelEmAndamento.add(scroll);
 		panelEmAndamento.setVisible(true);
-		mainPanel.add(panelEmAndamento);
+		add(panelEmAndamento);
+		
+		
+		
+		
 		
 		PanelRound panelConcluido = new PanelRound();
-		panelConcluido.setAllRound(50);
-		panelConcluido.setLayout(new BorderLayout());
-		panelConcluido.setBounds(660, 100, 300, 800);
+		panelConcluido.setBorder(new BordaCantoArredondado());
+		panelConcluido.setLayout(null);
+		panelConcluido.setBounds(690, 100, 310, 650);
 		panelConcluido.setBackground(new Color(255, 255, 255));
-		PanelRound o2 = new PanelRound();
-		o2.setAllRound(50);
-		PanelRound panel2 = criarPainel(2, jframe);
-		panel2.setAllRound(100);
-		panel2.setBackground(new Color(255, 255, 255));
-		o2.add(panel2);
-		panelConcluido.add(o2);
+		panelConcluido.setOpaque(true);
+		JLabel jLabelConcluido = new JLabel("Concluída");
+		jLabelConcluido.setFont(new Font("Tahoma", Font.BOLD, 18));
+		jLabelConcluido.setBounds(10, 10, 150, 14);
+		JLabel novoConcluido = new JLabel("+");
+		novoConcluido.setBounds(280, 10, 20, 14);
+		novoConcluido.setFont(new Font("Tahoma", Font.BOLD, 20));
+		panelConcluido.add(novoConcluido);
+		panelConcluido.add(jLabelConcluido);		
+		PanelRound baseScrollpanelConcluido = new PanelRound();
+		baseScrollpanelConcluido.setOpaque(true);
+		baseScrollpanelConcluido.setBackground(Color.white);
+		baseScrollpanelConcluido.setAllRound(50);		
+		PanelRound panelItenConcluido = criarPainel(2, jframe);
+		panelItenConcluido.setAllRound(100);
+		panelItenConcluido.setBackground(new Color(255, 255, 255));
+		baseScrollpanelConcluido.add(panelItenConcluido);
 		scroll = new JScrollPane();
-		scroll.setViewportView(o2);
+		scroll.setViewportView(baseScrollpanelConcluido);
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
-		panelConcluido.add(scroll, BorderLayout.CENTER);
-		panelConcluido.setOpaque(true);
+		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
+		scroll.setBounds(10, 30, 290, 600);		
+		panelConcluido.add(scroll);
 		panelConcluido.setVisible(true);
-		mainPanel.add(panelConcluido);
-		
-
-		
-		JLabel lblNewLabel = new JLabel("A fazer");
-		lblNewLabel.setBounds(50, 80, 129, 14);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(lblNewLabel);
-
-		JLabel novoAfazer = new JLabel("+");
-		novoAfazer.setBounds(280, 80, 20, 14);
-		novoAfazer.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(novoAfazer);
+		add(panelConcluido);
 
 		novoAfazer.addMouseListener(new MouseAdapter() {
 			@Override
@@ -165,20 +193,9 @@ public class PanelListaTarefas extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				novoAfazer.setCursor(Cursor.getDefaultCursor());
 			}
-		});
-
-		JLabel lblIniciado = new JLabel("Em Andamento");
-		lblIniciado.setBounds(360, 80, 140, 14);
-		lblIniciado.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(lblIniciado);
-
-		JLabel novoIniciado = new JLabel("+");
-		novoIniciado.setBounds(610, 80, 20, 14);
-		novoIniciado.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(novoIniciado);
+		});		
 		
-		
-		novoIniciado.addMouseListener(new MouseAdapter() {
+		novoEmAndamento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1,usuarioLogado);
@@ -189,24 +206,14 @@ public class PanelListaTarefas extends JPanel {
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				novoIniciado.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		        
+				novoEmAndamento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		        
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				novoIniciado.setCursor(Cursor.getDefaultCursor());
+				novoEmAndamento.setCursor(Cursor.getDefaultCursor());
 			}
 		});
-
-		JLabel lblConcludo = new JLabel("Concluida");
-		lblConcludo.setBounds(680, 80, 89, 14);
-		lblConcludo.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(lblConcludo);
-
-		JLabel novoConcluido = new JLabel("+");
-		novoConcluido.setBounds(930, 80, 20, 14);
-		novoConcluido.setFont(new Font("Tahoma", Font.BOLD, 18));
-		mainPanel.add(novoConcluido);
 
 		novoConcluido.addMouseListener(new MouseAdapter() {
 			@Override
@@ -228,7 +235,7 @@ public class PanelListaTarefas extends JPanel {
 			}
 		});
 
-	
+	mainPanel.add(this);
     }
 
 	public  PanelRound criarPainel(int status,  JFrame jframe) {
@@ -238,8 +245,7 @@ public class PanelListaTarefas extends JPanel {
 		ArrayList<Tarefa> tarefas = null;
 		try {
 			tarefas = dao.listarTarefa(status);
-			// System.out.println(tarefas.size());
-			panel.setLayout(new GridLayout(tarefas.size() < 5 ? 5 : tarefas.size(), 1, 10, 10));
+			panel.setLayout(new GridLayout(tarefas.size() < 3 ? 3 : tarefas.size(), 1, 10, 10));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {
 				for (int j = 0; j < 1; j++) {
@@ -247,8 +253,7 @@ public class PanelListaTarefas extends JPanel {
 					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
 					jPanelItemTarefa.setId(tarefas.get(i).getId());
-					jPanelItemTarefa.setPreferredSize(new Dimension(250, 125));
-//					jPanelItemTarefa.setRoundTopRight(100);
+					jPanelItemTarefa.setPreferredSize(new Dimension(250, 100));
 					jPanelItemTarefa.setAllRound(100);
 					JPopupMenu menuContextoItemTarefa = new JPopupMenu();
 					JMenuItem opcaoExcluir = new JMenuItem("Excluir");
@@ -266,15 +271,6 @@ public class PanelListaTarefas extends JPanel {
 		return panel;
 	}
 	
-	
-	
-	public void criarPanel(JPanel mainPanel, JFrame jframe) {
-		int x = 30;	
-		
-		for(int i=0; i<3; i++) {
-		
-		}
-	}
 	
 	
 }
