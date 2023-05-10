@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 
 import br.com.desktop.controller.GeraRelatorio;
+import br.com.desktop.model.Usuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,9 @@ public class JPanelRelatorio extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public JPanelRelatorio() {
+	public JPanelRelatorio(JPanel mainPanel, JFrameDashboard jFrame, Usuario usuarioLogado) {
+		setOpaque(true);
+		setBounds(44, 86, 1000, 800);
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -95,5 +98,6 @@ public class JPanelRelatorio extends JPanel {
 		dateFim.setBounds(352, 141, 125, 28);
 		panel.add(dateFim);
 		
+		mainPanel.add(this);
 	}
 }

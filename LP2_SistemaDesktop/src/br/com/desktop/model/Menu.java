@@ -42,7 +42,7 @@ public class Menu extends javax.swing.JPanel {
 
 		listMenu1.addItem(new Model_Menu("", "Dashboard", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu1.addItem(new Model_Menu("", "Relatórios", Model_Menu.TipoMenu.MENU));
+		listMenu1.addItem(new Model_Menu("", "Relatório", Model_Menu.TipoMenu.MENU));
 		listMenu1.addItem(new Model_Menu("", "Todos projetos", Model_Menu.TipoMenu.TITULO));
 		
 		ProjetoDAO projetoDAO = new ProjetoDAO();

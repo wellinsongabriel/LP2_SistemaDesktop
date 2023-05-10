@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelNovoProjeto;
+import br.com.desktop.view.JPanelRelatorio;
 import br.com.desktop.view.PanelListaTarefas;
 
 public class ListMenu<E extends Object> extends JList<E> {
@@ -66,6 +67,10 @@ public class ListMenu<E extends Object> extends JList<E> {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+                        
+                        if(menu.getNome().equalsIgnoreCase("Relatório")) {
+                        	exibirRelatorio(jFrame, usuarioLogado);
+                        }
                         
                         
                         for (Projeto projeto : projetos) {
@@ -160,5 +165,13 @@ public class ListMenu<E extends Object> extends JList<E> {
 		PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, jFrame, usuarioLogado);
 		mainPanel.revalidate();
 		mainPanel.repaint();
+   }
+    
+    public void exibirRelatorio(JFrameDashboard jFrame, Usuario usuarioLogado) {
+    	mainPanel.removeAll();
+//    	System.out.println("Entrou no exibir proejto");
+    	JPanelRelatorio jPanelRelatorio = new JPanelRelatorio(mainPanel, jFrame, usuarioLogado);
+    	mainPanel.revalidate();
+    	mainPanel.repaint();
    }
 }
