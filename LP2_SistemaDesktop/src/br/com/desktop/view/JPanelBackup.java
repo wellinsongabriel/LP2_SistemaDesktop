@@ -56,24 +56,12 @@ public class JPanelBackup extends JPanel {
 
 		@SuppressWarnings("rawtypes")
 		JList jListaBackups = new JList();
-		jListaBackups.setBounds(10, 83, 724, 74);
-//		list.setModel(model);
+		jListaBackups.setBounds(20, 83, 924, 74);
 		jListaBackups.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jListaBackups.setListData(arrayPaths);
 		add(jListaBackups);
 
-		// Adiciona um evento de mouse na lista
-//        list.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//                // Obtém o índice do item que está sob o mouse
-//                int index = list.locationToIndex(e.getPoint());
-//
-//                // Obtém o valor do item e mostra no console
-//                String item = arrayPaths[index];
-//                System.out.println("Mouse sobre o item: " + item);
-//            }
-//        });
+
 		JButton btnRestaurar = new JButton("Restaurar backup");
 		btnRestaurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +82,7 @@ public class JPanelBackup extends JPanel {
 		add(btnRestaurar);
 		
 		JScrollPane scrollPane = new JScrollPane(jListaBackups);
-		scrollPane.setBounds(10, 83, 725, 80);
+		scrollPane.setBounds(20, 83, 925, 80);
 		add(scrollPane);
 		
 		JButton btnNewButton = new JButton("Gerar backup");
@@ -111,7 +99,7 @@ public class JPanelBackup extends JPanel {
 				
 			}
 		});
-		btnNewButton.setBounds(10, 243, 125, 23);
+		btnNewButton.setBounds(20, 243, 125, 23);
 		add(btnNewButton);
 		
 		

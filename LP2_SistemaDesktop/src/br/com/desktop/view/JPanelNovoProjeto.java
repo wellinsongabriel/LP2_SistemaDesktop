@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import br.com.desktop.dao.FacadeDAO;
-import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.model.PanelRound;
 import br.com.desktop.model.Projeto;
 import br.com.desktop.model.ScrollBarPersonalizado;
@@ -40,7 +39,6 @@ public class JPanelNovoProjeto extends JPanel {
 	private JButton jButtonCriarProjeto;
 	private ArrayList<Usuario> usuariosSelecionados;
 	private FacadeDAO facadeDao;
-	private ProjetoDAO projetoDAO;
 
 	
 	public JPanelNovoProjeto(JPanel mainPanel, JFrameDashboard jFrame, Usuario usuarioLogado) {
@@ -58,7 +56,7 @@ public class JPanelNovoProjeto extends JPanel {
 		PanelRound panelInformacoesProjeto = new PanelRound();
 		panelInformacoesProjeto.setAllRound(50);
 		panelInformacoesProjeto.setBackground(new Color(0, 255, 0));
-		panelInformacoesProjeto.setBounds(44, 86, 900, 301);
+		panelInformacoesProjeto.setBounds(44, 86, 900, 101);
 		panelInformacoesProjeto.setLayout(null);
 
 		textFieldNomeProjeto = new JTextField();
@@ -78,19 +76,21 @@ public class JPanelNovoProjeto extends JPanel {
 		panelInformacoesProjeto.add(lblNewLabel);
 
 		jButtonCriarProjeto = new JButton("Criar projeto");
-		jButtonCriarProjeto.setBounds(148, 161, 134, 30);
+		jButtonCriarProjeto.setBounds(447, 45, 134, 30);
+		jButtonCriarProjeto.setBackground(new Color(255,128,0));
+		jButtonCriarProjeto.setForeground( Color.white);
 		panelInformacoesProjeto.add(jButtonCriarProjeto);
 
 		this.add(panelInformacoesProjeto);
 
 		JPanel headerTabela = new JPanel();
 		headerTabela.setBackground(new Color(118, 142, 150));
-		headerTabela.setBounds(44, 403, 900, 30);
+		headerTabela.setBounds(34, 203, 930, 30);
 		headerTabela.setLayout(null);
 
 		JLabel lblHeaderNome = new JLabel("                                                      Nome");
 		lblHeaderNome.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblHeaderNome.setBounds(0, 0, 877, 30);
+		lblHeaderNome.setBounds(0, 0, 907, 30);
 		headerTabela.add(lblHeaderNome);
 
 		this.add(headerTabela);
@@ -99,7 +99,7 @@ public class JPanelNovoProjeto extends JPanel {
 		panelFundoLinhasTabela.setBorder(new LineBorder(Color.gray));
 		panelFundoLinhasTabela.setBackground(new Color(255, 255, 255));
 		panelFundoLinhasTabela.setLayout(new BorderLayout());
-		panelFundoLinhasTabela.setBounds(44, 432, 900, 121);
+		panelFundoLinhasTabela.setBounds(34, 232, 930, 300);
 		PanelRound panelAuxLinhasTabela = new PanelRound();
 		panelAuxLinhasTabela.setAllRound(3);
 		JPanel panelLinhasTabela = criarPainel();
@@ -135,9 +135,8 @@ public class JPanelNovoProjeto extends JPanel {
 
 				}
 				long diaHoraAtual = new Date().getTime();
-				projetoDAO = new ProjetoDAO();
 				try {
-					projetoDAO.criarProjeto(
+					facadeDao.criarProjeto(
 							new Projeto(textFieldNomeProjeto.getText(), usuariosSelecionados));
 
 				} catch (SQLException e1) {
@@ -145,14 +144,14 @@ public class JPanelNovoProjeto extends JPanel {
 				}
 				Projeto projetoAtual = null;
 				try {
-					projetoAtual = projetoDAO.consultarProjeto(0, diaHoraAtual);
+					projetoAtual = facadeDao.consultarProjeto(0, diaHoraAtual);
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 
 				try {
-					projetoDAO.criarProjetoUsuario(projetoAtual, usuariosSelecionados);
+					facadeDao.criarProjetoUsuario(projetoAtual, usuariosSelecionados);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -197,7 +196,6 @@ public class JPanelNovoProjeto extends JPanel {
 		ArrayList<Usuario> usuarios = null;
 		try {
 			usuarios = facadeDao.listarUsuarios();
-
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < usuarios.size(); i++) {

@@ -2,6 +2,7 @@ package br.com.desktop.view;
 
 
 import java.awt.Color;
+import java.awt.Toolkit;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -29,7 +30,8 @@ public class JFrameDashboard extends javax.swing.JFrame {
         initComponents(this, usuario);
         setBackground(new Color(0, 0, 0, 0));
         setExtendedState(MAXIMIZED_VERT);
-        
+        setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(JFrameDashboard.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
         menu.initMoving(JFrameDashboard.this);       
     }
     

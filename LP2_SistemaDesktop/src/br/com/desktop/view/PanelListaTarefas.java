@@ -1,20 +1,25 @@
 package br.com.desktop.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.BordaCantoArredondado;
@@ -32,13 +37,14 @@ public class PanelListaTarefas extends JPanel {
 	private static final long serialVersionUID = -6237904463702694694L;
 	private JScrollPane scroll;
 	private Usuario usuarioLogado;
+	private FacadeDAO facadeDao = new FacadeDAO();
 
 	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
-		
+		System.out.println(projeto.toString());
 	
 		setOpaque(false);
-		setBounds(10, 10, 1000, 800);
+		setBounds(10, 10, 1000, 900);
 		setLayout(null);
 		
 		
@@ -203,6 +209,34 @@ public class PanelListaTarefas extends JPanel {
 				novoConcluido.setCursor(Cursor.getDefaultCursor());
 			}
 		});
+		
+		JLabel jLabelParticipantesProjeto = new JLabel("Participantes do projeto");
+		jLabelParticipantesProjeto.setFont(new Font("Tahoma", Font.BOLD, 16));
+		jLabelParticipantesProjeto.setBounds(0, 735, 900, 100);
+		add(jLabelParticipantesProjeto);
+		
+		ArrayList<String> nomesUsuariosProjeto = new ArrayList<>();
+		try {
+			nomesUsuariosProjeto = facadeDao.listarUsuariosProjetos(projeto.getId());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		JPanel panelUsuariosProjeto = new JPanel();
+		panelUsuariosProjeto.setBounds(0, 750, 900, 100);
+		panelUsuariosProjeto.setLayout(new BoxLayout(panelUsuariosProjeto, BoxLayout.X_AXIS));
+		panelUsuariosProjeto.setBackground(new Color(242,242,242));
+		for (String nomeUsuario : nomesUsuariosProjeto) {
+
+			
+			JLabel jLabelNomeUsuario = new JLabel(" @"+nomeUsuario);
+			jLabelNomeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			jLabelNomeUsuario.setBackground(Color.white);
+			jLabelNomeUsuario.setForeground(Color.gray);
+			
+			panelUsuariosProjeto.add(jLabelNomeUsuario);
+		}
+		
+		add(panelUsuariosProjeto);
 
 	mainPanel.add(this);
     }
@@ -210,10 +244,10 @@ public class PanelListaTarefas extends JPanel {
 	public  PanelRound criarPainel(int status,  JFrame jframe, Projeto projeto) {
 		PanelRound panel = new PanelRound();
 		panel.setAllRound(50);
-		FacadeDAO dao = new FacadeDAO();
+		
 		ArrayList<Tarefa> tarefas = null;
 		try {
-			tarefas = dao.listarTarefa(status, projeto);
+			tarefas = facadeDao.listarTarefa(status, projeto);
 			panel.setLayout(new GridLayout(tarefas.size() < 3 ? 3 : tarefas.size(), 1, 10, 10));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {

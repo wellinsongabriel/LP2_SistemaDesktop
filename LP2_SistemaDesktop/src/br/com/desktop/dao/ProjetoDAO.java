@@ -32,6 +32,17 @@ public class ProjetoDAO {
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
+	private static final String LISTAR_USUARIOS_PROJETO = " SELECT  * "
+			+ " FROM PROJETO P "
+			+ " INNER JOIN "
+			+ " PROJETO_USUARIO PU "
+			+ " ON(P.ID = PU.ID_PROJETO)"
+			+ " INNER JOIN "
+			+ " USUARIO U "
+			+ " ON(PU.ID_USUARIO = U.ID) "
+			+ " WHERE 1=1 "
+			+ " AND PU.ID_PROJETO = ? ";
+	
 //	private static final String LISTAR_PROJETO_INNER_JOIN_PROJETO_USUARIO = " SELECT P.ID, P.NOME, P.STATUS, PU.ID_USUARIO " + 
 //	" FROM PROJETO  P " +
 //	" INNER JOIN PROJETO_USUARIO PU " +
@@ -42,9 +53,6 @@ public class ProjetoDAO {
 	
 //	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
 	
-	private Projeto montarProjeto(ResultSet rs) throws SQLException {
-		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CRIACAO"));
-	}
 	
 	public ProjetoDAO() {
 		
@@ -168,6 +176,34 @@ public class ProjetoDAO {
 		return projeto;
 	}
 	
+	public ArrayList<String> listarUsuariosProjetos(int idProjeto) throws Exception {
+		ArrayList<String> usuariosProjetos = new ArrayList<>();
+
+		try {
+			abrirConexao();
+
+			String sql = LISTAR_USUARIOS_PROJETO;
+
+			
+			preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement.setInt(1, idProjeto);
+
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				usuariosProjetos.add(rs.getString("USUARIO"));
+			}
+
+		} finally {
+			fecharConexao();
+
+		}
+		if (usuariosProjetos.size() < 0) {
+			throw new Exception("Nenhum usuário vinculado ao projeto");
+
+		}
+		return usuariosProjetos;
+	}
 	
 	public void criarProjetoUsuario(Projeto projeto, ArrayList<Usuario> usuariosSelecionados) throws SQLException {
 
@@ -188,6 +224,11 @@ public class ProjetoDAO {
 			}			
 		}
 		JOptionPane.showMessageDialog(null, "Projeto incluído com sucesso");		
+	}
+	
+	
+	private Projeto montarProjeto(ResultSet rs) throws SQLException {
+		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CRIACAO"));
 	}
 	
 	private boolean validarDadosProjeto(Projeto projeto) {

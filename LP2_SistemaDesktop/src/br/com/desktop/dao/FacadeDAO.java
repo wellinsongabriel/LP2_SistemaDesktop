@@ -49,8 +49,23 @@ public class FacadeDAO {
 	}
 
 	// PROJETOS
+	public void criarProjeto(Projeto projeto) throws SQLException {
+		projetoDAO.criarProjeto(projeto);	
+	}
+	
+	public Projeto consultarProjeto(int id, long dataHoraCriacao)  throws Exception {
+		return projetoDAO.consultarProjeto(id, dataHoraCriacao);
+	}
+	
+	public void criarProjetoUsuario(Projeto projeto, ArrayList<Usuario> usuariosSelecionados) throws SQLException {
+		projetoDAO.criarProjetoUsuario(projeto, usuariosSelecionados);
+	}
+	
 	public ArrayList<Projeto> listarProjetos() throws Exception {
 		return projetoDAO.listarProjetos();
 	}
 
+	public ArrayList<String> listarUsuariosProjetos(int idProjeto) throws Exception {
+		return projetoDAO.listarUsuariosProjetos(idProjeto);
+	}
 }
