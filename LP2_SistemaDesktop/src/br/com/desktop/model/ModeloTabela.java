@@ -2,9 +2,7 @@ package br.com.desktop.model;
 
 import java.util.ArrayList;
 
-import javax.swing.JCheckBox;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 
 public class ModeloTabela extends AbstractTableModel{
 	/**
@@ -50,7 +48,6 @@ public class ModeloTabela extends AbstractTableModel{
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		 if (columnIndex == 1) {
-			 	System.out.println(aValue);
 	            Usuario usuario = usuarios.get(rowIndex);
 	            Object obj = aValue.toString().equalsIgnoreCase("false")?true:false;
 	            usuario.setSelecionado((Boolean) obj);

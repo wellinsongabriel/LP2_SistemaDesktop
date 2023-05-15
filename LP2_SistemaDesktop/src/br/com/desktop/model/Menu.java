@@ -10,16 +10,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.view.JFrameDashboard;
-import br.com.desktop.view.JPanelNovoProjeto;
 
 public class Menu extends javax.swing.JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -884336599351434558L;
+	@SuppressWarnings("unused")
 	private EventMenuSelected event;
 	private Usuario usuarioLogado;
 	private JPanel mainPanel;
@@ -50,7 +53,6 @@ public class Menu extends javax.swing.JPanel {
 		try {
 			 projetos = projetoDAO.listarProjetos();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for(int i=0;i<projetos.size();i++) {//fazer for em projetos
@@ -69,7 +71,7 @@ public class Menu extends javax.swing.JPanel {
 		listMenu1.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
 	}
 
-	@SuppressWarnings("unchecked")
+
 	private void initComponents(JFrameDashboard jFrame) {
 
 		panelMoving = new javax.swing.JPanel();

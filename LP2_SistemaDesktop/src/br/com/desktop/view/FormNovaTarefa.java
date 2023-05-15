@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -24,17 +25,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
-import br.com.desktop.dao.DAO;
+import br.com.desktop.dao.TarefaDAO;
+import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
 
-import java.awt.Toolkit;
-
 public class FormNovaTarefa extends JFrame {
 
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2124488123044572053L;
+	
 	private JPanel contentPane;
 	private static int xx;
 	private static int xy;
@@ -42,6 +48,7 @@ public class FormNovaTarefa extends JFrame {
 	private JTextField textNomeEtiquetaTarefa;
 	private int corEtiqueta;
 	private int status;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxStatus;
 	private JButton buttonCorEtiqueta;
 	JTextArea textAreaDescricaoTarefa;
@@ -50,15 +57,15 @@ public class FormNovaTarefa extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			System.out.println("Error setting native LAF: " + e);
-		}
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		} catch (Exception e) {
+//			System.out.println("Error setting native LAF: " + e);
+//		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1,null);
+					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1,null,null);
 					frame.setUndecorated(true); // retira a barra da janela
 					frame.setResizable(false); // desabilitar maximar
 					frame.setLocationRelativeTo(null);// alinhar ao centro
@@ -74,7 +81,8 @@ public class FormNovaTarefa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado, Projeto projeto) {
 		setTitle("TaksManager");
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
@@ -166,12 +174,12 @@ public class FormNovaTarefa extends JFrame {
 		JButton buttonAdicionarTarefa = new JButton("Salvar");
 		buttonAdicionarTarefa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO dao = new DAO();
+				TarefaDAO dao = new TarefaDAO();
 				if(tarefaAlteracao==null) {
 				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(),
 						textNomeEtiquetaTarefa.getText(), corEtiqueta, new Date(), null, status);
 				try {
-					dao.cadastrarTarefa(tarefa);
+					dao.cadastrarTarefa(tarefa, projeto);
 					if (jframe != null) {
 						jframe.dispose();
 						JFrameDashboard formListaTarefas = new JFrameDashboard(usuarioLogado);
@@ -183,7 +191,6 @@ public class FormNovaTarefa extends JFrame {
 					}
 					dispose();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				}else {
@@ -207,7 +214,6 @@ public class FormNovaTarefa extends JFrame {
 						}
 						dispose();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -275,7 +281,6 @@ public class FormNovaTarefa extends JFrame {
 		comboBoxStatus = new JComboBox();
 		comboBoxStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(comboBoxStatus.getSelectedIndex());
 				status = comboBoxStatus.getSelectedIndex();
 			}
 		});

@@ -17,9 +17,6 @@ public class ProjetoDAO {
 	private static Connection connection = null;
 	private static PreparedStatement preparedStatement = null;
 	private static ResultSet rs = null;
-	
-	private static final  String DRIVER = "org.sqlite.JDBC";
-	private static final String BD = "jdbc:sqlite:resources/bdprojeto.db";
 
 	private static final String CRIAR_PROJETO = " INSERT INTO PROJETO (ID, NOME, STATUS, DATA_CRIACAO, DATA_CONCLUSAO) " + 
 	" VALUES (NULL, ?, ?, ?, NULL) ";
@@ -35,15 +32,15 @@ public class ProjetoDAO {
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
-	private static final String LISTAR_PROJETO_INNER_JOIN_PROJETO_USUARIO = " SELECT P.ID, P.NOME, P.STATUS, PU.ID_USUARIO " + 
-	" FROM PROJETO  P " +
-	" INNER JOIN PROJETO_USUARIO PU " +
-	" ON(P.ID = PU.ID_PROJETO) " +
-	" WHERE   P.ID = ? ";
+//	private static final String LISTAR_PROJETO_INNER_JOIN_PROJETO_USUARIO = " SELECT P.ID, P.NOME, P.STATUS, PU.ID_USUARIO " + 
+//	" FROM PROJETO  P " +
+//	" INNER JOIN PROJETO_USUARIO PU " +
+//	" ON(P.ID = PU.ID_PROJETO) " +
+//	" WHERE   P.ID = ? ";
 	
 	private static final String AND_DATA_CRIACAO_MAIS_RECENTE = " AND DATA_CRIACAO >= ? "; 
 	
-	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
+//	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
 	
 	private Projeto montarProjeto(ResultSet rs) throws SQLException {
 		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CRIACAO"));
@@ -185,7 +182,7 @@ public class ProjetoDAO {
 				preparedStatement.execute();
 				connection.commit();
 
-				System.out.println("Usuario "+usuario.getUsuario()+" vinculado ao projeto "+projeto.getTitulo());
+//				System.out.println("Usuario "+usuario.getUsuario()+" vinculado ao projeto "+projeto.getTitulo());
 			} finally {
 				fecharConexao();
 			}			

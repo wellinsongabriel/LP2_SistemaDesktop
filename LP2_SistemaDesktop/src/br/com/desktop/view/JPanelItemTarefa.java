@@ -22,16 +22,15 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
-import br.com.desktop.dao.DAO;
+import br.com.desktop.dao.TarefaDAO;
 import br.com.desktop.model.BordaCantoArredondado;
+import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
 
 public class JPanelItemTarefa extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	private static final long serialVersionUID = -1707354796477643197L;
 	protected int id;
 	protected String tituloTarefa;
 	protected String descricaoTarefa;
@@ -88,7 +87,7 @@ public class JPanelItemTarefa extends JPanel {
 		this.id = id;
 	}
 
-	public JPanelItemTarefa(Tarefa tarefa, JFrame jFramePrincipal, Usuario usuario) {
+	public JPanelItemTarefa(Tarefa tarefa, JFrame jFramePrincipal, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
 		
 		// MouseListener m = new MouseListener();
@@ -131,10 +130,10 @@ public class JPanelItemTarefa extends JPanel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 JPanelItemTarefa panel = (JPanelItemTarefa) e.getSource();
+//				 JPanelItemTarefa panel = (JPanelItemTarefa) e.getSource();
 				
 				if (e.getButton() == 1) {//clique esquerdo
-					FormNovaTarefa novaTarefa = new FormNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus(), usuarioLogado);
+					FormNovaTarefa novaTarefa = new FormNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus(), usuarioLogado, projeto);
 					novaTarefa.setUndecorated(true); // retira a barra da janela
 					novaTarefa.setResizable(false); // desabilitar maximar
 					novaTarefa.setLocationRelativeTo(null);// alinhar ao centro
@@ -154,12 +153,10 @@ public class JPanelItemTarefa extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 			
 				int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir a tarefa " +id+ " ?", "Aviso",
 						JOptionPane.INFORMATION_MESSAGE);
-				System.out.println(resposta);
-				DAO dao = new DAO();
+				TarefaDAO dao = new TarefaDAO();
 				if (resposta ==  JOptionPane.YES_OPTION) {
 					
 					try {
@@ -172,7 +169,6 @@ public class JPanelItemTarefa extends JPanel {
 						formListaTarefas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						formListaTarefas.setVisible(true);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

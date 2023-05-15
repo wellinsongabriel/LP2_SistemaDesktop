@@ -62,7 +62,6 @@ public class Model_Menu {
 	
 	public Icon toIcone() {
 //		jLabel1.setIcon(new ImageIcon(Menu.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
-//		System.out.println(icone);
 		return new ImageIcon(Model_Menu.class.getResource("/br/com/desktop/image/" + icone + ".png"));
 	}
 

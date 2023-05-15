@@ -16,6 +16,11 @@ import br.com.desktop.model.Usuario;
 
 public class JItemTabelaUsuario extends JPanel {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8493344856975460990L;
 	private Usuario usuario;
 	private boolean selecionado = false;
 	
@@ -45,7 +50,6 @@ public class JItemTabelaUsuario extends JPanel {
 
 		checkBoxSelecao.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-//				System.out.println(usuariosAdicionados);
 				JCheckBox checkBox = (JCheckBox) e.getSource();
 				JPanel panelLinhaTabela = (JPanel) checkBox.getParent();
 

@@ -11,7 +11,9 @@ import java.awt.RenderingHints;
 
 public class MenuItem extends javax.swing.JPanel {
 
-    private boolean selected;
+
+	private static final long serialVersionUID = 4328615621213558378L;
+	private boolean selected;
     private boolean over;
 
     public MenuItem(Model_Menu data) {
@@ -41,8 +43,6 @@ public class MenuItem extends javax.swing.JPanel {
         repaint();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lbIcon = new javax.swing.JLabel();
@@ -69,7 +69,7 @@ public class MenuItem extends javax.swing.JPanel {
             .addComponent(lbIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     @Override
     protected void paintComponent(Graphics grphcs) {
@@ -86,8 +86,6 @@ public class MenuItem extends javax.swing.JPanel {
         super.paintComponent(grphcs);
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbIcon;
     private javax.swing.JLabel lbName;
-    // End of variables declaration//GEN-END:variables
 }

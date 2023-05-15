@@ -17,13 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import org.exolab.castor.types.DateTime;
-
-import br.com.desktop.dao.DAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.model.PanelRound;
 import br.com.desktop.model.Projeto;
@@ -31,20 +28,23 @@ import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Usuario;
 
 public class JPanelNovoProjeto extends JPanel {
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1119782934809884000L;
 	private JTextField textFieldNomeProjeto;
-	private JTextField textField_1;
 	private JScrollPane scroll;
 	private JItemTabelaUsuario jPanelItemTarefa;
 	private JButton jButtonCriarProjeto;
 	private ArrayList<Usuario> usuariosSelecionados;
-	private DAO dao;
+	private FacadeDAO facadeDao;
 	private ProjetoDAO projetoDAO;
 
-	/**
-	 * Create the panel.
-	 */
+	
 	public JPanelNovoProjeto(JPanel mainPanel, JFrameDashboard jFrame, Usuario usuarioLogado) {
-		dao = new DAO();
+		facadeDao = new FacadeDAO();
 		usuariosSelecionados = new ArrayList<>();
 		setBorder(null);
 		setOpaque(true);
@@ -55,14 +55,6 @@ public class JPanelNovoProjeto extends JPanel {
 		setOpaque(true);
 		setBounds(44, 86, 1000, 800);
 		setLayout(null);
-
-//		PanelRound fundoPanelNovoProjeto = new PanelRound();
-//		fundoPanelNovoProjeto.setAllRound(50);
-//		fundoPanelNovoProjeto.setBackground(Color.white);
-//		fundoPanelNovoProjeto.setOpaque(true);
-//		fundoPanelNovoProjeto.setBounds(44, 86, 1000, 800);
-//		fundoPanelNovoProjeto.setLayout(null);
-
 		PanelRound panelInformacoesProjeto = new PanelRound();
 		panelInformacoesProjeto.setAllRound(50);
 		panelInformacoesProjeto.setBackground(new Color(0, 255, 0));
@@ -79,17 +71,6 @@ public class JPanelNovoProjeto extends JPanel {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_1.setBounds(47, 25, 125, 14);
 		panelInformacoesProjeto.add(lblNewLabel_1);
-
-//		textField_1 = new JTextField();
-//		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-//		textField_1.setColumns(10);
-//		textField_1.setBounds(47, 125, 369, 35);
-//		panelInformacoesProjeto.add(textField_1);
-//
-//		JLabel lblNewLabel_1_1 = new JLabel("Nome do projeto");
-//		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-//		lblNewLabel_1_1.setBounds(47, 107, 125, 14);
-//		panelInformacoesProjeto.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel = new JLabel("Novo Projeto");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -143,10 +124,8 @@ public class JPanelNovoProjeto extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println();
 				for (Component panelConcluido : panelLinhasTabela.getComponents()) {
 					if (panelConcluido instanceof JItemTabelaUsuario) {
-						System.out.println(((JItemTabelaUsuario) panelConcluido).isSelecionado());
 
 						if (((JItemTabelaUsuario) panelConcluido).isSelecionado()) {
 							usuariosSelecionados.add(((JItemTabelaUsuario) panelConcluido).getUsuario());						
@@ -177,18 +156,15 @@ public class JPanelNovoProjeto extends JPanel {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				System.out.println(usuariosSelecionados);
 				
 				usuariosSelecionados = new ArrayList<>();
 				textFieldNomeProjeto.setText("");
 				for (Component panelConcluido : panelLinhasTabela.getComponents()) {
-					if (panelConcluido instanceof JItemTabelaUsuario) {
-						System.out.println(((JItemTabelaUsuario) panelConcluido).isSelecionado());						
+					if (panelConcluido instanceof JItemTabelaUsuario) {					
 						for (Component jItemTabelaUsuario : ((JItemTabelaUsuario) panelConcluido).getComponents()) {
 							if (jItemTabelaUsuario instanceof PanelRound) {
 								for (Component panelRound : ((PanelRound) jItemTabelaUsuario).getComponents()) {
 									if (panelRound instanceof JCheckBox) {
-//										System.out.println(((JCheckBox) panelRound).isSelected());
 										if(((JCheckBox) panelRound).isSelected()) {
 											((JCheckBox) panelRound).setSelected(false);
 										}
@@ -220,7 +196,7 @@ public class JPanelNovoProjeto extends JPanel {
 
 		ArrayList<Usuario> usuarios = null;
 		try {
-			usuarios = dao.listarUsuarios();
+			usuarios = facadeDao.listarUsuarios();
 
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setBackground(new Color(255, 255, 255));

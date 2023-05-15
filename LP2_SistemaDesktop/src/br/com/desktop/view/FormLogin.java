@@ -1,51 +1,38 @@
 package br.com.desktop.view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.awt.Dimension;
-import java.awt.Component;
-import javax.swing.SwingConstants;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
-import java.awt.SystemColor;
-import javax.swing.border.LineBorder;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import br.com.desktop.controller.Criptografia;
-import br.com.desktop.dao.DAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.Usuario;
-
-import java.awt.Toolkit;
 
 public class FormLogin extends JFrame {
 
+	private static final long serialVersionUID = -8739077760698271069L;
+	
 	private JPanel contentPane;
-	private static int xx;
-	private static int xy;
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
 	private FormLogin formLogin;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,9 +48,7 @@ public class FormLogin extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public FormLogin() {
 		formLogin = this;
 		setTitle("TaskMaster - Login");
@@ -73,24 +58,10 @@ public class FormLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
 		contentPane = new JPanel();
-		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-//				int x = e.getXOnScreen();
-//				int y = e.getYOnScreen();
-//				setLocation(x - xx, y - xy);
-			}
-		});
-		contentPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-//				xx = e.getX();
-//				xy = e.getY();
-			}
-		});
+		
 		contentPane.setPreferredSize(new Dimension(10, 378));
 		contentPane.setMinimumSize(new Dimension(10, 378));
-		contentPane.setMaximumSize(new Dimension(32767, 378));
+		contentPane.setMaximumSize(new Dimension(10, 378));
 		contentPane.setBackground(Color.WHITE);
 
 		setContentPane(contentPane);
@@ -99,7 +70,7 @@ public class FormLogin extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(10, 378));
 		panel.setMinimumSize(new Dimension(10, 378));
-		panel.setMaximumSize(new Dimension(32767, 378));
+		panel.setMaximumSize(new Dimension(10, 378));
 		panel.setBackground(new Color(0, 128, 128));
 		panel.setBounds(0, 0, 316, 376);
 		contentPane.add(panel);
@@ -116,31 +87,6 @@ public class FormLogin extends JFrame {
 		lblNewLabel_1_2.setForeground(new Color(255, 128, 0));
 		lblNewLabel_1_2.setFont(new Font("DejaVu Sans", Font.BOLD, 30));
 
-		JLabel lblBotaoFecharX = new JLabel("X");
-		lblBotaoFecharX.setVisible(false);
-		lblBotaoFecharX.setBackground(Color.WHITE);
-		lblBotaoFecharX.setOpaque(true);
-		lblBotaoFecharX.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBotaoFecharX.setToolTipText("Fechar");
-		lblBotaoFecharX.setBounds(686, 1, 32, 29);
-		contentPane.add(lblBotaoFecharX);
-		lblBotaoFecharX.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblBotaoFecharX.setBackground(new Color(255, 0, 0));
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblBotaoFecharX.setBackground(new Color(255, 255, 255));
-			}
-		});
-		lblBotaoFecharX.setFont(new Font("Arial", Font.PLAIN, 18));
 
 		JLabel lblNewLabel_1 = new JLabel("BEM VINDO");
 		lblNewLabel_1.setForeground(new Color(255, 128, 0));
@@ -170,12 +116,11 @@ public class FormLogin extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				DAO dao = new DAO();
+				FacadeDAO dao = new FacadeDAO();
 				try {
 
-					Criptografia criptografia = new Criptografia(passwordField.getText(), Criptografia.SHA256);
+					Criptografia criptografia = new Criptografia(new String(passwordField.getPassword()), Criptografia.SHA256);
 					Usuario usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
-//					System.out.println(usuario.toString());
 
 					if (usuario != null) {
 						JFrameDashboard jFrameDashboard = new JFrameDashboard(usuario);
@@ -221,31 +166,7 @@ public class FormLogin extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(375, 190, 239, 17);
 		contentPane.add(lblNewLabel_1_1_1_1);
 
-		JLabel lblBotaoMinimizar = new JLabel("-");
-		lblBotaoMinimizar.setVisible(false);
-		lblBotaoMinimizar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblBotaoMinimizar.setBackground(new Color(210, 210, 210));
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblBotaoMinimizar.setBackground(new Color(255, 255, 255));
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setExtendedState(JFrame.ICONIFIED);
-			}
-		});
-		lblBotaoMinimizar.setToolTipText("Minimizar");
-		lblBotaoMinimizar.setOpaque(true);
-		lblBotaoMinimizar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBotaoMinimizar.setFont(new Font("Arial", Font.PLAIN, 18));
-		lblBotaoMinimizar.setBackground(Color.WHITE);
-		lblBotaoMinimizar.setBounds(654, 1, 32, 29);
-		contentPane.add(lblBotaoMinimizar);
+		
 		
 		textFieldUsuario.setText("Admin");
 		passwordField.setText("123456");

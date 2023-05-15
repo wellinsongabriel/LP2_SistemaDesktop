@@ -1,6 +1,5 @@
 package br.com.desktop.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -17,9 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
-import br.com.desktop.dao.DAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.BordaCantoArredondado;
 import br.com.desktop.model.PanelRound;
+import br.com.desktop.model.Projeto;
 import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
@@ -29,42 +29,11 @@ public class PanelListaTarefas extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6237904463702694694L;
 	private JScrollPane scroll;
-	private ScrollBarPersonalizado sp;
-	private PanelRound panelAFazer;
-	private PanelRound panelEmAndamento;
 	private Usuario usuarioLogado;
-//	private PanelRound panelConcluido;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//
-//					PanelListaTarefas frame = new PanelListaTarefas();
-//
-//					//frame.setUndecorated(true); // retira a barra da janela
-////					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-////					frame.setResizable(false); // desabilitar maximar
-////					frame.setLocationRelativeTo(null);// alinhar ao centro
-//					frame.setVisible(true);
-//					
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
-	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario) {
+	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
 		
 	
@@ -91,7 +60,7 @@ public class PanelListaTarefas extends JPanel {
 		baseScrollPanelAFazer.setOpaque(true);
 		baseScrollPanelAFazer.setBackground(Color.white);
 		baseScrollPanelAFazer.setAllRound(50);		
-		PanelRound panelItenAFazer = criarPainel(0, jframe);
+		PanelRound panelItenAFazer = criarPainel(0, jframe,projeto);
 		panelItenAFazer.setAllRound(100);
 		panelItenAFazer.setBackground(new Color(255, 255, 255));
 		baseScrollPanelAFazer.add(panelItenAFazer);
@@ -125,7 +94,7 @@ public class PanelListaTarefas extends JPanel {
 		baseScrollpanelEmAndamento.setOpaque(true);
 		baseScrollpanelEmAndamento.setBackground(Color.white);
 		baseScrollpanelEmAndamento.setAllRound(50);		
-		PanelRound panelItenEmAndamento = criarPainel(1, jframe);
+		PanelRound panelItenEmAndamento = criarPainel(1, jframe,projeto);
 		panelItenEmAndamento.setAllRound(100);
 		panelItenEmAndamento.setBackground(new Color(255, 255, 255));
 		baseScrollpanelEmAndamento.add(panelItenEmAndamento);
@@ -161,7 +130,7 @@ public class PanelListaTarefas extends JPanel {
 		baseScrollpanelConcluido.setOpaque(true);
 		baseScrollpanelConcluido.setBackground(Color.white);
 		baseScrollpanelConcluido.setAllRound(50);		
-		PanelRound panelItenConcluido = criarPainel(2, jframe);
+		PanelRound panelItenConcluido = criarPainel(2, jframe, projeto);
 		panelItenConcluido.setAllRound(100);
 		panelItenConcluido.setBackground(new Color(255, 255, 255));
 		baseScrollpanelConcluido.add(panelItenConcluido);
@@ -178,7 +147,7 @@ public class PanelListaTarefas extends JPanel {
 		novoAfazer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,0,usuarioLogado);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,0,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -198,7 +167,7 @@ public class PanelListaTarefas extends JPanel {
 		novoEmAndamento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1,usuarioLogado);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -218,7 +187,7 @@ public class PanelListaTarefas extends JPanel {
 		novoConcluido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,2,usuarioLogado);
+				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,2,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -238,18 +207,18 @@ public class PanelListaTarefas extends JPanel {
 	mainPanel.add(this);
     }
 
-	public  PanelRound criarPainel(int status,  JFrame jframe) {
+	public  PanelRound criarPainel(int status,  JFrame jframe, Projeto projeto) {
 		PanelRound panel = new PanelRound();
 		panel.setAllRound(50);
-		DAO dao = new DAO();
+		FacadeDAO dao = new FacadeDAO();
 		ArrayList<Tarefa> tarefas = null;
 		try {
-			tarefas = dao.listarTarefa(status);
+			tarefas = dao.listarTarefa(status, projeto);
 			panel.setLayout(new GridLayout(tarefas.size() < 3 ? 3 : tarefas.size(), 1, 10, 10));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {
 				for (int j = 0; j < 1; j++) {
-					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado);
+					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado, projeto);
 					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
 					jPanelItemTarefa.setId(tarefas.get(i).getId());

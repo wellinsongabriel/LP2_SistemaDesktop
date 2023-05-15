@@ -15,7 +15,7 @@ public class Conexao {
 	}
 	
 
-	public static Conexao getInstancia() {
+	public static synchronized Conexao getInstancia() {
 		if (instancia == null) {
 			instancia = new Conexao();
 		}
@@ -23,7 +23,7 @@ public class Conexao {
 
 	}
 
-	public Connection abriConexao() {
+	public synchronized Connection abriConexao() {
 		try {
 			Class.forName(DRIVER);
 			conexao = DriverManager.getConnection(BD);
@@ -37,7 +37,7 @@ public class Conexao {
 	
 	
 	
-	public void fecharConexao() {
+	public synchronized void fecharConexao() {
 		try {
 	        if (conexao != null && !conexao.isClosed()) {
 	            conexao.close();

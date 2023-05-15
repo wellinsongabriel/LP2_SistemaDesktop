@@ -6,21 +6,20 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import br.com.desktop.view.FormLogin;
-
 public class Header extends javax.swing.JPanel {
 
-    public Header() {
+    
+	private static final long serialVersionUID = -449475467760326392L;
+	public Header() {
         initComponents();
         setOpaque(false);
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    
+
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-//        searchText1 = new SearchText();
         jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -61,10 +60,7 @@ public class Header extends javax.swing.JPanel {
         g2.fillRect(getWidth() - 25, getHeight() - 25, getWidth(), getHeight());
         super.paintComponent(grphcs);
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
 //    private SearchText searchText1;
-    // End of variables declaration//GEN-END:variables
 }

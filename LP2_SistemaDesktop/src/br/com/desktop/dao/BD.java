@@ -36,38 +36,24 @@ public class BD {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Base criada com sucesso");
+		JOptionPane.showMessageDialog(null,"Base criada com sucesso");
 
 		try {
-			criarTabelaUsuario();
+			rodarScript("CREATE_TABLE_USUARIO.sql");
+			rodarScript("CREATE_TABLE_PROJETO.sql");
+			rodarScript("CREATE_TABLE_TAREFA.sql");
+			rodarScript("CREATE_TABLE_PROJETO_USUARIO.sql");
+			criarUsuarioAdministrador();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private static void criarTabelaTarefa() throws SQLException {
+	
 
-		try {
-			connection = DriverManager.getConnection(BD);
-			statement = connection.createStatement();
-			String sql = "CREATE TABLE TAREFA " + "" + " ( " + " ID INTEGER NOT NULL PRIMARY KEY	AUTOINCREMENT, "
-					+ " TITULO CHAR(100), " + " DESCRICAO CHAR(244), " + " NOME_ETIQUETA CHAR(100), "
-					+ " COR_ETIQUETA INTEGER, " + " DATA_CRIACAO	DATE NOT NULL, " + " DATA_CONCLUSAO DATE, "
-					+ "	STATUS CHAR(20) " + " ) ";
-			statement.executeUpdate(sql);
-
-			System.out.println("Tabela TAREFA criada com sucesso");
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		} finally {
-			fecharConexao(statement, connection);
-		}
-
-	}
-
-	private static void criarTabelaUsuario() throws SQLException {
+	private static void rodarScript(String nomeScript) throws SQLException {
 
 		try {
 			connection = DriverManager.getConnection(BD);
@@ -75,7 +61,7 @@ public class BD {
 			String sql = lerArquivo("CREATE_TABLE_USUARIO.sql");
 			statement.executeUpdate(sql);
 
-			System.out.println("Tabela USUARIO criada com sucesso");
+			JOptionPane.showMessageDialog(null,"O script "+nomeScript+ " foi executado com sucesso");
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
@@ -85,30 +71,6 @@ public class BD {
 
 	}
 	
-	
-	private static void criarTabelaProjeto() throws SQLException {
-
-		try {
-			connection = DriverManager.getConnection(BD);
-			statement = connection.createStatement();
-			String sql = " CREATE TABLE PROJETO ( "
-					+ "	ID INTEGER NOT NULL PRIMARY KEY	AUTOINCREMENT, "
-					+ "	NOME CHAR(100),  "
-					+ "	STATUS INTEGER, "
-					+ "	DATA_CRIACAO	DATE NOT NULL, "
-					+ "	DATA_CONCLUSAO DATE "
-					+ "	)  ";
-			statement.executeUpdate(sql);
-
-			System.out.println("Tabela projeto criada com sucesso");
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		} finally {
-			fecharConexao(statement, connection);
-		}
-
-	}
 
 	private static void criarUsuarioAdministrador() throws SQLException {
 
@@ -127,7 +89,7 @@ public class BD {
 			preparedStatement.execute();
 			connection.commit();
 
-			System.out.println("Usuario administrador criado com sucesso");
+			JOptionPane.showMessageDialog(null,"Usuario administrador criado com sucesso");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -169,6 +131,7 @@ public class BD {
 			pathAbsolutoParcial = pathAbsolutoAtual.substring(0, pathAbsolutoAtual.lastIndexOf('/'));
 		}
 		FileReader reader = new FileReader(pathAbsolutoParcial+"/scripts/"+nomeScript);
+		@SuppressWarnings("resource")
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String linha;
 		StringBuilder stringBuilder = new StringBuilder();
@@ -178,7 +141,6 @@ public class BD {
 		script = stringBuilder.toString();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

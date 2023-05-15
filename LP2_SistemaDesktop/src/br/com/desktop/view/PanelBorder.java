@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 
 public class PanelBorder extends JPanel {
 
+
+	private static final long serialVersionUID = 3631274556657415330L;
+
 	public PanelBorder() {
 		setOpaque(false);
 		

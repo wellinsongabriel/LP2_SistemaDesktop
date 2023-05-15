@@ -49,12 +49,12 @@ public class Backup {
 
 		if (so.sistemaWindows()) {
 			pastaDestino.append("\\resources");
-			System.out.println(pastaDestino);
+//			System.out.println(pastaDestino);
 		} else {
 
 			pastaDestino.append("/");
 			pastaDestino.append("resources");
-			System.out.println(pastaDestino);
+//			System.out.println(pastaDestino);
 		}
 		// Cria um novo diretório para extrair os arquivos
 		File pasta = new File(pastaDestino.toString());
@@ -127,8 +127,8 @@ public class Backup {
 			zipPath.append("backup");
 			zipPath.append(formatoData.format(new Date()));
 			zipPath.append(".zip");
-			System.out.println(dirPath);
-			System.out.println(zipPath);
+//			System.out.println(dirPath);
+//			System.out.println(zipPath);
 		} else {
 
 			dirPath.append("/");
@@ -137,8 +137,8 @@ public class Backup {
 			zipPath.append("backup");
 			zipPath.append(formatoData.format(new Date()));
 			zipPath.append(".zip");
-			System.out.println(dirPath);
-			System.out.println(zipPath);
+//			System.out.println(dirPath);
+//			System.out.println(zipPath);
 		}
 		FileOutputStream fos = null;
 		ZipOutputStream zos = null;

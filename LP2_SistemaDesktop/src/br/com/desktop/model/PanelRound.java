@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 
 public class PanelRound extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 770111163797720583L;
+
 	public int getRoundTopLeft() {
 		return roundTopLeft;
 	}

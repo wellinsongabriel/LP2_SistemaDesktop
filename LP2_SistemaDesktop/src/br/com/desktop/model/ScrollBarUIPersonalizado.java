@@ -92,7 +92,13 @@ public class ScrollBarUIPersonalizado extends BasicScrollBarUI {
 
     private class ScrollBarButton extends JButton {
 
-        public ScrollBarButton() {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4384383777788370396L;
+
+		public ScrollBarButton() {
             setBorder(BorderFactory.createEmptyBorder());
         }
 
