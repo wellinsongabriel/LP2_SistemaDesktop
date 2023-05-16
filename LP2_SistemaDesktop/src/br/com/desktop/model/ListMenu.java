@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import br.com.desktop.dao.ProjetoDAO;
 import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelBackup;
+import br.com.desktop.view.JPanelGerenciaUsuario;
 import br.com.desktop.view.JPanelNovoProjeto;
 import br.com.desktop.view.JPanelRelatorio;
 import br.com.desktop.view.PanelListaTarefas;
@@ -77,6 +78,10 @@ public class ListMenu<E extends Object> extends JList<E> {
 
 						if (menu.getNome().equalsIgnoreCase("Backup")) {
 							exibirBackup(jFrame, usuarioLogado);
+						}
+						
+						if (menu.getNome().equalsIgnoreCase("Usuários")) {
+							exibirUsuarios(jFrame, usuarioLogado);
 						}
 
 						for (Projeto projeto : projetos) {
@@ -181,6 +186,13 @@ public class ListMenu<E extends Object> extends JList<E> {
 	private void exibirBackup(JFrameDashboard jFrame, Usuario usuarioLogado) {
 		mainPanel.removeAll();
 		new JPanelBackup(mainPanel, jFrame, usuarioLogado);
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+	
+	private void exibirUsuarios(JFrameDashboard jFrame, Usuario usuarioLogado) {
+		mainPanel.removeAll();
+		new JPanelGerenciaUsuario(mainPanel, jFrame, usuarioLogado);
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
