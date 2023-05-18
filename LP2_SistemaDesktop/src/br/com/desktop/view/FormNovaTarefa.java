@@ -27,7 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import br.com.desktop.dao.TarefaDAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
@@ -174,7 +174,7 @@ public class FormNovaTarefa extends JFrame {
 		JButton buttonAdicionarTarefa = new JButton("Salvar");
 		buttonAdicionarTarefa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TarefaDAO dao = new TarefaDAO();
+				FacadeDAO dao = new FacadeDAO();
 				if(tarefaAlteracao==null) {
 				Tarefa tarefa = new Tarefa(textTituloTarefa.getText(), textAreaDescricaoTarefa.getText(),
 						textNomeEtiquetaTarefa.getText(), corEtiqueta, new Date(), null, status);

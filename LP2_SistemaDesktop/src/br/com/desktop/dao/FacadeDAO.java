@@ -27,6 +27,18 @@ public class FacadeDAO {
 		return usuarioDAO.listarUsuarios();
 	}
 	
+	public void cadastrarUsuario(Usuario usuario) throws SQLException {
+		usuarioDAO.cadastrarUsuario(usuario);
+	}
+	
+	public void alterarUsuario(Usuario usuario) throws Exception {
+		usuarioDAO.alterarUsuario(usuario);
+	}
+	
+	public void excluirUsuario(int id) throws Exception {
+		usuarioDAO.excluirUsuario(id);
+	}
+	
 	// TAREFAS
 	public void cadastrarTarefa(Tarefa tarefa, Projeto projeto) throws SQLException {
 		tarefaDao.cadastrarTarefa(tarefa, projeto);

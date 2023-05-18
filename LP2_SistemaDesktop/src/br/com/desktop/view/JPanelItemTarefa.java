@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
-import br.com.desktop.dao.TarefaDAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.BordaCantoArredondado;
 import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Tarefa;
@@ -156,7 +156,7 @@ public class JPanelItemTarefa extends JPanel {
 			
 				int resposta = JOptionPane.showConfirmDialog(null, "Deseja excluir a tarefa " +id+ " ?", "Aviso",
 						JOptionPane.INFORMATION_MESSAGE);
-				TarefaDAO dao = new TarefaDAO();
+				FacadeDAO dao = new FacadeDAO();
 				if (resposta ==  JOptionPane.YES_OPTION) {
 					
 					try {

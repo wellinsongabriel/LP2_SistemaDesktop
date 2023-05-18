@@ -1,6 +1,7 @@
 package br.com.desktop.model;
 
 import java.awt.Component;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -8,13 +9,15 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
-import br.com.desktop.dao.ProjetoDAO;
+import br.com.desktop.dao.FacadeDAO;
+import br.com.desktop.view.FormLogin;
 import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelBackup;
 import br.com.desktop.view.JPanelGerenciaUsuario;
@@ -63,11 +66,11 @@ public class ListMenu<E extends Object> extends JList<E> {
 							exibirProjeto(jFrame, usuarioLogado);
 						}
 
-						ProjetoDAO projetoDAO = new ProjetoDAO();
+						FacadeDAO facadeDAO = new FacadeDAO();
 
 						ArrayList<Projeto> projetos = new ArrayList<>();
 						try {
-							projetos = projetoDAO.listarProjetos();
+							projetos = facadeDAO.listarProjetos();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -82,6 +85,15 @@ public class ListMenu<E extends Object> extends JList<E> {
 						
 						if (menu.getNome().equalsIgnoreCase("Usuários")) {
 							exibirUsuarios(jFrame, usuarioLogado);
+						}
+						
+						if (menu.getNome().equalsIgnoreCase("Sobre")) {
+							JFrame jframe = new JFrame();
+							jframe.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+							jframe.setLocationRelativeTo(null);
+							jframe.setSize(300,400);
+							jframe.setVisible(true);
 						}
 
 						for (Projeto projeto : projetos) {

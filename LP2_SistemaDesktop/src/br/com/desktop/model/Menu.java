@@ -11,9 +11,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import br.com.desktop.dao.ProjetoDAO;
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.view.JFrameDashboard;
 
 public class Menu extends javax.swing.JPanel {
@@ -23,13 +24,17 @@ public class Menu extends javax.swing.JPanel {
 	 */
 	private static final long serialVersionUID = -884336599351434558L;
 	@SuppressWarnings("unused")
+	private JLabel jLabel;
+	private ListMenu<String> listMenu;
+	private javax.swing.JPanel panelMoving;
+	@SuppressWarnings("unused")
 	private EventMenuSelected event;
 	private Usuario usuarioLogado;
 	private JPanel mainPanel;
 
 	public void addEventMenuSelected(EventMenuSelected event) {
 		this.event = event;
-		listMenu1.addEventMenuSelected(event);
+		listMenu.addEventMenuSelected(event);
 	}
 
 	public Menu(Usuario usuario, JPanel mainPanel, JFrameDashboard jFrame) {
@@ -37,80 +42,83 @@ public class Menu extends javax.swing.JPanel {
 		this.usuarioLogado = usuario;
 		initComponents(jFrame);
 		setOpaque(false);
-		listMenu1.setOpaque(false);
+		listMenu.setOpaque(false);
 		init();
 	}
 
 	private void init() {
 
-		listMenu1.addItem(new Model_Menu("", "Dashboard", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu1.addItem(new Model_Menu("", "Relatório", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("", "Todos projetos", Model_Menu.TipoMenu.TITULO));
+		listMenu.addItem(new Model_Menu("", "Dashboard", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("report", "Relatório", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new Model_Menu("", "Todos projetos", Model_Menu.TipoMenu.TITULO));
 		
-		ProjetoDAO projetoDAO = new ProjetoDAO();
+		FacadeDAO facadeDAO = new FacadeDAO();
 		ArrayList<Projeto> projetos = new ArrayList<>();
 		try {
-			 projetos = projetoDAO.listarProjetos();
+			 projetos = facadeDAO.listarProjetos();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		for(int i=0;i<projetos.size();i++) {//fazer for em projetos
-			listMenu1.addItem(new Model_Menu(String.valueOf(i+1), projetos.get(i).getTitulo(), Model_Menu.TipoMenu.MENU, projetos.get(i).getId()));
+			listMenu.addItem(new Model_Menu(String.valueOf(i+1), projetos.get(i).getTitulo(), Model_Menu.TipoMenu.MENU, projetos.get(i).getId()));
 		}
-		listMenu1.addItem(new Model_Menu("add_project", "Novo projeto", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("add_project", "Novo projeto", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
 
-		listMenu1.addItem(new Model_Menu("", "Gerenciar", Model_Menu.TipoMenu.TITULO));
+		listMenu.addItem(new Model_Menu("", "Gerenciar", Model_Menu.TipoMenu.TITULO));
 		if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("administrador")) {
-			listMenu1.addItem(new Model_Menu("", "Usuários", Model_Menu.TipoMenu.MENU));
+			listMenu.addItem(new Model_Menu("users", "Usuários", Model_Menu.TipoMenu.MENU));
 		}
-		listMenu1.addItem(new Model_Menu("", "Backup", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu1.addItem(new Model_Menu("", "Sair", Model_Menu.TipoMenu.MENU));
-		listMenu1.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("backup", "Backup", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("exit", "Sair", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new Model_Menu("info", "Sobre", Model_Menu.TipoMenu.MENU));
 	}
 
 
 	private void initComponents(JFrameDashboard jFrame) {
 
 		panelMoving = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		listMenu1 = new ListMenu<>(mainPanel, jFrame, usuarioLogado);
+		jLabel = new javax.swing.JLabel();
+		listMenu = new ListMenu<>(mainPanel, jFrame, usuarioLogado);
 
 		panelMoving.setOpaque(false);
 
-		jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-		jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-		jLabel1.setIcon(
+		jLabel.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+		jLabel.setForeground(new java.awt.Color(255, 255, 255));
+		jLabel.setIcon(
 				new javax.swing.ImageIcon(Menu.class.getResource("/br/com/desktop/image/logoTaskMaster48.png"))); // NOI18N
-		jLabel1.setText("TaskMaster");
+		jLabel.setText("TaskMaster");
 
 		javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
 		panelMoving.setLayout(panelMovingLayout);
 		panelMovingLayout
 				.setHorizontalGroup(panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(panelMovingLayout.createSequentialGroup().addContainerGap()
-								.addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+								.addComponent(jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
 								.addContainerGap()));
 		panelMovingLayout
 				.setVerticalGroup(panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
-								.addGap(15, 15, 15).addComponent(jLabel1).addContainerGap()));
+								.addGap(15, 15, 15).addComponent(jLabel).addContainerGap()));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addComponent(panelMoving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
 						Short.MAX_VALUE)
-				.addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+				.addComponent(listMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
 						Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(panelMoving, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(15, 15, 15)
-						.addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)));
+						.addComponent(listMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)));
 	}
 	@Override
 	protected void paintChildren(Graphics grphcs) {
@@ -146,7 +154,5 @@ public class Menu extends javax.swing.JPanel {
 	
 	
 
-	private javax.swing.JLabel jLabel1;
-	private ListMenu<String> listMenu1;
-	private javax.swing.JPanel panelMoving;
+	
 }

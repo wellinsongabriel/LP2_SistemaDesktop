@@ -1,4 +1,4 @@
-package br.com.desktop.view;
+package br.com.desktop.model;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

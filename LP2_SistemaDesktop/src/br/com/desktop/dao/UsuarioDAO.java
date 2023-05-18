@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import br.com.desktop.controller.Conexao;
+import br.com.desktop.controller.Criptografia;
 import br.com.desktop.model.Usuario;
 
 public class UsuarioDAO {
@@ -23,6 +24,15 @@ public class UsuarioDAO {
 	
 	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO ";
 	
+	private static final String CADASTRAR_USUARIO = " INSERT INTO USUARIO "
+			+ " (ID, USUARIO, SENHA, TIPO_USUARIO) "
+			+ " VALUES (null, ?, ?, ?)";
+	
+	private static final String ALTERAR_USUARIO = " UPDATE USUARIO SET " + " USUARIO = ?, " + " SENHA = ?, "
+			+ " TIPO_USUARIO = ? "
+			+ " WHERE ID = ? ";	
+	
+	private static final String EXCLUIR_USUARIO = " DELETE FROM USUARIO WHERE ID = ? ";
 	
 	public Usuario consultarUsuario(String nomeUsuario, String senhaCriptografada) throws Exception {
 
@@ -90,11 +100,93 @@ public class UsuarioDAO {
 		return usuarios;
 	}
 	
+	public void cadastrarUsuario(Usuario usuario) throws SQLException {
+//		if (validarDadosTarefa(tarefa)) {
+			try {
+				abrirConexao();
+				
+				String sql = CADASTRAR_USUARIO;
+				Criptografia criptografia = new Criptografia(usuario.getSenha(), Criptografia.SHA256);
+				preparedStatement = connection.prepareStatement(sql);
+				
+				int i = 1;
+				
+				preparedStatement.setString(i++, usuario.getUsuario());
+				preparedStatement.setString(i++,  criptografia.criptografar());
+				preparedStatement.setString(i++, usuario.getTipoUsuario());
+				
+				preparedStatement.execute();
+				connection.commit();
+				
+				JOptionPane.showMessageDialog(null, "Usuário incluído com sucesso");
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação", "",JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}finally {
+			
+				fecharConexao();
+			}
+			
+//		}
+	}
+	
+	public void alterarUsuario(Usuario usuario) throws Exception {
+
+//		if (consultarTarefa(id) != null) {
+			try {
+				abrirConexao();
+
+				String sql = ALTERAR_USUARIO;
+				preparedStatement = connection.prepareStatement(sql);
+
+				int i = 1;
+				preparedStatement.setString(i++, usuario.getUsuario());
+				preparedStatement.setString(i++, usuario.getSenha());
+				preparedStatement.setString(i++, usuario.getTipoUsuario());
+				
+				preparedStatement.setInt(i++, usuario.getId());
+				
+				preparedStatement.execute();
+				connection.commit();
+				
+				JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso");
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação", "",JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			} finally {
+				fecharConexao();
+			}
+//		} 
+//	else {
+//			JOptionPane.showMessageDialog(null, "Não foi possível localizar esse item", "", JOptionPane.ERROR_MESSAGE);
+//			throw new Exception("Não foi possível localizar esse item");
+//		}
+//	}
+	}
 	
 	private Usuario montarUsuario(ResultSet rs) throws SQLException {
 		return new Usuario(rs.getInt("ID"), rs.getString("USUARIO"), rs.getString("TIPO_USUARIO"));
 	}
 	
+	public void excluirUsuario(int id) throws Exception {
+		try {
+			abrirConexao();
+			String sql = EXCLUIR_USUARIO;
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+			connection.commit();
+			
+			JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Problema ao efetuar a operação", "",JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}finally {
+			fecharConexao();
+		}
+	}
 	
 	private synchronized void abrirConexao(){
 		connection = Conexao.getInstancia().abriConexao();

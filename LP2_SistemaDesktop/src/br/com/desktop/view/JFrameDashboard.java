@@ -9,6 +9,7 @@ import javax.swing.GroupLayout.Alignment;
 
 import br.com.desktop.model.Header;
 import br.com.desktop.model.Menu;
+import br.com.desktop.model.PanelBorder;
 import br.com.desktop.model.Usuario;
 
 public class JFrameDashboard extends javax.swing.JFrame {

@@ -6,12 +6,17 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Panel;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +24,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.BordaCantoArredondado;
@@ -41,11 +48,77 @@ public class PanelListaTarefas extends JPanel {
 
 	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
-		System.out.println(projeto.toString());
+		JFrame jFrameAlteraNomeProjeto = new JFrame();
+//		System.out.println(projeto.toString());
 	
 		setOpaque(false);
 		setBounds(10, 10, 1000, 900);
 		setLayout(null);
+		
+		JLabel jLabelNomeProjeto = new JLabel(projeto.getTitulo());
+		jLabelNomeProjeto.setBounds(30, 30, 310, 50);
+		jLabelNomeProjeto.setForeground(new Color(255, 102, 0));
+		jLabelNomeProjeto.setFont(new Font("Tahoma", Font.BOLD, 22));
+		add(jLabelNomeProjeto);
+		
+		
+		ImageIcon icon = new ImageIcon(PanelListaTarefas.class.getResource("/br/com/desktop/image/edit.png"));
+		int width = 20;
+		int height = 20;
+		Image image = icon.getImage();
+		Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		ImageIcon resizedIcon = new ImageIcon(resizedImage);
+		
+		JLabel jLabelEditarProjeto = new JLabel(resizedIcon);
+		jLabelEditarProjeto.setBounds(320, 30, 50, 50);
+		add(jLabelEditarProjeto);
+		
+		jLabelEditarProjeto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				JPanel jPanel = new JPanel();
+				jPanel.setLayout(null);
+				jPanel.setOpaque(true);
+				jPanel.setBackground(Color.white);
+				jPanel.setSize(400,80);	
+				
+				JLabel jLabel = new JLabel("Informe o novo nome do projeto");
+				jLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+				jLabel.setBounds(10, 10, 250, 20);
+				jPanel.add(jLabel);
+				
+				JTextField jTextField = new JTextField();
+				jTextField.setBounds(10, 30, 200, 30);
+				jPanel.add(jTextField);
+				
+				JButton jButton = new JButton("Alterar");
+				jButton.setBounds(220, 30, 100, 30);
+				jButton.setForeground(Color.WHITE);
+				jButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+				jButton.setBorder(null);
+				jButton.setBackground(new Color(255, 128, 0));
+				jPanel.add(jButton);
+				
+				jFrameAlteraNomeProjeto.add(jPanel);
+				jFrameAlteraNomeProjeto.setLocationRelativeTo(jLabelNomeProjeto);
+				jFrameAlteraNomeProjeto.setSize(350,80);			
+				jFrameAlteraNomeProjeto.setUndecorated(true);
+				jFrameAlteraNomeProjeto.setVisible(true);
+				
+				
+				
+				jButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						jFrameAlteraNomeProjeto.dispose();
+						
+					}
+				});
+			}
+		});
 		
 		
 		PanelRound panelAFazer = new PanelRound();

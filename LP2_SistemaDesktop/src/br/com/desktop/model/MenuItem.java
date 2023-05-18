@@ -20,7 +20,10 @@ public class MenuItem extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         if (data.getTipo() == Model_Menu.TipoMenu.MENU ) {//&& !"".equalsIgnoreCase(data.getIcone())) {
-          if(!"".equalsIgnoreCase(data.getIcone()) && data.getNome().equalsIgnoreCase("Novo projeto")) {  
+          if(!"".equalsIgnoreCase(data.getIcone()) && data.getNome().equalsIgnoreCase("Novo projeto") 
+        		  || data.getNome().equalsIgnoreCase("Sobre") || data.getNome().equalsIgnoreCase("Relatório")
+        		  || data.getNome().equalsIgnoreCase("Usuários") || data.getNome().equalsIgnoreCase("Sair") 
+        		  || data.getNome().equalsIgnoreCase("Backup")) {  
         	lbIcon.setIcon(data.toIcone());
           }
             lbName.setText(data.getNome());
