@@ -15,11 +15,13 @@ public class MenuItem extends javax.swing.JPanel {
 	private static final long serialVersionUID = 4328615621213558378L;
 	private boolean selected;
     private boolean over;
+    private javax.swing.JLabel lbIcon;
+    private javax.swing.JLabel lbName;
 
-    public MenuItem(Model_Menu data) {
+    public MenuItem(ModelMenu data) {
         initComponents();
         setOpaque(false);
-        if (data.getTipo() == Model_Menu.TipoMenu.MENU ) {//&& !"".equalsIgnoreCase(data.getIcone())) {
+        if (data.getTipo() == ModelMenu.TipoMenu.MENU ) {//&& !"".equalsIgnoreCase(data.getIcone())) {
           if(!"".equalsIgnoreCase(data.getIcone()) && data.getNome().equalsIgnoreCase("Novo projeto") 
         		  || data.getNome().equalsIgnoreCase("Sobre") || data.getNome().equalsIgnoreCase("Relatório")
         		  || data.getNome().equalsIgnoreCase("Usuários") || data.getNome().equalsIgnoreCase("Sair") 
@@ -27,7 +29,7 @@ public class MenuItem extends javax.swing.JPanel {
         	lbIcon.setIcon(data.toIcone());
           }
             lbName.setText(data.getNome());
-        } else if (data.getTipo() == Model_Menu.TipoMenu.TITULO) {
+        } else if (data.getTipo() == ModelMenu.TipoMenu.TITULO) {
             lbIcon.setText(data.getNome());
             lbIcon.setFont(new Font("sansserif", 1, 12));
             lbName.setVisible(false);
@@ -89,6 +91,5 @@ public class MenuItem extends javax.swing.JPanel {
         super.paintComponent(grphcs);
     }
 
-    private javax.swing.JLabel lbIcon;
-    private javax.swing.JLabel lbName;
+    
 }

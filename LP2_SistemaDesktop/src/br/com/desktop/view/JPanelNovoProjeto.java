@@ -88,7 +88,7 @@ public class JPanelNovoProjeto extends JPanel {
 		headerTabela.setBounds(34, 203, 930, 30);
 		headerTabela.setLayout(null);
 
-		JLabel lblHeaderNome = new JLabel("                                                      Nome");
+		JLabel lblHeaderNome = new JLabel("        Nome");
 		lblHeaderNome.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblHeaderNome.setBounds(0, 0, 907, 30);
 		headerTabela.add(lblHeaderNome);

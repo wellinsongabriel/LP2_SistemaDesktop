@@ -19,25 +19,24 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import br.com.desktop.controller.Criptografia;
 import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.Usuario;
 
-public class FormLogin extends JFrame {
+public class JFrameLogin extends JFrame {
 
 	private static final long serialVersionUID = -8739077760698271069L;
 	
 	private JPanel contentPane;
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
-	private FormLogin formLogin;
+	private JFrameLogin formLogin;
 
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormLogin frame = new FormLogin();
+					JFrameLogin frame = new JFrameLogin();
 					// frame.setUndecorated(true); //retira a barra da janela
 					frame.setLocationRelativeTo(null);// alinhar ao centro
 					frame.setVisible(true);
@@ -49,11 +48,11 @@ public class FormLogin extends JFrame {
 	}
 
 
-	public FormLogin() {
+	public JFrameLogin() {
 		formLogin = this;
 		setTitle("TaskMaster - Login");
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
@@ -77,7 +76,7 @@ public class FormLogin extends JFrame {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+		lblNewLabel.setIcon(new ImageIcon(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 		lblNewLabel.setBounds(93, 100, 114, 93);
 		panel.add(lblNewLabel);
 
@@ -119,8 +118,7 @@ public class FormLogin extends JFrame {
 				FacadeDAO dao = new FacadeDAO();
 				try {
 
-					Criptografia criptografia = new Criptografia(new String(passwordField.getPassword()), Criptografia.SHA256);
-					Usuario usuario = dao.consultarUsuario(textFieldUsuario.getText(), criptografia.criptografar());
+					Usuario usuario = dao.consultarUsuario(textFieldUsuario.getText(), new String(passwordField.getPassword()));
 
 					if (usuario != null) {
 						JFrameDashboard jFrameDashboard = new JFrameDashboard(usuario);

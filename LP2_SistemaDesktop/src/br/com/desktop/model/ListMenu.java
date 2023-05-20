@@ -17,13 +17,13 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
 import br.com.desktop.dao.FacadeDAO;
-import br.com.desktop.view.FormLogin;
+import br.com.desktop.view.JFrameLogin;
 import br.com.desktop.view.JFrameDashboard;
 import br.com.desktop.view.JPanelBackup;
 import br.com.desktop.view.JPanelGerenciaUsuario;
 import br.com.desktop.view.JPanelNovoProjeto;
 import br.com.desktop.view.JPanelRelatorio;
-import br.com.desktop.view.PanelListaTarefas;
+import br.com.desktop.view.JPanelListaTarefas;
 
 @SuppressWarnings("serial")
 public class ListMenu<E extends Object> extends JList<E> {
@@ -52,8 +52,8 @@ public class ListMenu<E extends Object> extends JList<E> {
 				if (SwingUtilities.isLeftMouseButton(me)) {
 					int index = locationToIndex(me.getPoint());
 					Object o = model.getElementAt(index);
-					if (o instanceof Model_Menu) {
-						Model_Menu menu = (Model_Menu) o;
+					if (o instanceof ModelMenu) {
+						ModelMenu menu = (ModelMenu) o;
 
 						if (menu.getNome().equalsIgnoreCase("Sair")) {
 							if (JOptionPane.showConfirmDialog(getComponentPopupMenu(), "Deseja sair do sistema ?",
@@ -90,7 +90,7 @@ public class ListMenu<E extends Object> extends JList<E> {
 						if (menu.getNome().equalsIgnoreCase("Sobre")) {
 							JFrame jframe = new JFrame();
 							jframe.setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(FormLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
 							jframe.setLocationRelativeTo(null);
 							jframe.setSize(300,400);
 							jframe.setVisible(true);
@@ -103,7 +103,7 @@ public class ListMenu<E extends Object> extends JList<E> {
 							}
 						}
 
-						if (menu.getTipo() == Model_Menu.TipoMenu.MENU) {
+						if (menu.getTipo() == ModelMenu.TipoMenu.MENU) {
 							selectedIndex = index;
 							if (event != null) {
 								event.selected(index);
@@ -128,9 +128,9 @@ public class ListMenu<E extends Object> extends JList<E> {
 				int index = locationToIndex(me.getPoint());
 				if (index != overIndex) {
 					Object o = model.getElementAt(index);
-					if (o instanceof Model_Menu) {
-						Model_Menu menu = (Model_Menu) o;
-						if (menu.getTipo() == Model_Menu.TipoMenu.MENU) {
+					if (o instanceof ModelMenu) {
+						ModelMenu menu = (ModelMenu) o;
+						if (menu.getTipo() == ModelMenu.TipoMenu.MENU) {
 							overIndex = index;
 						} else {
 							overIndex = -1;
@@ -148,11 +148,11 @@ public class ListMenu<E extends Object> extends JList<E> {
 			@Override
 			public Component getListCellRendererComponent(JList<?> jlist, Object o, int index, boolean selected,
 					boolean focus) {
-				Model_Menu data;
-				if (o instanceof Model_Menu) {
-					data = (Model_Menu) o;
+				ModelMenu data;
+				if (o instanceof ModelMenu) {
+					data = (ModelMenu) o;
 				} else {
-					data = new Model_Menu("", o + "", Model_Menu.TipoMenu.VAZIO);
+					data = new ModelMenu("", o + "", ModelMenu.TipoMenu.VAZIO);
 				}
 				MenuItem item = new MenuItem(data);
 				item.setSelected(selectedIndex == index);
@@ -164,12 +164,12 @@ public class ListMenu<E extends Object> extends JList<E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void addItem(Model_Menu data) {
+	public void addItem(ModelMenu data) {
 		model.addElement(data);
 	}
 
 	@SuppressWarnings("unchecked")
-	public void addItem(Model_Menu data, Projeto projeto) {
+	public void addItem(ModelMenu data, Projeto projeto) {
 		model.addElement(data);
 		this.projeto = projeto;
 	}
@@ -183,7 +183,7 @@ public class ListMenu<E extends Object> extends JList<E> {
 
 	private void exibirTarefas(JFrameDashboard jFrame, Usuario usuarioLogado, Projeto projeto) {
 		mainPanel.removeAll();
-		new PanelListaTarefas(mainPanel, jFrame, usuarioLogado, projeto);
+		new JPanelListaTarefas(mainPanel, jFrame, usuarioLogado, projeto);
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}

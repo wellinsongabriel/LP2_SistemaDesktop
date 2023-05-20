@@ -48,10 +48,10 @@ public class Menu extends javax.swing.JPanel {
 
 	private void init() {
 
-		listMenu.addItem(new Model_Menu("", "Dashboard", Model_Menu.TipoMenu.MENU));
-		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu.addItem(new Model_Menu("report", "Relatório", Model_Menu.TipoMenu.MENU));
-		listMenu.addItem(new Model_Menu("", "Todos projetos", Model_Menu.TipoMenu.TITULO));
+		listMenu.addItem(new ModelMenu("", "Dashboard", ModelMenu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("", " ", ModelMenu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("report", "Relatório", ModelMenu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("", "Todos projetos", ModelMenu.TipoMenu.TITULO));
 		
 		FacadeDAO facadeDAO = new FacadeDAO();
 		ArrayList<Projeto> projetos = new ArrayList<>();
@@ -61,22 +61,22 @@ public class Menu extends javax.swing.JPanel {
 			e.printStackTrace();
 		}
 		for(int i=0;i<projetos.size();i++) {//fazer for em projetos
-			listMenu.addItem(new Model_Menu(String.valueOf(i+1), projetos.get(i).getTitulo(), Model_Menu.TipoMenu.MENU, projetos.get(i).getId()));
+			listMenu.addItem(new ModelMenu(String.valueOf(i+1), projetos.get(i).getTitulo(), ModelMenu.TipoMenu.MENU, projetos.get(i).getId()));
 		}
-		listMenu.addItem(new Model_Menu("add_project", "Novo projeto", Model_Menu.TipoMenu.MENU));
-		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("add_project", "Novo projeto", ModelMenu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("", " ", ModelMenu.TipoMenu.VAZIO));
 
-		listMenu.addItem(new Model_Menu("", "Gerenciar", Model_Menu.TipoMenu.TITULO));
+		listMenu.addItem(new ModelMenu("", "Gerenciar", ModelMenu.TipoMenu.TITULO));
 		if (usuarioLogado.getTipoUsuario().equalsIgnoreCase("administrador")) {
-			listMenu.addItem(new Model_Menu("users", "Usuários", Model_Menu.TipoMenu.MENU));
+			listMenu.addItem(new ModelMenu("users", "Usuários", ModelMenu.TipoMenu.MENU));
 		}
-		listMenu.addItem(new Model_Menu("backup", "Backup", Model_Menu.TipoMenu.MENU));
-		listMenu.addItem(new Model_Menu("", " ", Model_Menu.TipoMenu.VAZIO));
-		listMenu.addItem(new Model_Menu("exit", "Sair", Model_Menu.TipoMenu.MENU));
-		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
-		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
-		listMenu.addItem(new Model_Menu("", "", Model_Menu.TipoMenu.VAZIO));
-		listMenu.addItem(new Model_Menu("info", "Sobre", Model_Menu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("backup", "Backup", ModelMenu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("", " ", ModelMenu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("exit", "Sair", ModelMenu.TipoMenu.MENU));
+		listMenu.addItem(new ModelMenu("", "", ModelMenu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("", "", ModelMenu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("", "", ModelMenu.TipoMenu.VAZIO));
+		listMenu.addItem(new ModelMenu("info", "Sobre", ModelMenu.TipoMenu.MENU));
 	}
 
 

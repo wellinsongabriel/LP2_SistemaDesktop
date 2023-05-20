@@ -133,7 +133,7 @@ public class JPanelItemTarefa extends JPanel {
 //				 JPanelItemTarefa panel = (JPanelItemTarefa) e.getSource();
 				
 				if (e.getButton() == 1) {//clique esquerdo
-					FormNovaTarefa novaTarefa = new FormNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus(), usuarioLogado, projeto);
+					JFrameNovaTarefa novaTarefa = new JFrameNovaTarefa(tarefa, jFramePrincipal,((JPanelItemTarefa) e.getComponent()).getStatus(), usuarioLogado, projeto);
 					novaTarefa.setUndecorated(true); // retira a barra da janela
 					novaTarefa.setResizable(false); // desabilitar maximar
 					novaTarefa.setLocationRelativeTo(null);// alinhar ao centro

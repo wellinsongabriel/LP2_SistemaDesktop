@@ -34,8 +34,9 @@ public class UsuarioDAO {
 	
 	private static final String EXCLUIR_USUARIO = " DELETE FROM USUARIO WHERE ID = ? ";
 	
-	public Usuario consultarUsuario(String nomeUsuario, String senhaCriptografada) throws Exception {
-
+	public Usuario consultarUsuario(String nomeUsuario, String senha) throws Exception {
+		
+		Criptografia criptografia = new Criptografia(senha, Criptografia.SHA256);		
 		Usuario usuario = null;
 		try {
 			abrirConexao();
@@ -45,7 +46,7 @@ public class UsuarioDAO {
 			int i = 1;
 
 			preparedStatement.setString(i++, nomeUsuario);
-			preparedStatement.setString(i++, senhaCriptografada);
+			preparedStatement.setString(i++, criptografia.criptografar());
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// int id = rs.getInt("id");
@@ -133,6 +134,7 @@ public class UsuarioDAO {
 	public void alterarUsuario(Usuario usuario) throws Exception {
 
 //		if (consultarTarefa(id) != null) {
+		Criptografia criptografia = new Criptografia(usuario.getSenha(), Criptografia.SHA256);	
 			try {
 				abrirConexao();
 
@@ -141,7 +143,7 @@ public class UsuarioDAO {
 
 				int i = 1;
 				preparedStatement.setString(i++, usuario.getUsuario());
-				preparedStatement.setString(i++, usuario.getSenha());
+				preparedStatement.setString(i++, criptografia.criptografar());
 				preparedStatement.setString(i++, usuario.getTipoUsuario());
 				
 				preparedStatement.setInt(i++, usuario.getId());

@@ -32,7 +32,7 @@ import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
 
-public class FormNovaTarefa extends JFrame {
+public class JFrameNovaTarefa extends JFrame {
 
 	
 	
@@ -65,7 +65,7 @@ public class FormNovaTarefa extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormNovaTarefa frame = new FormNovaTarefa(null, null,-1,null,null);
+					JFrameNovaTarefa frame = new JFrameNovaTarefa(null, null,-1,null,null);
 					frame.setUndecorated(true); // retira a barra da janela
 					frame.setResizable(false); // desabilitar maximar
 					frame.setLocationRelativeTo(null);// alinhar ao centro
@@ -82,10 +82,10 @@ public class FormNovaTarefa extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public FormNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado, Projeto projeto) {
+	public JFrameNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado, Projeto projeto) {
 		setTitle("TaksManager");
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(FormNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
+				.getImage(JFrameNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
 		Date dataAtual = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String dataAtualString = dateFormat.format(dataAtual);

@@ -1,6 +1,5 @@
 package br.com.desktop.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -9,8 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -25,8 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.BordaCantoArredondado;
@@ -36,7 +31,7 @@ import br.com.desktop.model.ScrollBarPersonalizado;
 import br.com.desktop.model.Tarefa;
 import br.com.desktop.model.Usuario;
 
-public class PanelListaTarefas extends JPanel {
+public class JPanelListaTarefas extends JPanel {
 
 	/**
 	 * 
@@ -46,7 +41,7 @@ public class PanelListaTarefas extends JPanel {
 	private Usuario usuarioLogado;
 	private FacadeDAO facadeDao = new FacadeDAO();
 
-	public PanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
+	public JPanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
 		JFrame jFrameAlteraNomeProjeto = new JFrame();
 //		System.out.println(projeto.toString());
@@ -62,14 +57,14 @@ public class PanelListaTarefas extends JPanel {
 		add(jLabelNomeProjeto);
 		
 		
-		ImageIcon icon = new ImageIcon(PanelListaTarefas.class.getResource("/br/com/desktop/image/edit.png"));
+		ImageIcon iconeEditar = new ImageIcon(JPanelListaTarefas.class.getResource("/br/com/desktop/image/edit.png"));
 		int width = 20;
 		int height = 20;
-		Image image = icon.getImage();
-		Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		ImageIcon resizedIcon = new ImageIcon(resizedImage);
+		Image imagemEditar = iconeEditar.getImage();
+		Image imagemEditarRedimensionada = imagemEditar.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		ImageIcon iconeEditarRedimensionado = new ImageIcon(imagemEditarRedimensionada);
 		
-		JLabel jLabelEditarProjeto = new JLabel(resizedIcon);
+		JLabel jLabelEditarProjeto = new JLabel(iconeEditarRedimensionado);
 		jLabelEditarProjeto.setBounds(320, 30, 50, 50);
 		add(jLabelEditarProjeto);
 		
@@ -226,7 +221,7 @@ public class PanelListaTarefas extends JPanel {
 		novoAfazer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,0,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,0,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -246,7 +241,7 @@ public class PanelListaTarefas extends JPanel {
 		novoEmAndamento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,1,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,1,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
@@ -266,7 +261,7 @@ public class PanelListaTarefas extends JPanel {
 		novoConcluido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				FormNovaTarefa formNovaTarefa = new FormNovaTarefa(null, jframe,2,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,2,usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);

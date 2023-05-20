@@ -3,7 +3,7 @@ package br.com.desktop.model;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class Model_Menu {
+public class ModelMenu {
 
 	private String icone;
 	private String nome;
@@ -40,7 +40,7 @@ public class Model_Menu {
 	}
 
 
-	public Model_Menu(String icone, String nome, TipoMenu tipo, int identificador) {
+	public ModelMenu(String icone, String nome, TipoMenu tipo, int identificador) {
 		super();
 		this.icone = icone;
 		this.nome = nome;
@@ -49,20 +49,19 @@ public class Model_Menu {
 	}
 
 
-	public Model_Menu(String icone, String nome, TipoMenu tipo) {
+	public ModelMenu(String icone, String nome, TipoMenu tipo) {
 		this.icone = icone;
 		this.nome = nome;
 		this.tipo = tipo;
 	}
 
 	
-	public Model_Menu() {
+	public ModelMenu() {
 	}
 
 	
 	public Icon toIcone() {
-//		jLabel1.setIcon(new ImageIcon(Menu.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
-		return new ImageIcon(Model_Menu.class.getResource("/br/com/desktop/image/" + icone + ".png"));
+		return new ImageIcon(ModelMenu.class.getResource("/br/com/desktop/image/" + icone + ".png"));
 	}
 
 

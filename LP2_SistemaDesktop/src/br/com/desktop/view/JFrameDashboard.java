@@ -42,7 +42,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         panelBorder = new PanelBorder();
         mainPanel = new javax.swing.JPanel();
         menu = new Menu(usuarioLogado,mainPanel, jFrame);
-        header2 = new Header();
+        header2 = new Header(usuarioLogado);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
