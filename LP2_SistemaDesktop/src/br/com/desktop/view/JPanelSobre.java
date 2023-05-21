@@ -16,8 +16,9 @@ public class JPanelSobre extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public JPanelSobre() {
+	public JPanelSobre(JPanel mainPanel) {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
+		setBounds(470, 250, 450, 350);
 		setBackground(Color.WHITE);
 		setLayout(null);
 		
@@ -60,9 +61,9 @@ public class JPanelSobre extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel(" Desenvolvido por Beatriz Oliveira e Wellinson Gabriel");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setIcon(new ImageIcon(JPanelSobre.class.getResource("/br/com/desktop/image/path226.png")));
+		lblNewLabel.setIcon(new ImageIcon(JPanelSobre.class.getResource("/br/com/desktop/image/logoTaskMaster45.png")));
 		lblNewLabel.setBounds(20, 301, 391, 14);
 		add(lblNewLabel);
-
+		mainPanel.add(this);
 	}
 }

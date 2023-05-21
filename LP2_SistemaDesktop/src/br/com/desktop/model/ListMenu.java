@@ -23,6 +23,7 @@ import br.com.desktop.view.JPanelBackup;
 import br.com.desktop.view.JPanelGerenciaUsuario;
 import br.com.desktop.view.JPanelNovoProjeto;
 import br.com.desktop.view.JPanelRelatorio;
+import br.com.desktop.view.JPanelSobre;
 import br.com.desktop.view.JPanelListaTarefas;
 
 @SuppressWarnings("serial")
@@ -88,12 +89,7 @@ public class ListMenu<E extends Object> extends JList<E> {
 						}
 						
 						if (menu.getNome().equalsIgnoreCase("Sobre")) {
-							JFrame jframe = new JFrame();
-							jframe.setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster115.png")));
-							jframe.setLocationRelativeTo(null);
-							jframe.setSize(300,400);
-							jframe.setVisible(true);
+							exibirSobre(jFrame, usuarioLogado);
 						}
 
 						for (Projeto projeto : projetos) {
@@ -205,6 +201,13 @@ public class ListMenu<E extends Object> extends JList<E> {
 	private void exibirUsuarios(JFrameDashboard jFrame, Usuario usuarioLogado) {
 		mainPanel.removeAll();
 		new JPanelGerenciaUsuario(mainPanel, jFrame, usuarioLogado);
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+	
+	private void exibirSobre(JFrameDashboard jFrame, Usuario usuarioLogado) {
+		mainPanel.removeAll();
+		new JPanelSobre(mainPanel);
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}

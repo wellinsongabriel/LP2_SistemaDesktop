@@ -195,7 +195,7 @@ public class JPanelNovoProjeto extends JPanel {
 
 		ArrayList<Usuario> usuarios = null;
 		try {
-			usuarios = facadeDao.listarUsuarios();
+			usuarios = facadeDao.listarUsuarios(null);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < usuarios.size(); i++) {

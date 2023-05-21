@@ -28,11 +28,11 @@ public class ProjetoDAO {
 	
 	private static final String AND_ID = " AND ID = ? "; 
 			
-	private static final String ALTERAR_PROJETO = " UPDATE PROJETO SET NOME = ?, STATUS = ?  WHERE ID = ? ";
+	private static final String ALTERAR_NOME_PROJETO = " UPDATE PROJETO SET NOME = ? WHERE ID = ? ";
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
-	private static final String LISTAR_USUARIOS_PROJETO = " SELECT  * "
+	private static final String LISTAR_PARTICIPANTES_PROJETO = " SELECT  *, U.ID AS IDUSUARIO "
 			+ " FROM PROJETO P "
 			+ " INNER JOIN "
 			+ " PROJETO_USUARIO PU "
@@ -43,11 +43,11 @@ public class ProjetoDAO {
 			+ " WHERE 1=1 "
 			+ " AND PU.ID_PROJETO = ? ";
 	
-//	private static final String LISTAR_PROJETO_INNER_JOIN_PROJETO_USUARIO = " SELECT P.ID, P.NOME, P.STATUS, PU.ID_USUARIO " + 
-//	" FROM PROJETO  P " +
-//	" INNER JOIN PROJETO_USUARIO PU " +
-//	" ON(P.ID = PU.ID_PROJETO) " +
-//	" WHERE   P.ID = ? ";
+	private static final String LISTAR_PROJETO_INNER_JOIN_PROJETO_USUARIO = " SELECT P.ID, P.NOME, P.STATUS, PU.ID_USUARIO " + 
+	" FROM PROJETO  P " +
+	" INNER JOIN PROJETO_USUARIO PU " +
+	" ON(P.ID = PU.ID_PROJETO) " +
+	" WHERE   P.ID = ? ";
 	
 	private static final String AND_DATA_CRIACAO_MAIS_RECENTE = " AND DATA_CRIACAO >= ? "; 
 	
@@ -127,24 +127,24 @@ public class ProjetoDAO {
 		return projeto;
 	}
 	
-	public void alterarProjeto(Projeto projeto) throws Exception {
-		if (validarDadosProjeto(projeto)) {
+	public void alterarNomeProjeto(Projeto projeto) throws Exception {
 			try {
 				abrirConexao();
-				String sql = ALTERAR_PROJETO;
+				String sql = ALTERAR_NOME_PROJETO;
 				preparedStatement = connection.prepareStatement(sql);
+				
 				int i = 1;
+				
 				preparedStatement.setString(i++, projeto.getTitulo());
-				preparedStatement.setInt(i++, projeto.getStatus());
+				preparedStatement.setInt(i++, projeto.getId());
+				
 				preparedStatement.execute();
 				connection.commit();
+				
 			} finally {
 				fecharConexao();
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Não foi possível localizar esse item", "", JOptionPane.ERROR_MESSAGE);
-			throw new Exception("Não foi possível localizar esse item");
-		}
+		
 	}
 	
 	public ArrayList<Projeto> listarProjetos() throws Exception {
@@ -176,13 +176,13 @@ public class ProjetoDAO {
 		return projeto;
 	}
 	
-	public ArrayList<String> listarUsuariosProjetos(int idProjeto) throws Exception {
-		ArrayList<String> usuariosProjetos = new ArrayList<>();
+	public ArrayList<Usuario> listarParticipantesProjeto(int idProjeto) throws Exception {
+		ArrayList<Usuario> usuariosProjetos = new ArrayList<>();
 
 		try {
 			abrirConexao();
 
-			String sql = LISTAR_USUARIOS_PROJETO;
+			String sql = LISTAR_PARTICIPANTES_PROJETO;
 
 			
 			preparedStatement = connection.prepareStatement(sql);
@@ -191,7 +191,7 @@ public class ProjetoDAO {
 
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				usuariosProjetos.add(rs.getString("USUARIO"));
+				usuariosProjetos.add(new Usuario(rs.getInt("IDUSUARIO"),rs.getString("USUARIO"), rs.getString("TIPO_USUARIO")));
 			}
 
 		} finally {

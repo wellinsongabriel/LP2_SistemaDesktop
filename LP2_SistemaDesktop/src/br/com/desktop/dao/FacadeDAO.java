@@ -23,8 +23,8 @@ public class FacadeDAO {
 		return usuarioDAO.consultarUsuario(nomeUsuario, senhaCriptografada);
 	}
 	
-	public ArrayList<Usuario> listarUsuarios() throws Exception {
-		return usuarioDAO.listarUsuarios();
+	public ArrayList<Usuario> listarUsuarios(ArrayList<Usuario> usuarioNaoListar) throws Exception {
+		return usuarioDAO.listarUsuarios(usuarioNaoListar);
 	}
 	
 	public void cadastrarUsuario(Usuario usuario) throws SQLException {
@@ -77,7 +77,11 @@ public class FacadeDAO {
 		return projetoDAO.listarProjetos();
 	}
 
-	public ArrayList<String> listarUsuariosProjetos(int idProjeto) throws Exception {
-		return projetoDAO.listarUsuariosProjetos(idProjeto);
+	public ArrayList<Usuario> listarParticipantesProjeto(int idProjeto) throws Exception {
+		return projetoDAO.listarParticipantesProjeto(idProjeto);
+	}
+	
+	public void alterarNomeProjeto(Projeto projeto) throws Exception {
+		projetoDAO.alterarNomeProjeto(projeto);
 	}
 }

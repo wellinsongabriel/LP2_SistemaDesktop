@@ -10,11 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -40,82 +42,69 @@ public class JPanelListaTarefas extends JPanel {
 	private JScrollPane scroll;
 	private Usuario usuarioLogado;
 	private FacadeDAO facadeDao = new FacadeDAO();
+	private ArrayList<Usuario> nomesUsuariosProjeto = new ArrayList<>();
+	private ArrayList<Usuario> nomesNaoPartipantesProjeto  = new ArrayList<>();
 
 	public JPanelListaTarefas(JPanel mainPanel, JFrame jframe, Usuario usuario, Projeto projeto) {
 		usuarioLogado = usuario;
-		JFrame jFrameAlteraNomeProjeto = new JFrame();
-//		System.out.println(projeto.toString());
-	
+
 		setOpaque(false);
 		setBounds(10, 10, 1000, 900);
 		setLayout(null);
-		
+
 		JLabel jLabelNomeProjeto = new JLabel(projeto.getTitulo());
 		jLabelNomeProjeto.setBounds(30, 30, 310, 50);
 		jLabelNomeProjeto.setForeground(new Color(255, 102, 0));
 		jLabelNomeProjeto.setFont(new Font("Tahoma", Font.BOLD, 22));
 		add(jLabelNomeProjeto);
-		
-		
+
 		ImageIcon iconeEditar = new ImageIcon(JPanelListaTarefas.class.getResource("/br/com/desktop/image/edit.png"));
 		int width = 20;
 		int height = 20;
 		Image imagemEditar = iconeEditar.getImage();
 		Image imagemEditarRedimensionada = imagemEditar.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		ImageIcon iconeEditarRedimensionado = new ImageIcon(imagemEditarRedimensionada);
-		
+
 		JLabel jLabelEditarProjeto = new JLabel(iconeEditarRedimensionado);
 		jLabelEditarProjeto.setBounds(320, 30, 50, 50);
 		add(jLabelEditarProjeto);
-		
+
+		JTextField jTextFieldNomeProjeto = new JTextField(projeto.getTitulo());
+		jTextFieldNomeProjeto.setBounds(30, 30, 255, 50);
+		jTextFieldNomeProjeto.setForeground(new Color(255, 102, 0));
+		jTextFieldNomeProjeto.setFont(new Font("Tahoma", Font.BOLD, 22));
+		jTextFieldNomeProjeto.setVisible(false);
+		add(jTextFieldNomeProjeto);
+
 		jLabelEditarProjeto.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				
-				JPanel jPanel = new JPanel();
-				jPanel.setLayout(null);
-				jPanel.setOpaque(true);
-				jPanel.setBackground(Color.white);
-				jPanel.setSize(400,80);	
-				
-				JLabel jLabel = new JLabel("Informe o novo nome do projeto");
-				jLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-				jLabel.setBounds(10, 10, 250, 20);
-				jPanel.add(jLabel);
-				
-				JTextField jTextField = new JTextField();
-				jTextField.setBounds(10, 30, 200, 30);
-				jPanel.add(jTextField);
-				
-				JButton jButton = new JButton("Alterar");
-				jButton.setBounds(220, 30, 100, 30);
-				jButton.setForeground(Color.WHITE);
-				jButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-				jButton.setBorder(null);
-				jButton.setBackground(new Color(255, 128, 0));
-				jPanel.add(jButton);
-				
-				jFrameAlteraNomeProjeto.add(jPanel);
-				jFrameAlteraNomeProjeto.setLocationRelativeTo(jLabelNomeProjeto);
-				jFrameAlteraNomeProjeto.setSize(350,80);			
-				jFrameAlteraNomeProjeto.setUndecorated(true);
-				jFrameAlteraNomeProjeto.setVisible(true);
-				
-				
-				
-				jButton.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						jFrameAlteraNomeProjeto.dispose();
-						
+
+				if (jLabelNomeProjeto.isVisible()) {
+					jLabelNomeProjeto.setVisible(false);
+					jTextFieldNomeProjeto.setVisible(true);
+				} else {
+
+					jLabelNomeProjeto.setText(jTextFieldNomeProjeto.getText());
+
+					try {
+						projeto.setTitulo(jTextFieldNomeProjeto.getText());
+						facadeDao.alterarNomeProjeto(projeto);
+						jframe.dispose();
+						JFrameDashboard jFrameDashboard = new JFrameDashboard(usuarioLogado);
+						jFrameDashboard.setResizable(false); // desabilitar maximar
+						jFrameDashboard.setLocationRelativeTo(null);// alinhar ao centro
+						jFrameDashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						jFrameDashboard.setVisible(true);
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
 					}
-				});
+				}
+
 			}
 		});
-		
-		
+
 		PanelRound panelAFazer = new PanelRound();
 		panelAFazer.setBorder(new BordaCantoArredondado());
 		panelAFazer.setLayout(null);
@@ -129,12 +118,12 @@ public class JPanelListaTarefas extends JPanel {
 		novoAfazer.setBounds(280, 10, 20, 14);
 		novoAfazer.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panelAFazer.add(novoAfazer);
-		panelAFazer.add(jLabelAFazer);		
+		panelAFazer.add(jLabelAFazer);
 		PanelRound baseScrollPanelAFazer = new PanelRound();
 		baseScrollPanelAFazer.setOpaque(true);
 		baseScrollPanelAFazer.setBackground(Color.white);
-		baseScrollPanelAFazer.setAllRound(50);		
-		PanelRound panelItenAFazer = criarPainel(0, jframe,projeto);
+		baseScrollPanelAFazer.setAllRound(50);
+		PanelRound panelItenAFazer = criarPainel(0, jframe, projeto);
 		panelItenAFazer.setAllRound(100);
 		panelItenAFazer.setBackground(new Color(255, 255, 255));
 		baseScrollPanelAFazer.add(panelItenAFazer);
@@ -143,13 +132,11 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);		
+		scroll.setBounds(10, 30, 290, 600);
 		panelAFazer.add(scroll);
 		panelAFazer.setVisible(true);
 		add(panelAFazer);
-		
-		
-		
+
 		PanelRound panelEmAndamento = new PanelRound();
 		panelEmAndamento.setBorder(new BordaCantoArredondado());
 		panelEmAndamento.setLayout(null);
@@ -163,12 +150,12 @@ public class JPanelListaTarefas extends JPanel {
 		novoEmAndamento.setBounds(280, 10, 20, 14);
 		novoEmAndamento.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panelEmAndamento.add(novoEmAndamento);
-		panelEmAndamento.add(jLabelEmAndamento);		
+		panelEmAndamento.add(jLabelEmAndamento);
 		PanelRound baseScrollpanelEmAndamento = new PanelRound();
 		baseScrollpanelEmAndamento.setOpaque(true);
 		baseScrollpanelEmAndamento.setBackground(Color.white);
-		baseScrollpanelEmAndamento.setAllRound(50);		
-		PanelRound panelItenEmAndamento = criarPainel(1, jframe,projeto);
+		baseScrollpanelEmAndamento.setAllRound(50);
+		PanelRound panelItenEmAndamento = criarPainel(1, jframe, projeto);
 		panelItenEmAndamento.setAllRound(100);
 		panelItenEmAndamento.setBackground(new Color(255, 255, 255));
 		baseScrollpanelEmAndamento.add(panelItenEmAndamento);
@@ -177,15 +164,11 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);		
+		scroll.setBounds(10, 30, 290, 600);
 		panelEmAndamento.add(scroll);
 		panelEmAndamento.setVisible(true);
 		add(panelEmAndamento);
-		
-		
-		
-		
-		
+
 		PanelRound panelConcluido = new PanelRound();
 		panelConcluido.setBorder(new BordaCantoArredondado());
 		panelConcluido.setLayout(null);
@@ -199,11 +182,11 @@ public class JPanelListaTarefas extends JPanel {
 		novoConcluido.setBounds(280, 10, 20, 14);
 		novoConcluido.setFont(new Font("Tahoma", Font.BOLD, 20));
 		panelConcluido.add(novoConcluido);
-		panelConcluido.add(jLabelConcluido);		
+		panelConcluido.add(jLabelConcluido);
 		PanelRound baseScrollpanelConcluido = new PanelRound();
 		baseScrollpanelConcluido.setOpaque(true);
 		baseScrollpanelConcluido.setBackground(Color.white);
-		baseScrollpanelConcluido.setAllRound(50);		
+		baseScrollpanelConcluido.setAllRound(50);
 		PanelRound panelItenConcluido = criarPainel(2, jframe, projeto);
 		panelItenConcluido.setAllRound(100);
 		panelItenConcluido.setBackground(new Color(255, 255, 255));
@@ -213,7 +196,7 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);		
+		scroll.setBounds(10, 30, 290, 600);
 		panelConcluido.add(scroll);
 		panelConcluido.setVisible(true);
 		add(panelConcluido);
@@ -221,37 +204,37 @@ public class JPanelListaTarefas extends JPanel {
 		novoAfazer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,0,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe, 0, usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				novoAfazer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		        
+				novoAfazer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				novoAfazer.setCursor(Cursor.getDefaultCursor());
 			}
-		});		
-		
+		});
+
 		novoEmAndamento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,1,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe, 1, usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				novoEmAndamento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		        
+				novoEmAndamento.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				novoEmAndamento.setCursor(Cursor.getDefaultCursor());
@@ -261,58 +244,127 @@ public class JPanelListaTarefas extends JPanel {
 		novoConcluido.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe,2,usuarioLogado, projeto);
+				JFrameNovaTarefa formNovaTarefa = new JFrameNovaTarefa(null, jframe, 2, usuarioLogado, projeto);
 				formNovaTarefa.setUndecorated(true);
 				formNovaTarefa.setLocationRelativeTo(null);
 				formNovaTarefa.setVisible(true);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				novoConcluido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));		        
+				novoConcluido.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				novoConcluido.setCursor(Cursor.getDefaultCursor());
 			}
 		});
-		
+
 		JLabel jLabelParticipantesProjeto = new JLabel("Participantes do projeto");
 		jLabelParticipantesProjeto.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jLabelParticipantesProjeto.setBounds(0, 735, 900, 100);
+		jLabelParticipantesProjeto.setBounds(0, 765, 230, 20);
 		add(jLabelParticipantesProjeto);
-		
-		ArrayList<String> nomesUsuariosProjeto = new ArrayList<>();
+
+		JLabel jLabelAdicionarParticipanteProjeto = new JLabel("+");
+		jLabelAdicionarParticipanteProjeto.setFont(new Font("Tahoma", Font.BOLD, 18));
+		jLabelAdicionarParticipanteProjeto.setBounds(230, 765, 30, 20);
+		add(jLabelAdicionarParticipanteProjeto);
+
 		try {
-			nomesUsuariosProjeto = facadeDao.listarUsuariosProjetos(projeto.getId());
+			nomesUsuariosProjeto = facadeDao.listarParticipantesProjeto(projeto.getId());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		
+		try {
+			nomesNaoPartipantesProjeto = facadeDao.listarUsuarios(nomesUsuariosProjeto);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
 		JPanel panelUsuariosProjeto = new JPanel();
 		panelUsuariosProjeto.setBounds(0, 750, 900, 100);
 		panelUsuariosProjeto.setLayout(new BoxLayout(panelUsuariosProjeto, BoxLayout.X_AXIS));
-		panelUsuariosProjeto.setBackground(new Color(242,242,242));
-		for (String nomeUsuario : nomesUsuariosProjeto) {
+		panelUsuariosProjeto.setBackground(new Color(242, 242, 242));
+		for (Usuario nomeUsuario : nomesUsuariosProjeto) {
 
-			
-			JLabel jLabelNomeUsuario = new JLabel(" @"+nomeUsuario);
+			JLabel jLabelNomeUsuario = new JLabel(" @" + nomeUsuario.getUsuario());
 			jLabelNomeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			jLabelNomeUsuario.setBackground(Color.white);
 			jLabelNomeUsuario.setForeground(Color.gray);
-			
+
 			panelUsuariosProjeto.add(jLabelNomeUsuario);
+			
+			jLabelNomeUsuario.addMouseListener(new MouseAdapter() {
+				
+			});
 		}
-		
+
+		jLabelAdicionarParticipanteProjeto.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				jLabelAdicionarParticipanteProjeto.setCursor(Cursor.getDefaultCursor());
+				jLabelAdicionarParticipanteProjeto.setToolTipText("");
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				jLabelAdicionarParticipanteProjeto.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				jLabelAdicionarParticipanteProjeto.setToolTipText("Adicionar participante");
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JPopupMenu menuContextoAdicionarUsuario = new JPopupMenu();
+				for (Usuario nomeUsuario : nomesNaoPartipantesProjeto) {
+					JMenuItem usuario = new JMenuItem(nomeUsuario.getUsuario());
+					menuContextoAdicionarUsuario.add(usuario);
+					int idUsuario = nomeUsuario.getId();
+					usuario.addActionListener(new ActionListener() {	        
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							System.out.println(idUsuario);
+							try {
+								facadeDao.criarProjetoUsuario(projeto, new ArrayList<Usuario>(List.of(nomeUsuario)));
+								jframe.dispose();
+								JFrameDashboard jFrameDashboard = new JFrameDashboard(usuarioLogado);
+//								formListaTarefas.setUndecorated(true); // retira a barra da janela
+								jFrameDashboard.setResizable(false); // desabilitar maximar
+								jFrameDashboard.setLocationRelativeTo(null);// alinhar ao centro
+								jFrameDashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								jFrameDashboard.setVisible(true);
+								
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+						}
+				    });
+				}
+				menuContextoAdicionarUsuario.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+
 		add(panelUsuariosProjeto);
 
-	mainPanel.add(this);
-    }
+		mainPanel.add(this);
+	}
 
-	public  PanelRound criarPainel(int status,  JFrame jframe, Projeto projeto) {
+	public PanelRound criarPainel(int status, JFrame jframe, Projeto projeto) {
 		PanelRound panel = new PanelRound();
 		panel.setAllRound(50);
-		
+
 		ArrayList<Tarefa> tarefas = null;
 		try {
 			tarefas = facadeDao.listarTarefa(status, projeto);
@@ -320,7 +372,8 @@ public class JPanelListaTarefas extends JPanel {
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < tarefas.size(); i++) {
 				for (int j = 0; j < 1; j++) {
-					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe,usuarioLogado, projeto);
+					JPanelItemTarefa jPanelItemTarefa = new JPanelItemTarefa(tarefas.get(i), jframe, usuarioLogado,
+							projeto);
 					jPanelItemTarefa.setTituloTarefa(tarefas.get(i).getTitulo());
 					jPanelItemTarefa.setDescricaoTarefa(tarefas.get(i).getDescricao());
 					jPanelItemTarefa.setId(tarefas.get(i).getId());
@@ -341,7 +394,5 @@ public class JPanelListaTarefas extends JPanel {
 
 		return panel;
 	}
-	
-	
-	
+
 }

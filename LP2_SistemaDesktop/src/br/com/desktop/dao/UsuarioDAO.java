@@ -22,7 +22,7 @@ public class UsuarioDAO {
 			+ " WHERE USUARIO = ? "
 			+ " AND SENHA = ? ";
 	
-	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO ";
+	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO WHERE 1=1 ";
 	
 	private static final String CADASTRAR_USUARIO = " INSERT INTO USUARIO "
 			+ " (ID, USUARIO, SENHA, TIPO_USUARIO) "
@@ -33,6 +33,8 @@ public class UsuarioDAO {
 			+ " WHERE ID = ? ";	
 	
 	private static final String EXCLUIR_USUARIO = " DELETE FROM USUARIO WHERE ID = ? ";
+	
+	private static final String AND_NAO_LISTAR_USUARIO =  " AND  ID <> ? ";
 	
 	public Usuario consultarUsuario(String nomeUsuario, String senha) throws Exception {
 		
@@ -69,16 +71,31 @@ public class UsuarioDAO {
 	
 	}
 	
-	public ArrayList<Usuario> listarUsuarios() throws Exception {
+	public ArrayList<Usuario> listarUsuarios(ArrayList<Usuario> usuarioNaoListar) throws Exception {
 		ArrayList<Usuario> usuarios = new ArrayList<>();
 
 		try {
 			abrirConexao();
 
 			StringBuilder sql = new StringBuilder(LISTAR_USUARIOS);
+			
+			if(usuarioNaoListar!=null) {
+			for(int i=0; i< usuarioNaoListar.size(); i++) {
+				sql.append(AND_NAO_LISTAR_USUARIO);
+			}
+			}
 
-
+			
 			preparedStatement = connection.prepareStatement(sql.toString());
+			
+			if(usuarioNaoListar!=null) {
+			int i = 1;
+			
+			for(Usuario participante: usuarioNaoListar) {
+				System.out.println(participante.getId());
+				preparedStatement.setInt(i++, participante.getId());
+			}
+			}
 
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {

@@ -156,7 +156,7 @@ public class JPanelGerenciaUsuario extends JPanel {
 		jPanel.removeAll();
 		ArrayList<Usuario> usuarios = new ArrayList<>();
 		try {
-			usuarios = facadeDAO.listarUsuarios();
+			usuarios = facadeDAO.listarUsuarios(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

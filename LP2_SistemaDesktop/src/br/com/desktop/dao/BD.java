@@ -23,8 +23,9 @@ public class BD {
 	private static String DRIVER = "org.sqlite.JDBC";
 	private static String BD = "jdbc:sqlite:resources/bdtarefas.db";
 
-	private static String CRIAR_USUARIO_ADMINISTRADOR = "INSERT INTO USUARIO " + " (ID, USUARIO, SENHA, TIPO_USUARIO) "
-			+ " VALUES (null, ?, ?, ?)";
+	private static String CRIAR_USUARIO_ADMINISTRADOR = " INSERT INTO USUARIO   (ID, USUARIO, SENHA, TIPO_USUARIO) "
+			+ "	SELECT NULL, ?, ?, ? "
+			+ "	WHERE NOT EXISTS (SELECT 1 FROM USUARIO WHERE USUARIO =  'Admin')  ";
 
 	public static void main(String args[]) {
 
@@ -43,6 +44,7 @@ public class BD {
 			rodarScript("CREATE_TABLE_PROJETO.sql");
 			rodarScript("CREATE_TABLE_TAREFA.sql");
 			rodarScript("CREATE_TABLE_PROJETO_USUARIO.sql");
+			rodarScript("CREATE_TABLE_PROJETO_RESPONSAVEL.sql");
 			criarUsuarioAdministrador();
 			
 		} catch (SQLException e) {
@@ -58,7 +60,7 @@ public class BD {
 		try {
 			connection = DriverManager.getConnection(BD);
 			statement = connection.createStatement();
-			String sql = lerArquivo("CREATE_TABLE_USUARIO.sql");
+			String sql = lerArquivo(nomeScript);
 			statement.executeUpdate(sql);
 
 			JOptionPane.showMessageDialog(null,"O script "+nomeScript+ " foi executado com sucesso");
@@ -75,7 +77,7 @@ public class BD {
 	private static void criarUsuarioAdministrador() throws SQLException {
 
 		try {
-			Class.forName(DRIVER);
+			
 			connection = DriverManager.getConnection(BD);
 			connection.setAutoCommit(false);
 			String sql = CRIAR_USUARIO_ADMINISTRADOR;
@@ -84,13 +86,13 @@ public class BD {
 			preparedStatement.setString(i++, "Admin");
 //			Criptografia criptografia = new Criptografia("123456", Criptografia.SHA256).criptografar();
 			preparedStatement.setString(i++, new Criptografia("123456", Criptografia.SHA256).criptografar());
-			preparedStatement.setString(i++, "Administrador");
+			preparedStatement.setString(i++, "ADMINISTRADOR");
 			
 			preparedStatement.execute();
 			connection.commit();
 
 			JOptionPane.showMessageDialog(null,"Usuario administrador criado com sucesso");
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			fecharConexao(preparedStatement, connection);
