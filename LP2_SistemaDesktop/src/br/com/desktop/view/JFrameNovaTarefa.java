@@ -85,7 +85,7 @@ public class JFrameNovaTarefa extends JFrame {
 	public JFrameNovaTarefa(Tarefa tarefaAlteracao, JFrame jframe, int statusParam, Usuario usuarioLogado, Projeto projeto) {
 		setTitle("TaksManager");
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(JFrameNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster48.png")));
+				.getImage(JFrameNovaTarefa.class.getResource("/br/com/desktop/image/logoTaskMaster45.png")));
 		Date dataAtual = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String dataAtualString = dateFormat.format(dataAtual);

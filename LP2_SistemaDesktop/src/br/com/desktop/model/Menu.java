@@ -91,7 +91,7 @@ public class Menu extends javax.swing.JPanel {
 		jLabel.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
 		jLabel.setForeground(new java.awt.Color(255, 255, 255));
 		jLabel.setIcon(
-				new javax.swing.ImageIcon(Menu.class.getResource("/br/com/desktop/image/logoTaskMaster48.png"))); // NOI18N
+				new javax.swing.ImageIcon(Menu.class.getResource("/br/com/desktop/image/logoTaskMaster45.png"))); // NOI18N
 		jLabel.setText("TaskMaster");
 
 		javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);

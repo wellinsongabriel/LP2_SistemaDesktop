@@ -32,7 +32,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
         setExtendedState(MAXIMIZED_VERT);
         setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(JFrameDashboard.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+				.getImage(JFrameDashboard.class.getResource("/br/com/desktop/image/logoTaskMaster115.png")));
         menu.initMoving(JFrameDashboard.this);       
     }
     

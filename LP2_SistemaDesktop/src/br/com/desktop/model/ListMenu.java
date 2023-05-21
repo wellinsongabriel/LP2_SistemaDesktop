@@ -90,7 +90,7 @@ public class ListMenu<E extends Object> extends JList<E> {
 						if (menu.getNome().equalsIgnoreCase("Sobre")) {
 							JFrame jframe = new JFrame();
 							jframe.setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster115.png")));
 							jframe.setLocationRelativeTo(null);
 							jframe.setSize(300,400);
 							jframe.setVisible(true);

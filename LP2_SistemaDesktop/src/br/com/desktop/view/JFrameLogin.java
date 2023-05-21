@@ -52,7 +52,7 @@ public class JFrameLogin extends JFrame {
 		formLogin = this;
 		setTitle("TaskMaster - Login");
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
+				.getImage(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster115.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 378);
@@ -76,15 +76,19 @@ public class JFrameLogin extends JFrame {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster.png")));
-		lblNewLabel.setBounds(93, 100, 114, 93);
+		lblNewLabel.setIcon(new ImageIcon(JFrameLogin.class.getResource("/br/com/desktop/image/logoTaskMaster115.png")));
+		lblNewLabel.setBounds(97, 79, 114, 93);
 		panel.add(lblNewLabel);
 
 		JLabel lblNewLabel_1_2 = new JLabel("TaskMaster");
-		lblNewLabel_1_2.setBounds(58, 184, 207, 71);
+		lblNewLabel_1_2.setBounds(58, 170, 207, 71);
 		panel.add(lblNewLabel_1_2);
 		lblNewLabel_1_2.setForeground(new Color(255, 128, 0));
 		lblNewLabel_1_2.setFont(new Font("DejaVu Sans", Font.BOLD, 30));
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setBounds(80, 115, 114, 93);
+		panel.add(lblNewLabel_2);
 
 
 		JLabel lblNewLabel_1 = new JLabel("BEM VINDO");
