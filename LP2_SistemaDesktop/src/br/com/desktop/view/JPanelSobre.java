@@ -1,17 +1,22 @@
 package br.com.desktop.view;
 
-import javax.swing.JPanel;
 import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.border.BevelBorder;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
 import java.awt.ComponentOrientation;
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class JPanelSobre extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5073885369986150359L;
 
 	/**
 	 * Create the panel.
@@ -61,7 +66,7 @@ public class JPanelSobre extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel(" Desenvolvido por Beatriz Oliveira e Wellinson Gabriel");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setIcon(new ImageIcon(JPanelSobre.class.getResource("/br/com/desktop/image/logoTaskMaster45.png")));
+		lblNewLabel.setIcon(new ImageIcon(JPanelSobre.class.getResource("/br/com/desktop/image/coracao.png")));
 		lblNewLabel.setBounds(20, 301, 391, 14);
 		add(lblNewLabel);
 		mainPanel.add(this);
