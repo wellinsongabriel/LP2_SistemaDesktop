@@ -76,6 +76,10 @@ public class FacadeDAO {
 	public ArrayList<Projeto> listarProjetos() throws Exception {
 		return projetoDAO.listarProjetos();
 	}
+	
+	public ArrayList<Projeto> listarProjetosUsuario(int idUsuarioLogado) throws Exception {
+		return projetoDAO.listarProjetosUsuario(idUsuarioLogado);
+	}
 
 	public ArrayList<Usuario> listarParticipantesProjeto(int idProjeto) throws Exception {
 		return projetoDAO.listarParticipantesProjeto(idProjeto);

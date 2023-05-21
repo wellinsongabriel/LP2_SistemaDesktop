@@ -32,6 +32,18 @@ public class ProjetoDAO {
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
+	private static final String LISTAR_PROJETO_USUARIO = " SELECT  *, U.ID AS IDUSUARIO "
+			+ " FROM PROJETO P  "
+			+ " INNER JOIN  PROJETO_USUARIO PU  "
+			+ " ON(P.ID = PU.ID_PROJETO)  "
+			+ " INNER JOIN  USUARIO U  "
+			+ " ON(PU.ID_USUARIO = U.ID) "
+			+ " LEFT  JOIN PROJETO_RESPONSAVEL PR "
+			+ " ON(PU.ID_USUARIO = PR.ID_USUARIO) "
+			+ " WHERE 1=1  "
+			+ " AND (IDUSUARIO = ? OR PR.ID_USUARIO  = ?) ";
+
+	
 	private static final String LISTAR_PARTICIPANTES_PROJETO = " SELECT  *, U.ID AS IDUSUARIO "
 			+ " FROM PROJETO P "
 			+ " INNER JOIN "
@@ -168,10 +180,32 @@ public class ProjetoDAO {
 
 		}
 		if (projeto.size() < 0) {
-			JOptionPane.showMessageDialog(null, "Não foi possível localizar o projeto selecionada", "",
+			JOptionPane.showMessageDialog(null, "Não foi possível localizar o projeto selecionado", "",
 					JOptionPane.ERROR_MESSAGE);
 			throw new Exception("Não foi possível localizar o projeto selecionada");
 
+		}
+		return projeto;
+	}
+	
+	public ArrayList<Projeto> listarProjetosUsuario(int idUsuarioLogado) throws Exception {
+		ArrayList<Projeto> projeto = new ArrayList<>();
+
+		try {
+			abrirConexao();
+
+			StringBuilder sql = new StringBuilder(LISTAR_PROJETO_USUARIO);
+
+			preparedStatement = connection.prepareStatement(sql.toString());
+			preparedStatement.setInt(1, idUsuarioLogado);
+			preparedStatement.setInt(2, idUsuarioLogado);
+			
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				projeto.add(montarProjeto(rs));
+			}
+		} finally {
+			fecharConexao();
 		}
 		return projeto;
 	}

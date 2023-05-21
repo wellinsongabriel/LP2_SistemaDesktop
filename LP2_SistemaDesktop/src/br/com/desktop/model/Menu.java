@@ -56,7 +56,7 @@ public class Menu extends javax.swing.JPanel {
 		FacadeDAO facadeDAO = new FacadeDAO();
 		ArrayList<Projeto> projetos = new ArrayList<>();
 		try {
-			 projetos = facadeDAO.listarProjetos();
+			 projetos = facadeDAO.listarProjetosUsuario(usuarioLogado.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
