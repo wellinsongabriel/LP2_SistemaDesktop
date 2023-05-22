@@ -10,6 +10,7 @@ public class Projeto {
 	protected ArrayList<Usuario> usuarios;
 	protected Date dataCriacao;
 	protected Date dataConclusao;
+	protected Usuario usuarioResponsavel;
 	
 	
 	
@@ -35,6 +36,13 @@ public class Projeto {
 		super();
 		this.titulo = titulo;
 		this.usuarios = usuarios;
+	}
+	
+	public Projeto(String titulo, ArrayList<Usuario> usuarios, Usuario usuarioResponsavel) {
+		super();
+		this.titulo = titulo;
+		this.usuarios = usuarios;
+		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
 	public ArrayList<Usuario> getUsuarios() {
@@ -80,10 +88,19 @@ public class Projeto {
 		this.status = status;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Projeto [id=" + id + ", titulo=" + titulo + ", status=" + status + ", usuarios=" + usuarios
 				+ ", dataCriacao=" + dataCriacao + ", dataConclusao=" + dataConclusao + "]";
+	}
+
+	public Usuario getUsuarioResponsavel() {
+		return usuarioResponsavel;
+	}
+
+	public void setUsuarioResponsavel(Usuario usuarioResponsavel) {
+		this.usuarioResponsavel = usuarioResponsavel;
 	}
 
 }

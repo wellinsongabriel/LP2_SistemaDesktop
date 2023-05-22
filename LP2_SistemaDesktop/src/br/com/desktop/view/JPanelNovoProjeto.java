@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -39,10 +40,12 @@ public class JPanelNovoProjeto extends JPanel {
 	private JButton jButtonCriarProjeto;
 	private ArrayList<Usuario> usuariosSelecionados;
 	private FacadeDAO facadeDao;
+	private Usuario usuarioLogado;
 
 	
 	public JPanelNovoProjeto(JPanel mainPanel, JFrameDashboard jFrame, Usuario usuarioLogado) {
 		facadeDao = new FacadeDAO();
+		this.usuarioLogado = usuarioLogado;
 		usuariosSelecionados = new ArrayList<>();
 		setBorder(null);
 		setOpaque(true);
@@ -137,7 +140,7 @@ public class JPanelNovoProjeto extends JPanel {
 				long diaHoraAtual = new Date().getTime();
 				try {
 					facadeDao.criarProjeto(
-							new Projeto(textFieldNomeProjeto.getText(), usuariosSelecionados));
+							new Projeto(textFieldNomeProjeto.getText(), usuariosSelecionados, usuarioLogado));
 
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -195,7 +198,7 @@ public class JPanelNovoProjeto extends JPanel {
 
 		ArrayList<Usuario> usuarios = null;
 		try {
-			usuarios = facadeDao.listarUsuarios(null);
+			usuarios = facadeDao.listarUsuarios(new ArrayList<Usuario>(List.of(usuarioLogado)));
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setBackground(new Color(255, 255, 255));
 			for (int i = 0; i < usuarios.size(); i++) {

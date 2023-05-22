@@ -18,8 +18,8 @@ public class ProjetoDAO {
 	private static PreparedStatement preparedStatement = null;
 	private static ResultSet rs = null;
 
-	private static final String CRIAR_PROJETO = " INSERT INTO PROJETO (ID, NOME, STATUS, DATA_CRIACAO, DATA_CONCLUSAO) " + 
-	" VALUES (NULL, ?, ?, ?, NULL) ";
+	private static final String CRIAR_PROJETO = " INSERT INTO PROJETO (ID, NOME, ID_RESPONSAVEL, STATUS, DATA_CRIACAO, DATA_CONCLUSAO) " + 
+	" VALUES (NULL, ?, ?, ?, ?, NULL) ";
 	
 	private static final String CRIAR_PROJETO_USUARIO = " INSERT INTO PROJETO_USUARIO (ID, ID_PROJETO, ID_USUARIO) " + 
 			" VALUES (NULL, ?, ?) ";
@@ -32,16 +32,11 @@ public class ProjetoDAO {
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
-	private static final String LISTAR_PROJETO_USUARIO = " SELECT  *, U.ID AS IDUSUARIO "
-			+ " FROM PROJETO P  "
-			+ " INNER JOIN  PROJETO_USUARIO PU  "
-			+ " ON(P.ID = PU.ID_PROJETO)  "
-			+ " INNER JOIN  USUARIO U  "
-			+ " ON(PU.ID_USUARIO = U.ID) "
-			+ " LEFT  JOIN PROJETO_RESPONSAVEL PR "
-			+ " ON(PU.ID_USUARIO = PR.ID_USUARIO) "
-			+ " WHERE 1=1  "
-			+ " AND (IDUSUARIO = ? OR PR.ID_USUARIO  = ?) ";
+	private static final String LISTAR_PROJETO_USUARIO = " SELECT * "
+			+ " FROM PROJETO P "
+			+ " INNER JOIN PROJETO_USUARIO PU "
+			+ " ON (P.ID = PU.ID_PROJETO) "
+			+ " WHERE P.ID_RESPONSAVEL =  ? OR PU.ID_USUARIO  = ? ";
 
 	
 	private static final String LISTAR_PARTICIPANTES_PROJETO = " SELECT  *, U.ID AS IDUSUARIO "
@@ -78,6 +73,7 @@ public class ProjetoDAO {
 				preparedStatement = connection.prepareStatement(sql);
 				int i = 1;
 				preparedStatement.setString(i++, projeto.getTitulo());
+				preparedStatement.setInt(i++, projeto.getUsuarioResponsavel().getId());
 				preparedStatement.setInt(i++, 0);
 				preparedStatement.setDate(i++, new java.sql.Date(new Date().getTime()));
 				preparedStatement.execute();

@@ -24,6 +24,12 @@ public class UsuarioDAO {
 	
 	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO WHERE 1=1 ";
 	
+	private static final String LISTAR_USUARIOS_EXCETO_RESPONSAVEL = " SELECT * "
+			+ " FROM USUARIO U "
+			+ " INNER JOIN PROJETO P "
+			+ " ON U.ID <> P.ID_RESPONSAVEL "
+			+ " WHERE 1=1 ";
+	
 	private static final String CADASTRAR_USUARIO = " INSERT INTO USUARIO "
 			+ " (ID, USUARIO, SENHA, TIPO_USUARIO) "
 			+ " VALUES (null, ?, ?, ?)";
@@ -34,7 +40,7 @@ public class UsuarioDAO {
 	
 	private static final String EXCLUIR_USUARIO = " DELETE FROM USUARIO WHERE ID = ? ";
 	
-	private static final String AND_NAO_LISTAR_USUARIO =  " AND  ID <> ? ";
+	private static final String AND_NAO_LISTAR_USUARIO =  " AND  U.ID <> ? ";
 	
 	public Usuario consultarUsuario(String nomeUsuario, String senha) throws Exception {
 		
@@ -80,6 +86,7 @@ public class UsuarioDAO {
 			StringBuilder sql = new StringBuilder(LISTAR_USUARIOS);
 			
 			if(usuarioNaoListar!=null) {
+				sql = new StringBuilder(LISTAR_USUARIOS_EXCETO_RESPONSAVEL);
 			for(int i=0; i< usuarioNaoListar.size(); i++) {
 				sql.append(AND_NAO_LISTAR_USUARIO);
 			}
@@ -90,7 +97,6 @@ public class UsuarioDAO {
 			
 			if(usuarioNaoListar!=null) {
 			int i = 1;
-			
 			for(Usuario participante: usuarioNaoListar) {
 				System.out.println(participante.getId());
 				preparedStatement.setInt(i++, participante.getId());

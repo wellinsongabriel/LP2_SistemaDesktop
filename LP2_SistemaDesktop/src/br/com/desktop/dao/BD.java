@@ -44,7 +44,6 @@ public class BD {
 			rodarScript("CREATE_TABLE_PROJETO.sql");
 			rodarScript("CREATE_TABLE_TAREFA.sql");
 			rodarScript("CREATE_TABLE_PROJETO_USUARIO.sql");
-			rodarScript("CREATE_TABLE_PROJETO_RESPONSAVEL.sql");
 			criarUsuarioAdministrador();
 			
 		} catch (SQLException e) {
