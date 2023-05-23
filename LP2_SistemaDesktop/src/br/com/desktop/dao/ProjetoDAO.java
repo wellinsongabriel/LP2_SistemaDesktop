@@ -32,7 +32,7 @@ public class ProjetoDAO {
 	
 	private static final String LISTAR_PROJETO = " SELECT * FROM PROJETO WHERE 1=1 ";
 	
-	private static final String LISTAR_PROJETO_USUARIO = " SELECT * "
+	private static final String LISTAR_PROJETO_USUARIO = " SELECT DISTINCT P.ID, P.NOME, P.ID_RESPONSAVEL , P.STATUS, P.DATA_CRIACAO, P.DATA_CONCLUSAO  "
 			+ " FROM PROJETO P "
 			+ " INNER JOIN PROJETO_USUARIO PU "
 			+ " ON (P.ID = PU.ID_PROJETO) "
@@ -57,6 +57,8 @@ public class ProjetoDAO {
 	" WHERE   P.ID = ? ";
 	
 	private static final String AND_DATA_CRIACAO_MAIS_RECENTE = " AND DATA_CRIACAO >= ? "; 
+	
+	private static final String REMOVER_USUARIO_PROJETO = " DELETE FROM PROJETO_USUARIO WHERE 1=1 AND ID_PROJETO = ? AND ID_USUARIO = ? ";
 	
 //	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
 	
@@ -256,9 +258,26 @@ public class ProjetoDAO {
 		JOptionPane.showMessageDialog(null, "Projeto incluído com sucesso");		
 	}
 	
+	public void removerParticipanteProjeto(int idProjeto, int idUsuario) throws Exception {
+		try {
+			abrirConexao();
+			String sql = REMOVER_USUARIO_PROJETO;
+			preparedStatement = connection.prepareStatement(sql);
+			int i = 1;
+			preparedStatement.setInt(i++, idProjeto);
+			preparedStatement.setInt(i++, idUsuario);
+			preparedStatement.execute();
+			connection.commit();
+
+			JOptionPane.showMessageDialog(null, "Participante removido com sucesso");
+		} finally {
+			fecharConexao();
+		}			
+	}
+	
 	
 	private Projeto montarProjeto(ResultSet rs) throws SQLException {
-		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CRIACAO"));
+		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CONCLUSAO"));
 	}
 	
 	private boolean validarDadosProjeto(Projeto projeto) {
@@ -271,18 +290,21 @@ public class ProjetoDAO {
 		}
 	}
 	
-	private void abrirConexao() {
+	private synchronized void abrirConexao(){
 		connection = Conexao.getInstancia().abriConexao();
 	}
 
-	private void fecharConexao() {
+	private synchronized void fecharConexao() {
 		try {
 			if(rs!=null) {
 				rs.close();
 			}
+			
 			if(preparedStatement!=null) {
 				preparedStatement.close();
-			}			
+			}
+			
+			
 			Conexao.getInstancia().fecharConexao();
 		} catch (SQLException e) {
 			e.printStackTrace();

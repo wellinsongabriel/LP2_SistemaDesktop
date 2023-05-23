@@ -24,7 +24,7 @@ public class UsuarioDAO {
 	
 	private static final String LISTAR_USUARIOS = " SELECT * FROM USUARIO WHERE 1=1 ";
 	
-	private static final String LISTAR_USUARIOS_EXCETO_RESPONSAVEL = " SELECT * "
+	private static final String LISTAR_USUARIOS_EXCETO_RESPONSAVEL = " SELECT DISTINCT U.ID, U.USUARIO, U.TIPO_USUARIO   "
 			+ " FROM USUARIO U "
 			+ " INNER JOIN PROJETO P "
 			+ " ON U.ID <> P.ID_RESPONSAVEL "
@@ -217,7 +217,7 @@ public class UsuarioDAO {
 		connection = Conexao.getInstancia().abriConexao();
 	}
 
-	private void fecharConexao() {
+	private synchronized void fecharConexao() {
 		try {
 			if(rs!=null) {
 				rs.close();

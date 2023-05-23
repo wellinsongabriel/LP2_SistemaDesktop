@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -288,17 +289,41 @@ public class JPanelListaTarefas extends JPanel {
 		panelUsuariosProjeto.setBounds(0, 750, 900, 100);
 		panelUsuariosProjeto.setLayout(new BoxLayout(panelUsuariosProjeto, BoxLayout.X_AXIS));
 		panelUsuariosProjeto.setBackground(new Color(242, 242, 242));
-		for (Usuario nomeUsuario : nomesUsuariosProjeto) {
+		for (Usuario participante : nomesUsuariosProjeto) {
 
-			JLabel jLabelNomeUsuario = new JLabel(" @" + nomeUsuario.getUsuario());
+			JLabel jLabelNomeUsuario = new JLabel(" @" + participante.getUsuario());
 			jLabelNomeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			jLabelNomeUsuario.setBackground(Color.white);
 			jLabelNomeUsuario.setForeground(Color.gray);
 
 			panelUsuariosProjeto.add(jLabelNomeUsuario);
-			
+			JPopupMenu menuContextoRemoverUsuario = new JPopupMenu();
+			JMenuItem removerUsuario = new JMenuItem("X");
+			menuContextoRemoverUsuario.add(removerUsuario);
 			jLabelNomeUsuario.addMouseListener(new MouseAdapter() {
-				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					
+					menuContextoRemoverUsuario.show(e.getComponent(), e.getX(), e.getY());
+					removerUsuario.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try {
+								facadeDao.removerParticipanteProjeto(projeto.getId(), participante.getId());
+								jframe.dispose();
+								JFrameDashboard jFrameDashboard = new JFrameDashboard(usuarioLogado);
+//								formListaTarefas.setUndecorated(true); // retira a barra da janela
+								jFrameDashboard.setResizable(false); // desabilitar maximar
+								jFrameDashboard.setLocationRelativeTo(null);// alinhar ao centro
+								jFrameDashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								jFrameDashboard.setVisible(true);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+					});
+					
+					
+				}
 			});
 		}
 
@@ -395,4 +420,36 @@ public class JPanelListaTarefas extends JPanel {
 		return panel;
 	}
 
+	//TODO terminar metodo
+//	public void atualizarParticipantes(JPanel jPanelParticipantesProjeto) {
+//		
+//		try {
+//			nomesUsuariosProjeto = facadeDao.listarParticipantesProjeto(projeto.getId());
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//		try {
+//			nomesNaoPartipantesProjeto = facadeDao.listarUsuarios(nomesUsuariosProjeto);
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//		jPanelParticipantesProjeto.remove(jPanelParticipantesProjeto);
+//		for (Usuario nomeUsuario : nomesUsuariosProjeto) {
+//
+//			JLabel jLabelNomeUsuario = new JLabel(" @" + nomeUsuario.getUsuario());
+//			jLabelNomeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//			jLabelNomeUsuario.setBackground(Color.white);
+//			jLabelNomeUsuario.setForeground(Color.gray);
+//
+//			jPanelParticipantesProjeto.add(jLabelNomeUsuario);
+//			
+//			jLabelNomeUsuario.addMouseListener(new MouseAdapter() {
+//				
+//			});
+//		}
+//		jPanelParticipantesProjeto.revalidate();
+//		jPanelParticipantesProjeto.repaint();
+//	}
 }

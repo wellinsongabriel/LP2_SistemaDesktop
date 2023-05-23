@@ -226,11 +226,11 @@ public class TarefaDAO {
 	}
 
 	
-	private void abrirConexao(){
+	private synchronized void abrirConexao(){
 		connection = Conexao.getInstancia().abriConexao();
 	}
 
-	private void fecharConexao() {
+	private synchronized void fecharConexao() {
 		try {
 			if(rs!=null) {
 				rs.close();
@@ -239,6 +239,8 @@ public class TarefaDAO {
 			if(preparedStatement!=null) {
 				preparedStatement.close();
 			}
+			
+			
 			Conexao.getInstancia().fecharConexao();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -3,13 +3,16 @@ package br.com.desktop.view;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
+import br.com.desktop.dao.FacadeDAO;
 import br.com.desktop.model.Header;
 import br.com.desktop.model.Menu;
 import br.com.desktop.model.PanelBorder;
+import br.com.desktop.model.Projeto;
 import br.com.desktop.model.Usuario;
 
 public class JFrameDashboard extends javax.swing.JFrame {
@@ -80,7 +83,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         mainPanel.setBounds(0, 0, 937, 543);
         mainPanel.setSize(800, 600);
        
-//        exibirTarefas();
+        exibirTarefas(this, usuarioLogado);
         
         
         
@@ -136,9 +139,26 @@ public class JFrameDashboard extends javax.swing.JFrame {
     
     
     
-//    public void exibirTarefas() {
-//    	 PanelListaTarefas listaTarefas = new PanelListaTarefas(mainPanel, this, usuarioLogado, projeto);
-//    }
+   private void exibirTarefas(JFrameDashboard jFrame, Usuario usuarioLogado) {
+   FacadeDAO facadeDAO = new FacadeDAO();
+
+	ArrayList<Projeto> projetos = new ArrayList<>();
+	try {
+		projetos = facadeDAO.listarProjetos();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	mainPanel.removeAll();
+	
+	if(projetos.size()>0) {
+	for (int i=0; i<=1; i++) {
+		new JPanelListaTarefas(mainPanel, jFrame, usuarioLogado, projetos.get(0));
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+	}
+	
+}
     
     
 }

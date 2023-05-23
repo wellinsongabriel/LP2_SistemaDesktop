@@ -88,4 +88,8 @@ public class FacadeDAO {
 	public void alterarNomeProjeto(Projeto projeto) throws Exception {
 		projetoDAO.alterarNomeProjeto(projeto);
 	}
+	
+	public void removerParticipanteProjeto(int idProjeto, int idUsuario) throws Exception {
+		projetoDAO.removerParticipanteProjeto(idProjeto, idUsuario);
+	}
 }
