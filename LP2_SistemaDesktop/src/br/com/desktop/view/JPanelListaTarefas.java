@@ -65,6 +65,11 @@ public class JPanelListaTarefas extends JPanel {
 		Image imagemEditar = iconeEditar.getImage();
 		Image imagemEditarRedimensionada = imagemEditar.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		ImageIcon iconeEditarRedimensionado = new ImageIcon(imagemEditarRedimensionada);
+		
+		ImageIcon iconeExcluir = new ImageIcon(JPanelListaTarefas.class.getResource("/br/com/desktop/image/delete.png"));
+		Image imagemExcluir = iconeExcluir.getImage();
+		Image imagemExcluirRedimensionada = imagemExcluir.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		ImageIcon iconeExcluirRedimensionado = new ImageIcon(imagemExcluirRedimensionada);
 
 		JLabel jLabelEditarProjeto = new JLabel(iconeEditarRedimensionado);
 		jLabelEditarProjeto.setBounds(320, 30, 50, 50);
@@ -103,6 +108,34 @@ public class JPanelListaTarefas extends JPanel {
 					}
 				}
 
+			}
+		});
+		
+		JLabel jLabelExcluirProjeto = new JLabel(iconeExcluirRedimensionado);
+		jLabelExcluirProjeto.setBounds(360, 30, 50, 50);
+		add(jLabelExcluirProjeto);
+		
+		
+		jLabelExcluirProjeto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(JOptionPane.YES_OPTION==
+						JOptionPane.showConfirmDialog(null, 
+								"Deseja excluir o projeto e todas as tarefas?\nEssa ação é irreversível ", "Excluir Projeto",
+								JOptionPane.INFORMATION_MESSAGE)) {
+					try {
+						facadeDao.excluirProjeto(projeto.getId());
+						jframe.dispose();
+						JFrameDashboard jFrameDashboard = new JFrameDashboard(usuarioLogado);
+//						formListaTarefas.setUndecorated(true); // retira a barra da janela
+						jFrameDashboard.setResizable(false); // desabilitar maximar
+						jFrameDashboard.setLocationRelativeTo(null);// alinhar ao centro
+						jFrameDashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						jFrameDashboard.setVisible(true);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 

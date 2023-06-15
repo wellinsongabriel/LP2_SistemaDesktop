@@ -60,7 +60,7 @@ public class ProjetoDAO {
 	
 	private static final String REMOVER_USUARIO_PROJETO = " DELETE FROM PROJETO_USUARIO WHERE 1=1 AND ID_PROJETO = ? AND ID_USUARIO = ? ";
 	
-//	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
+	private static final String EXCLUIR_PROJETO = " DELETE FROM PROJETO WHERE ID = ? ";
 	
 	
 	public ProjetoDAO() {
@@ -275,6 +275,21 @@ public class ProjetoDAO {
 		}			
 	}
 	
+	public void excluirProjeto(int idProjeto) throws Exception {
+		try {
+			abrirConexao();
+			String sql = EXCLUIR_PROJETO;
+			preparedStatement = connection.prepareStatement(sql);
+			int i = 1;
+			preparedStatement.setInt(i++, idProjeto);
+			preparedStatement.execute();
+			connection.commit();
+
+			JOptionPane.showMessageDialog(null, "Projeto excluído com sucesso");
+		} finally {
+			fecharConexao();
+		}			
+	}
 	
 	private Projeto montarProjeto(ResultSet rs) throws SQLException {
 		return new Projeto(rs.getInt("ID"), rs.getString("NOME"),  rs.getInt("STATUS"), rs.getDate("DATA_CRIACAO"), rs.getDate("DATA_CONCLUSAO"));
