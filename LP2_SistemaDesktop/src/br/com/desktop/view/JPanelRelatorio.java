@@ -56,7 +56,7 @@ public class JPanelRelatorio extends JPanel {
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 		try {
-			projetos = dao.listarProjetos();
+			projetos = dao.listarProjetosUsuario(usuarioLogado.getId());
 			nomesProjetos = projetos.stream().map(Projeto::getTitulo).filter(titulo -> !titulo.equalsIgnoreCase(""))
 					.collect(Collectors.toList()).toArray(new String[projetos.size()]);
 		} catch (Exception e) {
