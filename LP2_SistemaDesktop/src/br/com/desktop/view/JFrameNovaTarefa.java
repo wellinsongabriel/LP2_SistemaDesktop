@@ -52,6 +52,7 @@ public class JFrameNovaTarefa extends JFrame {
 	private JComboBox comboBoxStatus;
 	private JButton buttonCorEtiqueta;
 	JTextArea textAreaDescricaoTarefa;
+	private JLabel lblDataAtual;
 
 	/**
 	 * Launch the application.
@@ -125,7 +126,7 @@ public class JFrameNovaTarefa extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblDataAtual = new JLabel(dataAtualString);
+		lblDataAtual = new JLabel(dataAtualString);
 		lblDataAtual.setForeground(Color.GRAY);
 		lblDataAtual.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblDataAtual.setBounds(362, 67, 80, 14);
@@ -347,5 +348,8 @@ public class JFrameNovaTarefa extends JFrame {
 		buttonCorEtiqueta.setBackground(new Color(tarefa.getCorEtiqueta()));
 		corEtiqueta = tarefa.getCorEtiqueta();
 		textAreaDescricaoTarefa.setText(tarefa.getDescricao());
+		  SimpleDateFormat dataformatada
+	      = new SimpleDateFormat("dd/MM/yyyy");
+		lblDataAtual.setText(dataformatada.format(tarefa.getDataCriacao()));
 	}
 }
