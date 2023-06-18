@@ -83,7 +83,7 @@ public class JFrameDashboard extends javax.swing.JFrame {
         mainPanel.setBounds(0, 0, 937, 543);
         mainPanel.setSize(800, 600);
        
-        exibirTarefas(this, usuarioLogado);
+//        exibirTarefas(this, usuarioLogado);
         
         
         

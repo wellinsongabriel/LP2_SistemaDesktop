@@ -396,6 +396,7 @@ public class JPanelListaTarefas extends JPanel {
 							System.out.println(idUsuario);
 							try {
 								facadeDao.criarProjetoUsuario(projeto, new ArrayList<Usuario>(List.of(nomeUsuario)));
+								JOptionPane.showMessageDialog(null, "participante adicionado com sucesso");
 								jframe.dispose();
 								JFrameDashboard jFrameDashboard = new JFrameDashboard(usuarioLogado);
 //								formListaTarefas.setUndecorated(true); // retira a barra da janela

@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -155,6 +156,7 @@ public class JPanelNovoProjeto extends JPanel {
 
 				try {
 					facadeDao.criarProjetoUsuario(projetoAtual, usuariosSelecionados);
+					JOptionPane.showMessageDialog(null, "Projeto incluído com sucesso");
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

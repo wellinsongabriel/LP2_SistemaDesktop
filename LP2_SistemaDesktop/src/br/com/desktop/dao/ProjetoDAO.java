@@ -254,8 +254,7 @@ public class ProjetoDAO {
 			} finally {
 				fecharConexao();
 			}			
-		}
-		JOptionPane.showMessageDialog(null, "Projeto incluído com sucesso");		
+		}				
 	}
 	
 	public void removerParticipanteProjeto(int idProjeto, int idUsuario) throws Exception {
