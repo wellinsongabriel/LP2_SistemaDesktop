@@ -3,6 +3,7 @@ package br.com.desktop.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -75,30 +76,36 @@ public class JPanelGerenciaUsuario extends JPanel {
 		btnAcaoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (modo == 0) {// inclusão
-					Usuario usuario = new Usuario(-1, textFieldNomeUsuario.getText(),
-							new String(passwordField.getPassword()), comboBoxTipoUsuario.getSelectedItem().toString());
+					if (camposObrigatoriosPreenchidos()) {
 
-					try {
-						facadeDAO.cadastrarUsuario(usuario);
-						modo = 0;
-						alternarModo(modo);
-						preencherTabela();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				} else {// alteração
-					if (JOptionPane.showConfirmDialog(jFrame, "Deseja alterar o usuário") == 0) {
-						Usuario usuario = new Usuario(idAlteracao, textFieldNomeUsuario.getText(),
+						Usuario usuario = new Usuario(-1, textFieldNomeUsuario.getText(),
 								new String(passwordField.getPassword()),
 								comboBoxTipoUsuario.getSelectedItem().toString());
 
 						try {
-							facadeDAO.alterarUsuario(usuario);
+							facadeDAO.cadastrarUsuario(usuario);
 							modo = 0;
 							alternarModo(modo);
 							preencherTabela();
-						} catch (Exception e1) {
+						} catch (SQLException e1) {
 							e1.printStackTrace();
+						}
+					}
+				} else {// alteração
+					if (camposObrigatoriosPreenchidos()) {
+						if (JOptionPane.showConfirmDialog(jFrame, "Deseja alterar o usuário") == 0) {
+							Usuario usuario = new Usuario(idAlteracao, textFieldNomeUsuario.getText(),
+									new String(passwordField.getPassword()),
+									comboBoxTipoUsuario.getSelectedItem().toString());
+
+							try {
+								facadeDAO.alterarUsuario(usuario);
+								modo = 0;
+								alternarModo(modo);
+								preencherTabela();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						}
 					}
 				}
@@ -160,8 +167,12 @@ public class JPanelGerenciaUsuario extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String[] arrayUsuarios = usuarios.stream().map(Usuario::getUsuario)
-				.collect(Collectors.toCollection(ArrayList::new)).toArray(new String[usuarios.size()]);
+		String[] arrayUsuarios = usuarios.stream().filter(usuario -> !usuario.getUsuario().equalsIgnoreCase("Admin"))
+				.map(Usuario::getUsuario).collect(Collectors.toCollection(ArrayList::new)).toArray(String[]::new);
+
+		ArrayList<Usuario> usuariosExcetoAdm = (ArrayList<Usuario>) usuarios.stream()
+				.filter(usuario -> !usuario.getUsuario().equalsIgnoreCase("admin"))
+				.collect(Collectors.toCollection(ArrayList::new));
 
 		@SuppressWarnings("unused")
 		DefaultListModel<String> model = new DefaultListModel<String>();
@@ -173,12 +184,12 @@ public class JPanelGerenciaUsuario extends JPanel {
 		jJistaUsuarios.setListData(arrayUsuarios);
 
 		String[] colunasTabela = { "ID", "Nome", "Tipo" };
-		Object[][] dadosTabela = new Object[usuarios.size()][3];
+		Object[][] dadosTabela = new Object[usuariosExcetoAdm.size()][3];
 
-		for (int i = 0; i < usuarios.size(); i++) {
-			dadosTabela[i][0] = usuarios.get(i).getId();
-			dadosTabela[i][1] = usuarios.get(i).getUsuario();
-			dadosTabela[i][2] = usuarios.get(i).getTipoUsuario();
+		for (int i = 0; i < usuariosExcetoAdm.size(); i++) {
+			dadosTabela[i][0] = usuariosExcetoAdm.get(i).getId();
+			dadosTabela[i][1] = usuariosExcetoAdm.get(i).getUsuario();
+			dadosTabela[i][2] = usuariosExcetoAdm.get(i).getTipoUsuario();
 		}
 
 		@SuppressWarnings("serial")
@@ -246,5 +257,15 @@ public class JPanelGerenciaUsuario extends JPanel {
 
 		}
 
+	}
+
+	private boolean camposObrigatoriosPreenchidos() {
+		if (textFieldNomeUsuario == null || textFieldNomeUsuario.getText().isEmpty() || passwordField == null
+				|| new String(passwordField.getPassword()).isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Verifique os campos Nome e senha e tente novamente",
+					"Campos não preenchidos", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 }

@@ -393,7 +393,7 @@ public class JPanelListaTarefas extends JPanel {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							System.out.println(idUsuario);
+//							System.out.println(idUsuario);
 							try {
 								facadeDao.criarProjetoUsuario(projeto, new ArrayList<Usuario>(List.of(nomeUsuario)));
 								JOptionPane.showMessageDialog(null, "participante adicionado com sucesso");

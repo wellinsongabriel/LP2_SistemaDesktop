@@ -98,7 +98,7 @@ public class UsuarioDAO {
 			if(usuarioNaoListar!=null) {
 			int i = 1;
 			for(Usuario participante: usuarioNaoListar) {
-				System.out.println(participante.getId());
+//				System.out.println(participante.getId());
 				preparedStatement.setInt(i++, participante.getId());
 			}
 			}
