@@ -2,6 +2,8 @@ package br.com.desktop.view;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -85,20 +87,33 @@ public class JFrameDashboard extends javax.swing.JFrame {
        
 //        exibirTarefas(this, usuarioLogado);
         
+        // Obter o ambiente gráfico
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+        // Obter o kit de ferramentas padrão
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+        // Obter a dimensão da tela primária
+        Dimension screenSize = toolkit.getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
         
-        
+     // Obter a área de trabalho disponível (considerando a barra de tarefas, etc.)
+        Dimension desktopSize = ge.getMaximumWindowBounds().getSize();
+        int desktopWidth = desktopSize.width;
+        int desktopHeight = desktopSize.height;
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addComponent(panelBorder, GroupLayout.PREFERRED_SIZE, 1620, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(panelBorder, GroupLayout.PREFERRED_SIZE, desktopWidth, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addComponent(panelBorder, GroupLayout.PREFERRED_SIZE, 980, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(panelBorder, GroupLayout.PREFERRED_SIZE, desktopHeight, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         getContentPane().setLayout(layout);

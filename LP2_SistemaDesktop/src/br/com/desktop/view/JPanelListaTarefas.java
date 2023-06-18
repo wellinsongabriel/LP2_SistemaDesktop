@@ -142,7 +142,7 @@ public class JPanelListaTarefas extends JPanel {
 		PanelRound panelAFazer = new PanelRound();
 		panelAFazer.setBorder(new BordaCantoArredondado());
 		panelAFazer.setLayout(null);
-		panelAFazer.setBounds(30, 100, 310, 650);
+		panelAFazer.setBounds(30, 100, 310, 500);
 		panelAFazer.setBackground(new Color(255, 255, 255));
 		panelAFazer.setOpaque(true);
 		JLabel jLabelAFazer = new JLabel("A Fazer");
@@ -166,7 +166,7 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);
+		scroll.setBounds(10, 30, 290, 450);
 		panelAFazer.add(scroll);
 		panelAFazer.setVisible(true);
 		add(panelAFazer);
@@ -174,7 +174,7 @@ public class JPanelListaTarefas extends JPanel {
 		PanelRound panelEmAndamento = new PanelRound();
 		panelEmAndamento.setBorder(new BordaCantoArredondado());
 		panelEmAndamento.setLayout(null);
-		panelEmAndamento.setBounds(370, 100, 310, 650);
+		panelEmAndamento.setBounds(370, 100, 310, 500);
 		panelEmAndamento.setBackground(new Color(255, 255, 255));
 		panelEmAndamento.setOpaque(true);
 		JLabel jLabelEmAndamento = new JLabel("Em andamento");
@@ -198,7 +198,7 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);
+		scroll.setBounds(10, 30, 290, 450);
 		panelEmAndamento.add(scroll);
 		panelEmAndamento.setVisible(true);
 		add(panelEmAndamento);
@@ -206,7 +206,7 @@ public class JPanelListaTarefas extends JPanel {
 		PanelRound panelConcluido = new PanelRound();
 		panelConcluido.setBorder(new BordaCantoArredondado());
 		panelConcluido.setLayout(null);
-		panelConcluido.setBounds(690, 100, 310, 650);
+		panelConcluido.setBounds(690, 100, 310, 500);
 		panelConcluido.setBackground(new Color(255, 255, 255));
 		panelConcluido.setOpaque(true);
 		JLabel jLabelConcluido = new JLabel("Concluída");
@@ -230,7 +230,7 @@ public class JPanelListaTarefas extends JPanel {
 		scroll.setBorder(null);
 		scroll.setVerticalScrollBar(new ScrollBarPersonalizado());
 		scroll.setHorizontalScrollBar(new ScrollBarPersonalizado());
-		scroll.setBounds(10, 30, 290, 600);
+		scroll.setBounds(10, 30, 290, 450);
 		panelConcluido.add(scroll);
 		panelConcluido.setVisible(true);
 		add(panelConcluido);
@@ -297,12 +297,12 @@ public class JPanelListaTarefas extends JPanel {
 
 		JLabel jLabelParticipantesProjeto = new JLabel("Participantes do projeto");
 		jLabelParticipantesProjeto.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jLabelParticipantesProjeto.setBounds(0, 765, 230, 20);
+		jLabelParticipantesProjeto.setBounds(0, 665, 230, 20);
 		add(jLabelParticipantesProjeto);
 
 		JLabel jLabelAdicionarParticipanteProjeto = new JLabel("+");
 		jLabelAdicionarParticipanteProjeto.setFont(new Font("Tahoma", Font.BOLD, 18));
-		jLabelAdicionarParticipanteProjeto.setBounds(230, 765, 30, 20);
+		jLabelAdicionarParticipanteProjeto.setBounds(230, 665, 30, 20);
 		add(jLabelAdicionarParticipanteProjeto);
 
 		try {
@@ -319,7 +319,7 @@ public class JPanelListaTarefas extends JPanel {
 		
 		
 		JPanel panelUsuariosProjeto = new JPanel();
-		panelUsuariosProjeto.setBounds(0, 750, 900, 100);
+		panelUsuariosProjeto.setBounds(0, 650, 900, 100);
 		panelUsuariosProjeto.setLayout(new BoxLayout(panelUsuariosProjeto, BoxLayout.X_AXIS));
 		panelUsuariosProjeto.setBackground(new Color(242, 242, 242));
 		for (Usuario participante : nomesUsuariosProjeto) {
