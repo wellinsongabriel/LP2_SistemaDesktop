@@ -1,5 +1,6 @@
 package br.com.desktop.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class JPanelBackup extends JPanel {
 		setOpaque(true);
 		setBounds(44, 86, 1000, 800);
 		setLayout(null);
+		setBackground(Color.white);
 		
 
 		
@@ -78,6 +80,8 @@ public class JPanelBackup extends JPanel {
 			}
 		});
 		btnRestaurar.setBounds(321, 243, 139, 23);
+		btnRestaurar.setForeground(Color.WHITE);
+		btnRestaurar.setBackground(new Color(255, 128, 0));
 		btnRestaurar.setEnabled(false);
 		add(btnRestaurar);
 		
@@ -85,8 +89,8 @@ public class JPanelBackup extends JPanel {
 		scrollPane.setBounds(20, 83, 925, 80);
 		add(scrollPane);
 		
-		JButton btnNewButton = new JButton("Gerar backup");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnGerarBackup = new JButton("Gerar backup");
+		btnGerarBackup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Deseja gerar um novo bacukp? ")==JOptionPane.YES_OPTION) {
 				backup.compactarDiretorio();
@@ -99,8 +103,10 @@ public class JPanelBackup extends JPanel {
 				
 			}
 		});
-		btnNewButton.setBounds(20, 243, 125, 23);
-		add(btnNewButton);
+		btnGerarBackup.setBounds(20, 243, 125, 23);
+		btnGerarBackup.setForeground(Color.WHITE);
+		btnGerarBackup.setBackground(new Color(255, 128, 0));
+		add(btnGerarBackup);
 		
 		
 		
