@@ -174,7 +174,7 @@ public class JPanelListaTarefas extends JPanel {
 		PanelRound panelEmAndamento = new PanelRound();
 		panelEmAndamento.setBorder(new BordaCantoArredondado());
 		panelEmAndamento.setLayout(null);
-		panelEmAndamento.setBounds(370, 100, 310, 500);
+		panelEmAndamento.setBounds(360, 100, 310, 500);
 		panelEmAndamento.setBackground(new Color(255, 255, 255));
 		panelEmAndamento.setOpaque(true);
 		JLabel jLabelEmAndamento = new JLabel("Em andamento");
